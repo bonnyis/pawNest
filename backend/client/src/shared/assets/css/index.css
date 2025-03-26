@@ -1,0 +1,9 @@
+@import "./font.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  /* background: #faf3e0; */
+}

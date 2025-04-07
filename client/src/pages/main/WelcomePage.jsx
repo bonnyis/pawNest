@@ -2,7 +2,9 @@ import React from 'react'
 
 const WelcomePage = () => {
   return (
-    <div>WelcomePage</div>
+    <article className="font-mimiWorld">
+        WelcomeWorld
+    </article>
   )
 }
 

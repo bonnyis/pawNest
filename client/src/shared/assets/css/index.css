@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  /* background: #faf3e0; */
+.w-1200 {
+  width: 1200px;
+}
+.border-b-1 {
+  border-bottom: 1px solid #d9d9d9;
+}
+.inner {
+  width: 1200px;
 }

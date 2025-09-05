@@ -15,7 +15,8 @@ export default {
       bgColor: '#FAF3E0',
       oliveGr: '#A6A57A',
       pinkColor: '#F7D4B4',
-      orgColor:'#F4A261'
+      orgColor:'#F4A261',
+      grayColor: "gray"
     }
   },
   plugins: [],

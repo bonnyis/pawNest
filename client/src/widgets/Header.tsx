@@ -1,4 +1,3 @@
-import React, {  } from 'react'
 import { Link } from 'react-router-dom'
 import { ROUTES } from '@/shared/routes/routes'
 
@@ -12,7 +11,7 @@ const Header = () => {
 <nav className="header h-24 flex items-center justify-center border-b-1">
   <div className="flex justify-between items-center w-full max-w-[1200px] px-4" >
     <div className="w-40">
-      <p>POWNEST</p>
+      <Link to={ROUTES.HOME}>POWNEST</Link>
     </div>
 
     <ul className="menu flex space-x-8">

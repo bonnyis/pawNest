@@ -13,3 +13,7 @@
 .inner {
   width: 1200px;
 }
+.main-banner {
+  width: -webkit-fill-available;
+  /* width:--webkit-fill-available; */
+}

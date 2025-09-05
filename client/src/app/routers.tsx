@@ -3,7 +3,7 @@ import {ROUTES} from '@/shared/routes/routes'
 
 import MainLayout from '@/widgets/layouts/main/MainLayout'
 import MainPage from '@/pages/main/Main'
-
+import NotFound from "@/pages/common/NotFound"
 export const router = createBrowserRouter([
     {
         path: ROUTES.HOME,
@@ -11,7 +11,13 @@ export const router = createBrowserRouter([
         children: [
             { index: true,
              element: <MainPage />
-            }
-        ]
+            },
+             {
+        path: '/*',
+        element: <NotFound />,
+    
     }
+        ]
+    },
+   
 ])

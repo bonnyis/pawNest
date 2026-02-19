@@ -4,6 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply font-godick;
+  }
+}
 .w-1200 {
   width: 1200px;
 }
@@ -15,5 +20,4 @@
 }
 .main-banner {
   width: -webkit-fill-available;
-  /* width:--webkit-fill-available; */
 }

@@ -1,20 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import { ROUTE_PATHS } from "@/shared/routes/routes";
-
-import MainLayout from "@/widgets/layouts/home/HomeLayout";
 import DefaultLayout from "@/widgets/layouts/default/DefaultLayout";
 import MainPage from "@/pages/main/Main";
 import Index from "@/pages/missing/Index";
 import ShelterIndex from "@/pages/shelter/ShelterIndex";
 import NotFound from "@/shared/ui/NotFound";
 export const router = createBrowserRouter([
-  // 홈 전용
-  {
-    path: ROUTE_PATHS.ROOT,
-    element: <MainLayout />,
-    children: [{ index: true, element: <MainPage /> }],
-  },
-  // 개별페이지 전용
+  // Default Layout
   {
     path: ROUTE_PATHS.ROOT,
     element: <DefaultLayout />,

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import ShelterListItem from "@/entities/shelter/ui/ShelterListItem";
 import noImg from "@img/no_img.png";
-
+import { useAppStore } from "@/app/store/appStore";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@/shared/routes/routes";
 // 메인 컨텐츠 영역
 const ContentsSection = () => {
   const activeCss = `relative inline-block pb-1
@@ -11,13 +13,22 @@ const ContentsSection = () => {
              before:w-full before:opacity-100`;
   const [actvieTab, setActiveTab] = useState<string>("popular");
   const [curSlide, setCurSlide] = useState<number>(0);
+  const { isOpen, isMobile } = useAppStore();
+  const navigation = useNavigate();
+
   return (
-    <div className="w-full flex justify-center my-6 min-h-96">
+    <div
+      className={`w-full flex my-6 min-h-96 ${isOpen ? "justify-start" : "justify-center"} ${isMobile ? "flex-col gap-5 px-6" : ""}`}
+    >
       {/* 근처 보호소 */}
-      <div className="w-2/5 p-5 border rounded-2xl">
+      <div className="md:w-2/5 p-5 border rounded-2xl">
         <div className="flex justify-between mb-2">
           <h2 className="text-2xl font-bold">근처 보호소 위치</h2>
-          <button type="button" className="text-2xl font-bold">
+          <button
+            type="button"
+            className="text-2xl font-bold"
+            onClick={() => navigation(ROUTES.SHELTER)}
+          >
             +
           </button>
         </div>
@@ -26,11 +37,15 @@ const ContentsSection = () => {
         </div>
       </div>
       {/* 실종게시판 */}
-      <div className="w-2/5 p-5 border rounded-2xl ml-4">
+      <div className="md:w-2/5 p-5 border rounded-2xl sm:ml-4">
         {/* TODO 슬라이드 라이브러리 다운로드 필요! */}
         <div className="flex justify-between mb-2">
           <h2 className="text-2xl font-bold">실종게시판</h2>
-          <button type="button" className="text-2xl font-bold">
+          <button
+            type="button"
+            className="text-2xl font-bold"
+            onClick={() => navigation(ROUTES.MISSING)}
+          >
             +
           </button>
         </div>

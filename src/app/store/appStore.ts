@@ -1,22 +1,23 @@
 // 전역 UI 상태 관리
+import { getIsMobile } from "@/shared/lib/deviceType";
 import { create } from "zustand";
 
 export type appState = {
   isOpen: boolean;
   viewType: "MENU" | "CHAT";
-  deviceType: "PC" | "MOBILE";
+  isMobile: boolean;
 };
 
 export type appAction = {
   updateIsOpen: (isOpen: appState["isOpen"]) => void;
   updateViewType: (viewType: appState["viewType"]) => void;
-  updatedeviceType: (deviceType: appState["deviceType"]) => void;
+  updatedIsMobile: (deviceType: appState["isMobile"]) => void;
 };
 
 export const useAppStore = create<appState & appAction>((set) => ({
-  isOpen: true,
+  isOpen: getIsMobile() ? false : true,
   viewType: "MENU",
-  deviceType: "PC",
+  isMobile: getIsMobile(),
   updateIsOpen: (isOpen) =>
     set(() => ({
       isOpen,
@@ -25,8 +26,5 @@ export const useAppStore = create<appState & appAction>((set) => ({
     set(() => ({
       viewType,
     })),
-  updatedeviceType: (deviceType) =>
-    set(() => ({
-      deviceType,
-    })),
+  updatedIsMobile: () => set({ isMobile: getIsMobile() }),
 }));

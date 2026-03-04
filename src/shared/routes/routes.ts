@@ -1,4 +1,9 @@
-import type { RouteMeta } from "@/shared/types/routes";
+export interface RouteMeta {
+  path: string;
+  title: string;
+  desc?: string;
+}
+
 export const ROUTE_PATHS = {
   ROOT: "/",
   MISSING: "missing",

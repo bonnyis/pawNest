@@ -4,32 +4,63 @@ import Footer from "@/shared/ui/footer/Footer";
 import SubHeader from "@/shared/ui/headers/SubHeader";
 import SideBar from "@/widgets/sidebar/SideBar";
 import { useAppStore } from "@/app/store/appStore";
-// defualt Layout
+import { useEffect } from "react";
+
 const DefaultLayout = () => {
   const { pathname } = useLocation();
-  const { isOpen } = useAppStore();
-  // 메인 홈(/)이 아닐 때만 SubHeader를 보여주도록 설정
+  const { isOpen, updateIsOpen } = useAppStore();
   const isHome = pathname === "/";
+  useEffect(() => {
+    console.log("!!!", isOpen);
+  }, [isOpen]);
   return (
-    <article
-      className={"min-h-screen relative w-full overflow-hidden bg-white"}
-    >
-      <section
-        className={`flex flex-col min-h-screen transition-transform duration-300 ease-in-out ${
-          isOpen
-            ? "-translate-x-[320px] sm:-translate-x-[400px]"
-            : "translate-x-0"
-        }`}
-      >
+    <article className="min-h-screen bg-white">
+      <div className="hidden sm:flex min-h-screen">
+        {/* 메인 영역 */}
+        <div className="flex-1 flex flex-col">
+          <Header />
+          {!isHome && <SubHeader />}
+
+          <main className="flex-1 w-full">
+            <Outlet />
+          </main>
+
+          <Footer />
+        </div>
+
+        {/* PC 사이드바 (레이아웃 일부) */}
+        <aside
+          className={`transition-all duration-300 overflow-hidden ${
+            isOpen ? "w-[400px]" : "w-0"
+          }`}
+        >
+          {isOpen && <SideBar />}
+        </aside>
+      </div>
+
+      {/* ================= Mobile (drawer) ================= */}
+      {/* <div className="sm:hidden min-h-screen flex flex-col">
         <Header />
-        {/* 홈이 아닐 때만 서브헤더 노출 */}
         {!isHome && <SubHeader />}
 
-        <Outlet />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+
         <Footer />
-      </section>
-      {/* 사이드바 */}
-      <SideBar />
+
+        {isOpen && (
+          <>
+            
+            <div
+              className="fixed inset-0 bg-black/30 z-40"
+              onClick={() => updateIsOpen(false)}
+            />
+
+            <SideBar />
+          </>
+        )}
+      </div> */}
     </article>
   );
 };

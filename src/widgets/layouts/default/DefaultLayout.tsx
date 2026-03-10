@@ -5,10 +5,9 @@ import SubHeader from "@/shared/ui/headers/SubHeader";
 import SideBar from "@/widgets/sidebar/SideBar";
 import { useAppStore } from "@/app/store/appStore";
 import { useEffect } from "react";
-
 const DefaultLayout = () => {
   const { pathname } = useLocation();
-  const { isOpen, updateIsOpen } = useAppStore();
+  const { isOpen } = useAppStore();
   const isHome = pathname === "/";
   useEffect(() => {
     console.log("!!!", isOpen);
@@ -17,6 +16,7 @@ const DefaultLayout = () => {
     <article className="min-h-screen bg-white">
       <div className="hidden sm:flex min-h-screen">
         {/* 메인 영역 */}
+
         <div className="flex-1 flex flex-col">
           <Header />
           {!isHome && <SubHeader />}

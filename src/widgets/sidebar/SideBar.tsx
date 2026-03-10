@@ -57,7 +57,7 @@ const SideBar = () => {
               <div className="space-y-3">
                 <p className="text-lg font-medium">안녕하세요! </p>
                 <p className="text-gray-700 text-lg font-medium">
-                  <span className="py-1 font-bold text-lg">테스트 아이디</span>
+                  <span className="py-1 font-bold text-lg">테스트아이디</span>
                   <span className="text-lg font-medium"> 님</span>
                 </p>
               </div>

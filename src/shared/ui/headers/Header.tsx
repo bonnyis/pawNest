@@ -22,8 +22,7 @@ const Header = () => {
           <button
             type="button"
             onClick={() => {
-              console.log("???");
-              updateIsOpen(true);
+              updateIsOpen(!isOpen);
             }}
           >
             <img

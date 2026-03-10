@@ -18,7 +18,7 @@ const SubHeader = () => {
   }, [location]);
   return (
     <div className="text-center bg-oliveGr bg-opacity-10 border-b border-oliveGr border-opacity-30">
-      <h2 className="pt-3 font-bold text-lg">{currentName}</h2>
+      <h2 className="pt-3 font-bold text-xl">{currentName}</h2>
       <p className="py-3 text-base">{currentDesc}</p>
     </div>
   );

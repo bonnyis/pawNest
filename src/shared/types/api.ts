@@ -3,10 +3,3 @@ export interface ApiResponse<T> {
   message?: string;
   status: string | number;
 }
-
-export type Pagination = {
-  page: number;
-  pageSize: number;
-  pageIndex: number;
-  totalPage: number;
-};

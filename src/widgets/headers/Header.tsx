@@ -7,7 +7,6 @@ import { useAppStore } from "@/app/store/appStore";
 
 const Header = () => {
   const { isOpen, updateIsOpen, isMobile } = useAppStore();
-
   return (
     <nav className="w-full h-24 flex items-center border-b px-4">
       <div

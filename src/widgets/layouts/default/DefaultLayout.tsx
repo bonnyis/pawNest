@@ -1,27 +1,27 @@
 import { Outlet, useLocation } from "react-router-dom";
-import Header from "@/shared/ui/headers/Header";
-import Footer from "@/shared/ui/footer/Footer";
-import SubHeader from "@/shared/ui/headers/SubHeader";
+import Header from "@/widgets/headers/Header";
+import Footer from "@/widgets/footer/Footer";
+import SubHeader from "@/widgets/headers/SubHeader";
 import SideBar from "@/widgets/sidebar/SideBar";
 import { useAppStore } from "@/app/store/appStore";
 import { useEffect } from "react";
+import Alert from "@/shared/ui/common/Alert";
+import Confirm from "@/shared/ui/common/Confirm";
 const DefaultLayout = () => {
   const { pathname } = useLocation();
   const { isOpen } = useAppStore();
   const isHome = pathname === "/";
-  useEffect(() => {
-    console.log("!!!", isOpen);
-  }, [isOpen]);
+  useEffect(() => {}, [isOpen]);
   return (
     <article className="min-h-screen bg-white">
-      <div className="hidden sm:flex min-h-screen">
+      <div className="sm:flex min-h-screen">
         {/* 메인 영역 */}
 
         <div className="flex-1 flex flex-col">
           <Header />
           {!isHome && <SubHeader />}
 
-          <main className="flex-1 w-full">
+          <main className="flex-1 w-full h-lvh">
             <Outlet />
           </main>
 
@@ -29,13 +29,10 @@ const DefaultLayout = () => {
         </div>
 
         {/* PC 사이드바 (레이아웃 일부) */}
-        <aside
-          className={`transition-all duration-300 overflow-hidden ${
-            isOpen ? "w-[400px]" : "w-0"
-          }`}
-        >
-          {isOpen && <SideBar />}
-        </aside>
+        {isOpen && <SideBar />}
+        {/* 알람창 및 확인창 */}
+        <Alert />
+        <Confirm />
       </div>
 
       {/* ================= Mobile (drawer) ================= */}

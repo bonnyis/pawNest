@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Select from "@/shared/ui/Select";
+import Select from "@/shared/ui/common/Select";
 import ShelterListItem from "@/entities/shelter/ui/ShelterListItem";
 import ShelterKakaoMap from "@/entities/shelter/ui/ShelterKakaoMap";
 import ShelterListBox from "@/entities/shelter/ui/ShelterListBox";

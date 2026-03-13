@@ -1,6 +1,7 @@
 import {} from "react";
 import noImg from "@img/no_img.png";
 
+// 메인 실종동물 리스트형식 UI
 const MissingBoardItem = () => {
   return (
     <div className="w-full flex-shrink-0">

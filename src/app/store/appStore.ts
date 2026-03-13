@@ -7,8 +7,15 @@ export type appState = {
   viewType: "MENU" | "CHAT";
   isMobile: boolean;
   isModalOpen: boolean;
-  isAlert: boolean;
-  isConfirm: boolean;
+  isAlert: {
+    flag: boolean;
+    message: string | null;
+  };
+  isConfirm: {
+    flag: boolean;
+    message?: string | null;
+    callback?: (() => void) | null;
+  };
 };
 
 export type appAction = {
@@ -25,12 +32,32 @@ export const useAppStore = create<appState & appAction>((set) => ({
   viewType: "MENU",
   isMobile: getIsMobile(),
   isModalOpen: false,
-  isAlert: false,
-  isConfirm: false,
+  isAlert: {
+    flag: false,
+    message: null,
+  },
+  isConfirm: {
+    flag: false,
+    message: null,
+    callback: null,
+  },
   updateIsOpen: (isOpen) => set(() => ({ isOpen })),
   updateViewType: (viewType) => set(() => ({ viewType })),
   updatedIsMobile: () => set({ isMobile: getIsMobile() }),
   updateIsModalOpen: (isModalOpen) => set(() => ({ isModalOpen })),
-  updateIsAlertOpen: (isAlert) => set(() => ({ isAlert })),
-  updateIsConfirmOpen: (isConfirm) => set(() => ({ isConfirm })),
+  updateIsAlertOpen: ({ flag, message }) =>
+    set(() => ({
+      isAlert: {
+        flag,
+        message: message ?? null,
+      },
+    })),
+  updateIsConfirmOpen: ({ flag, message, callback }) =>
+    set(() => ({
+      isConfirm: {
+        flag,
+        message: message ?? null,
+        callback: callback ?? null,
+      },
+    })),
 }));

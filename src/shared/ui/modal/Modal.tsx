@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAppStore } from "@/app/store/appStore";
+
 type ModalProps = {
   width?: number;
   height?: number | string;

@@ -1,31 +1,42 @@
 import {} from "react";
 import Modal from "../modal/Modal";
 import { useAppStore } from "@/app/store/appStore";
-
-type ConfirmProps = {
-  message: string;
-  okCallback: () => void;
-};
-const Confirm = ({ message, okCallback }: ConfirmProps) => {
+import Button from "./Button";
+const Confirm = () => {
   const { isConfirm, updateIsConfirmOpen } = useAppStore();
+  const { flag, message, callback } = isConfirm;
   const close = () => {
-    updateIsConfirmOpen(false);
+    updateIsConfirmOpen({
+      flag: false,
+    });
+  };
+  const callbackEvt = async () => {
+    if (callback) {
+      await callback();
+    }
+    await close();
   };
   return (
-    isConfirm && (
+    flag && (
       <Modal className="" onClose={close}>
-        <p className="text-center text-xl">{message}</p>
-        <div className="flex justify-center items-center my-3">
-          <p className="border p-2 rounded-lg border-gray-300 bg-gray-400">
-            <button type="button" className="" onClick={() => close()}>
-              취소
-            </button>
-          </p>
-          <p className="border p-2 rounded-lg border-green-100 bg-green-200">
-            <button type="button" className="" onClick={() => okCallback()}>
-              확인
-            </button>
-          </p>
+        <h2 className="text-2xl text-center font-bold mb-3">확인</h2>
+        <p
+          className="text-center text-xl mb-5"
+          dangerouslySetInnerHTML={{ __html: message ?? "" }}
+        ></p>
+        <div className="flex justify-center items-center my-3 gap-2 ">
+          <Button variant={"cancel"} onClick={() => close()}>
+            취소
+          </Button>
+
+          <Button
+            variant="confirm"
+            onClick={() => {
+              callback ? callbackEvt() : null;
+            }}
+          >
+            확인
+          </Button>
         </div>
       </Modal>
     )

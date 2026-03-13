@@ -11,7 +11,6 @@ const SubHeader = () => {
       const routeInfo = ROUTES_INFO.filter(
         (item) => item.path === location.pathname,
       )[0];
-      console.log(routeInfo);
       setCurrentName(routeInfo?.title ?? "");
       setCurrentDesc(routeInfo?.desc ?? "");
     }

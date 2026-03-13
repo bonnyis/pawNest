@@ -1,20 +1,29 @@
 import {} from "react";
 import Modal from "../modal/Modal";
 import { useAppStore } from "@/app/store/appStore";
+import Button from "./Button";
 const Alert = () => {
   const { isAlert, updateIsAlertOpen } = useAppStore();
-  const close = () => {
-    updateIsAlertOpen(false);
+  const { message, flag } = isAlert;
+  const closeAlert = () => {
+    updateIsAlertOpen({
+      flag: false,
+      message: null,
+    });
   };
   return (
-    isAlert && (
-      <Modal className="" onClose={close}>
-        <p className="text-center text-xl">확인되었습니다.</p>
+    flag && (
+      <Modal className="" onClose={closeAlert}>
+        <h2 className="text-center text-2xl font-bold mb-3">알림</h2>
+        <p
+          className="text-center text-lg mb-3"
+          dangerouslySetInnerHTML={{ __html: message ?? "" }}
+        ></p>
         <div className="flex justify-center items-center my-3">
-          <p className="border p-2 rounded-lg border-green-100 bg-green-200">
-            <button type="button" className="">
+          <p className="">
+            <Button variant="confirm" size="md" onClick={() => closeAlert()}>
               확인
-            </button>
+            </Button>
           </p>
         </div>
       </Modal>

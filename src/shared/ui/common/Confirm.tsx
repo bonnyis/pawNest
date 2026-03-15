@@ -19,18 +19,19 @@ const Confirm = () => {
   return (
     flag && (
       <Modal className="" onClose={close}>
-        <h2 className="text-2xl text-center font-bold mb-3">확인</h2>
+        <h2 className="text-2xl text-center font-bold mb-5">확인</h2>
         <p
           className="text-center text-xl mb-5"
           dangerouslySetInnerHTML={{ __html: message ?? "" }}
         ></p>
-        <div className="flex justify-center items-center my-3 gap-2 ">
-          <Button variant={"cancel"} onClick={() => close()}>
+        <div className="flex justify-center items-center mb-3 gap-3 ">
+          <Button variant={"cancel"} onClick={() => close()} size="md">
             취소
           </Button>
 
           <Button
             variant="confirm"
+            size="md"
             onClick={() => {
               callback ? callbackEvt() : null;
             }}

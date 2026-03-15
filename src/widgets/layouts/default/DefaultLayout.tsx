@@ -2,11 +2,12 @@ import { Outlet, useLocation } from "react-router-dom";
 import Header from "@/widgets/headers/Header";
 import Footer from "@/widgets/footer/Footer";
 import SubHeader from "@/widgets/headers/SubHeader";
-import SideBar from "@/widgets/sidebar/SideBar";
+import SideBar from "@/widgets/sidebar/common/SideBar";
 import { useAppStore } from "@/app/store/appStore";
 import { useEffect } from "react";
 import Alert from "@/shared/ui/common/Alert";
 import Confirm from "@/shared/ui/common/Confirm";
+import BreedFinderModal from "@/features/breed-finder/ui/BreedFinderModal";
 const DefaultLayout = () => {
   const { pathname } = useLocation();
   const { isOpen } = useAppStore();
@@ -33,6 +34,8 @@ const DefaultLayout = () => {
         {/* 알람창 및 확인창 */}
         <Alert />
         <Confirm />
+        {/* AI품종찾기 모달창 */}
+        <BreedFinderModal />
       </div>
 
       {/* ================= Mobile (drawer) ================= */}

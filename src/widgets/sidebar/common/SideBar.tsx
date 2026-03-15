@@ -1,7 +1,8 @@
-import {} from "react";
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAppStore } from "@/app/store/appStore";
 import { useAuthStore } from "@/app/store/authStore";
+import { useBreedFinderStore } from "@/app/store/breedFinderStore";
 import { ROUTES } from "@/shared/routes/routes";
 import chatImg from "@img/icons/chat.png";
 import closeImg from "@img/icons/close_big.png";
@@ -18,7 +19,7 @@ const SideBar = () => {
   } = useAppStore();
   const { isLogin } = useAuthStore();
   const { pathname } = useLocation();
-
+  const { updateModalFlag } = useBreedFinderStore();
   const goChat = () => {
     if (!isLogin) {
       updateIsAlertOpen({
@@ -28,7 +29,8 @@ const SideBar = () => {
     }
     return updateViewType("CHAT");
   };
-
+  // TODO 추후 이동하는 라우터명 다를 시 사이드바 닫기
+  useEffect(() => {}, []);
   return (
     <aside
       className={`transition-all duration-300 overflow-hidden ${
@@ -118,12 +120,7 @@ const SideBar = () => {
                 <li>
                   <button
                     className="hover:text-orange-500"
-                    onClick={() =>
-                      updateIsAlertOpen({
-                        flag: true,
-                        message: "준비중입니다.",
-                      })
-                    }
+                    onClick={() => updateModalFlag(true)}
                   >
                     AI 품종찾기
                   </button>

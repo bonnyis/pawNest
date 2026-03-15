@@ -10,7 +10,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 const typeStyle = {
-  confirm: "bg-sky-400 text-white hover:bg-sky-500",
+  confirm:
+    "bg-teal-500 text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-300 active:bg-teal-700",
   cancel: "border-gray-300 text-gray-600 hover:bg-gray-100",
   danger: "bg-red-400 text-white hover:bg-red-500",
   primary:

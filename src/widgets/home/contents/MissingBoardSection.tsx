@@ -6,9 +6,10 @@ import MissingBoardItem from "@/entities/missing/ui/MissingBoardItem";
 const MissingBoardSection = () => {
   const activeCss = `relative inline-block pb-1
              before:content-[''] before:absolute before:bottom-[-2px] before:left-0 
-             before:h-[1px] before:bg-pinkColor 
+             before:h-[2px] before:bg-orgColor 
              before:transition-[width] before:duration-300 before:tansition-all
-             before:w-full before:opacity-100`;
+             before:w-full before:opacity-100
+             font-bold`;
   const [actvieTab, setActiveTab] = useState<string>("popular");
   const [curSlide, setCurSlide] = useState<number>(0);
   const navigation = useNavigate();

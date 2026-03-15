@@ -6,6 +6,7 @@ import MissingIndex from "@/pages/missing/MissingIndex";
 import ShelterIndex from "@/pages/shelter/ShelterIndex";
 import MissingInsertPage from "@/pages/missing/MissingInsertPage";
 import NotFound from "@/shared/ui/common/NotFound";
+import MypageIndex from "@/pages/mypage/MypageIndex";
 export const router = createBrowserRouter([
   // Default Layout
   {
@@ -17,16 +18,7 @@ export const router = createBrowserRouter([
       { path: ROUTE_PATHS.MISSING, element: <MissingIndex /> },
       { path: ROUTE_PATHS.SHELTER, element: <ShelterIndex /> },
       { path: ROUTE_PATHS.MISSINGINSERT, element: <MissingInsertPage /> },
-      // { path: ROUTE_PATHS.MYPAGE, element: <MainPage /> },
-    ],
-  },
-  // 마이페이지 전용
-  {
-    path: ROUTE_PATHS.MYPAGE,
-    element: <DefaultLayout />,
-    children: [
-      { index: true, element: <MainPage /> },
-      // { path: ROUTE_PATHS.MYPAGE, element: <MainPage /> },
+      { path: ROUTE_PATHS.MYPAGE, element: <MypageIndex /> },
     ],
   },
 ]);

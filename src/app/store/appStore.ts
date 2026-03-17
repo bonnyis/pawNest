@@ -6,7 +6,7 @@ export type appState = {
   isOpen: boolean; // sidebar open value
   viewType: "MENU" | "CHAT";
   isMobile: boolean;
-  isModalOpen: boolean;
+  isModalOpen: boolean; // 품종찾기 모달
   isAlert: {
     flag: boolean;
     message: string | null;

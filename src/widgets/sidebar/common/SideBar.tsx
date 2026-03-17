@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAppStore } from "@/app/store/appStore";
 import { useAuthStore } from "@/app/store/authStore";
@@ -8,18 +8,14 @@ import chatImg from "@img/icons/chat.png";
 import closeImg from "@img/icons/close_big.png";
 import arrow_back from "@img/icons/arrow_back.png";
 import Button from "@/shared/ui/common/Button";
+import LoginModal from "@/features/login/LoginModal";
 const SideBar = () => {
-  const {
-    isOpen,
-    viewType,
-    updateIsOpen,
-    updateViewType,
-    updateIsAlertOpen,
-    updateIsConfirmOpen,
-  } = useAppStore();
+  const { isOpen, viewType, updateIsOpen, updateViewType, updateIsAlertOpen } =
+    useAppStore();
   const { isLogin } = useAuthStore();
   const { pathname } = useLocation();
   const { updateModalFlag } = useBreedFinderStore();
+  const [isLoginModal, setIsLoginModal] = useState<boolean>(false);
   const goChat = () => {
     if (!isLogin) {
       updateIsAlertOpen({
@@ -86,13 +82,7 @@ const SideBar = () => {
                   <button
                     type="button"
                     onClick={() => {
-                      updateIsConfirmOpen({
-                        flag: true,
-                        message: "로그인하시겠습니까?",
-                        callback: () => {
-                          console.log("로그인");
-                        },
-                      });
+                      setIsLoginModal(true);
                     }}
                     className="block w-full text-center py-2 rounded-md bg-oliveGr text-white"
                   >
@@ -163,6 +153,7 @@ const SideBar = () => {
           </div>
         </div>
       </div>
+      <LoginModal loginModal={isLoginModal} setLoginModal={setIsLoginModal} />
     </aside>
   );
 };

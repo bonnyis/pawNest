@@ -15,7 +15,7 @@ const MissingBoardSection = () => {
   const navigation = useNavigate();
 
   return (
-    <div className="md:w-2/5 p-5 border rounded-2xl sm:ml-4">
+    <div className="lg:w-2/5 p-5 border rounded-2xl sm:ml-4">
       <div className="flex justify-between mb-2">
         <h2 className="text-2xl font-bold">실종게시판</h2>
         <button

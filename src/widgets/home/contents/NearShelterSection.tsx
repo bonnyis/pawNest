@@ -5,7 +5,7 @@ import ShelterListBox from "@/entities/shelter/ui/ShelterListBox";
 const NearShelterSection = () => {
   const navigation = useNavigate();
   return (
-    <div className="md:w-2/5 p-5 border rounded-2xl">
+    <div className="lg:w-2/5 p-5 border rounded-2xl">
       <div className="flex justify-between mb-3">
         <h2 className="text-2xl font-bold">근처 보호소 위치</h2>
         <button

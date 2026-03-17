@@ -2,7 +2,7 @@ import {} from "react";
 
 type SelectData = {
   label: string;
-  value: string;
+  value: string | number;
 };
 
 type SelectProps = {

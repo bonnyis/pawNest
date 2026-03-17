@@ -4,11 +4,11 @@ import NearShelterSection from "./NearShelterSection";
 import MissingBoardSection from "./MissingBoardSection";
 // 메인 컨텐츠 영역
 const ContentsSection = () => {
-  const { isOpen, isMobile } = useAppStore();
+  const { isOpen } = useAppStore();
 
   return (
     <div
-      className={`w-full flex my-6 min-h-96 ${isOpen ? "justify-evenly" : "justify-center"} ${isMobile ? "flex-col gap-5 px-6" : ""}`}
+      className={`w-full flex flex-col lg:flex-row gap-6 px-6 my-6 min-h-96 ${isOpen ? "justify-evenly" : "justify-center"}`}
     >
       {/* 근처 보호소 */}
       <NearShelterSection />

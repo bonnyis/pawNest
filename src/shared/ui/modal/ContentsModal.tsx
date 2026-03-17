@@ -53,15 +53,12 @@ const ContentsModal = ({
         onClick={() => onClose()}
       >
         <div
-          style={{
-            width: isMobile ? "auto" : width,
-            height: isMobile ? "auto" : height,
-          }}
-          className={`max-w-[90vw] bg-white rounded-xl p-6 shadow-lg top-1/2 overflow-y-auto ${className}`}
+          style={{ width, height }}
+          className={`w-[92vw] max-w-[650px] max-h-[90vh] bg-white rounded-xl p-5 sm:p-6 shadow-lg overflow-y-auto ${className}`}
           onClick={(e) => e.stopPropagation()}
         >
           <div
-            className={`w-full flex items-center ${back ? "justify-between" : "justify-end"}`}
+            className={`w-full flex items-center mb-3 ${back ? "justify-between" : "justify-end"}`}
           >
             {back && (
               <button className="w-6" type="button" onClick={() => back()}>
@@ -69,7 +66,11 @@ const ContentsModal = ({
               </button>
             )}
 
-            <button type="button" className="w-6" onClick={() => onClose()}>
+            <button
+              type="button"
+              className="w-8 h-8 flex items-center justify-center"
+              onClick={() => onClose()}
+            >
               <img src={closeBtn} alt="닫기" />
             </button>
           </div>

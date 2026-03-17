@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { ROUTE_PATHS, ROUTES } from "@/shared/routes/routes";
+import { ROUTE_PATHS } from "@/shared/routes/routes";
 import DefaultLayout from "@/widgets/layouts/default/DefaultLayout";
 import MainPage from "@/pages/main/Main";
 import MissingIndex from "@/pages/missing/MissingIndex";

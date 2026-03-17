@@ -1,5 +1,5 @@
 import ContentsModal from "@/shared/ui/modal/ContentsModal";
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import logoImg from "@img/LoginMainHomeLogo.png";
 import kakao from "@img/kakao_login_medium_wide.png";
 interface LoginModalProps {

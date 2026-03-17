@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import MyActivity from "@/features/mypage/ui/MyActivity";
 import LeaveMembership from "@/features/mypage/ui/LeaveMembership";
-import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 const MypageIndex = () => {
-  const navigation = useNavigate();
   const [searchParams, setSarchParams] = useSearchParams();
-  const { pathname } = useLocation();
+
   const tab = searchParams.get("tab") ?? "activity";
   const [activeTab, setActiveTab] = useState(tab);
 

@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useAppStore } from "@/app/store/appStore";
 import closeBtn from "@img/icons/close_big.png";
 import backspace from "@img/icons/backspace.png";
 
@@ -22,7 +21,6 @@ const ContentsModal = ({
   back,
   onClose,
 }: ContentsModalProps) => {
-  const { isMobile } = useAppStore();
   // ESC 키 닫기
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {

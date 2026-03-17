@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAppStore } from "@/app/store/appStore";
 import { useAuthStore } from "@/app/store/authStore";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
@@ -13,7 +13,6 @@ const SideBar = () => {
   const { isOpen, viewType, updateIsOpen, updateViewType, updateIsAlertOpen } =
     useAppStore();
   const { isLogin } = useAuthStore();
-  const { pathname } = useLocation();
   const { updateModalFlag } = useBreedFinderStore();
   const [isLoginModal, setIsLoginModal] = useState<boolean>(false);
   const goChat = () => {

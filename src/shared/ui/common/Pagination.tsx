@@ -8,7 +8,7 @@ interface PaginationProps {
 const Pagination = ({
   currentPage = 1,
   totalPage = 1,
-  pageSize = 10,
+  // pageSize = 10,
   onPageChange,
 }: PaginationProps) => {
   // 페이지 번호 배열 생성 (예: [1, 2, 3, 4, 5])

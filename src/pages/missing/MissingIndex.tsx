@@ -15,7 +15,7 @@ const MissingIndex = () => {
     { label: "고양이", value: "cat" },
     { label: "기타", value: "etc" },
   ];
-  const [searchOption, updateSearchOption] = useState<string>("");
+  const [, updateSearchOption] = useState<string>("");
   const navigation = useNavigate();
   const onChangeEvt = (val: string) => {
     updateSearchOption(val);

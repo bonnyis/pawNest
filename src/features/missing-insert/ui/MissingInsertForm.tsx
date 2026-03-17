@@ -2,7 +2,7 @@ import {} from "react";
 import Button from "@/shared/ui/common/Button";
 import help_icon from "@img/icons/help.png";
 import help_fill_icon from "@img/icons/help_fill.png";
-import attach from "@img/icons/attachFile.png";
+// import attach from "@img/icons/attachFile.png";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
 const MissingInsertForm = () => {
   const { modalFlag, updateModalFlag } = useBreedFinderStore();

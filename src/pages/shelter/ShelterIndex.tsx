@@ -1,11 +1,10 @@
 import { useState } from "react";
 import Select from "@/shared/ui/common/Select";
-import ShelterListItem from "@/entities/shelter/ui/ShelterListItem";
 import ShelterKakaoMap from "@/entities/shelter/ui/ShelterKakaoMap";
 import ShelterListBox from "@/entities/shelter/ui/ShelterListBox";
 
 const ShelterIndex = () => {
-  const [searchOption, updateSearchOption] = useState<string>("");
+  const [, updateSearchOption] = useState<string>("");
   const searchOptions = [
     { label: "서울", value: "seoul" },
     { label: "경기", value: "gyeonggi" },

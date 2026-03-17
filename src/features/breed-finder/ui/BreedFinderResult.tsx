@@ -14,8 +14,6 @@ const BreedFinderResult = ({}: BreedFinderMainProps) => {
     { title: "푸들", value: 10 },
   ];
 
-  const mainBreed = chartData[0]; // 가장 확률 높은 품종
-
   return (
     <div className="p-6 md:p-10 flex flex-col gap-8 bg-white rounded-3xl">
       {/* 헤더 섹션 */}

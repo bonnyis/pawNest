@@ -8,7 +8,7 @@ const MyActivity = () => {
   const changePage = (num: number) => {
     setPage(num);
   };
-  const [searchOption, updateSearchOption] = useState<string | number>("");
+  const [, updateSearchOption] = useState<string | number>("");
   const searchOptions = [
     { label: "10건", value: 10 },
     { label: "20건", value: 20 },

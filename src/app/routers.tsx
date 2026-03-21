@@ -19,6 +19,8 @@ export const router = createBrowserRouter([
       { path: ROUTE_PATHS.SHELTER, element: <ShelterIndex /> },
       { path: ROUTE_PATHS.MISSINGINSERT, element: <MissingInsertPage /> },
       { path: ROUTE_PATHS.MYPAGE, element: <MypageIndex /> },
+      //  로그아웃 인식 페이지
+      { path: ROUTE_PATHS.LOGOUT, element: <MainPage /> },
     ],
   },
 ]);

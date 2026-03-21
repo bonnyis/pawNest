@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ContentsModal from "@/shared/ui/modal/ContentsModal";
 import BreedFinderMain from "./BreedFinderMain";
 import BreedFinderResult from "./BreedFinderResult";
-import type { BreedFinderMainProps } from "../types";
+import type { BreedFinderMainProps } from "../model/breed-finder.type";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
 const BreedFinderModal = () => {
   const { modalFlag, updateModalFlag, updateBreedFinderImg } =
@@ -22,7 +22,6 @@ const BreedFinderModal = () => {
     updateBreedFinderImg("");
   };
   useEffect(() => {
-    console.log("modalFlag", modalFlag);
     //  모달창 닫힐 경우 데이터 초기화
     if (modalFlag === false) {
       setContentsType("main");

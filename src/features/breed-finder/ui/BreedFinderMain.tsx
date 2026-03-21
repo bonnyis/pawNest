@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import type { BreedFinderMainProps } from "../types";
+import type { BreedFinderMainProps } from "../model/breed-finder.type";
 import Button from "@/shared/ui/common/Button";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
 
@@ -11,7 +11,6 @@ const BreedFinderMain = ({
   const [selectImage, setSelectImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
     const file = e.target.files?.[0];
     if (file) {
       setSelectImage(file);

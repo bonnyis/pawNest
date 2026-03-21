@@ -1,5 +1,4 @@
 import ContentsModal from "@/shared/ui/modal/ContentsModal";
-// import React, { useState } from "react";
 import logoImg from "@img/LoginMainHomeLogo.png";
 import kakao from "@img/kakao_login_medium_wide.png";
 interface LoginModalProps {
@@ -11,6 +10,7 @@ const LoginModal = ({ loginModal, setLoginModal }: LoginModalProps) => {
   const close = () => {
     setLoginModal(false);
   };
+
   return (
     <ContentsModal flag={loginModal} onClose={close} height={300}>
       <div className="flex flex-col items-center gap-5 px-4 w-full mt-3">
@@ -23,9 +23,13 @@ const LoginModal = ({ loginModal, setLoginModal }: LoginModalProps) => {
           </p>
         </div>
 
-        <button type="button">
+        <a
+          href="https://unbribably-unhilly-danyell.ngrok-free.dev/oauth2/authorization/kakao"
+          target="_self"
+          title="카카오 간편 로그인"
+        >
           <img src={kakao} alt="카카오 간편 로그인" className="mx-auto" />
-        </button>
+        </a>
 
         {/* <div className="flex justify-center gap-2 text-sm text-gray-500">
                   <span>아직 계정이 없으신가요?</span>

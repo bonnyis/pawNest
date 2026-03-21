@@ -47,7 +47,7 @@ const ContentsModal = ({
   return (
     flag && (
       <div
-        className={`fixed inset-0 flex items-center justify-center bg-black/40 z-50`}
+        className={`fixed inset-0 flex items-center justify-center bg-black/20 z-50`}
         onClick={() => onClose()}
       >
         <div

@@ -1,12 +1,8 @@
 import {} from "react";
-
-type SelectData = {
-  label: string;
-  value: string | number;
-};
+import type { SearchOptions } from "@/shared/types/data-types";
 
 type SelectProps = {
-  options: SelectData[];
+  options: SearchOptions[];
   changeEvt: (val: string) => void;
 };
 
@@ -15,7 +11,10 @@ const Select = ({ options, changeEvt }: SelectProps) => {
     <select
       name="searchOption"
       id="searchOption"
-      onChange={(e) => changeEvt(e.target.value)}
+      onChange={(e) => {
+        console.log(e);
+        changeEvt(e.target.value);
+      }}
       className="border w-32 h-auto p-2 rounded-md"
     >
       <option value="">선택</option>

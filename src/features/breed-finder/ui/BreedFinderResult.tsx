@@ -1,5 +1,5 @@
 import {} from "react";
-import type { BreedFinderMainProps } from "../types";
+import type { BreedFinderMainProps } from "../model/breed-finder.type";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
 import BreedFinderGraph from "./BreedFinderGraph";
 import Button from "@/shared/ui/common/Button";

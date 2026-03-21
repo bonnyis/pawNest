@@ -72,7 +72,6 @@ const MissingInsertForm = () => {
             className="group relative w-6 h-6 ml-1 cursor-pointer flex items-center justify-center"
             type="button"
             onClick={() => {
-              console.log(modalFlag);
               settingModal(true);
             }}
           >

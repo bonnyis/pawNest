@@ -3,4 +3,4 @@ import { router } from "./routers";
 
 const App = () => <RouterProvider router={router} />;
 
-export default App
+export default App;

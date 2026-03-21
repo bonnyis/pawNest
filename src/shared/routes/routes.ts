@@ -10,6 +10,7 @@ export const ROUTE_PATHS = {
   MISSINGINSERT: "missing/insert",
   SHELTER: "shelter",
   MYPAGE: "mypage",
+  LOGOUT: "logout",
 } as const;
 
 export const ROUTES = {
@@ -18,6 +19,7 @@ export const ROUTES = {
   MISSINGINSERT: "/missing/insert",
   SHELTER: "/shelter",
   MYPAGE: "/mypage",
+  LOGOUT: "/logout",
 } as const;
 
 export const ROUTES_INFO: RouteMeta[] = [

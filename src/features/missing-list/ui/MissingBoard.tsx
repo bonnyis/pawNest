@@ -112,7 +112,7 @@ const MissingBoard = () => {
       <div
         className={`grid mt-5 justify-items-center grid-cols-2 gap-2 md:grid-cols-3 ${isOpen ? "md:grid-cols-2 md:gap-3 lg:grid-cols-4" : "lg:grid-cols-5"} lg:gap-5`}
       >
-        {data?.content.map((item: BoardItem) => (
+        {data?.content?.map((item: BoardItem) => (
           <MissingCardItem
             data={item}
             updateFlag={() => {

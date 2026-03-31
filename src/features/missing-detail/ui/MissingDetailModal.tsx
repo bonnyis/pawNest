@@ -2,45 +2,46 @@ import { useState, useEffect } from "react";
 import ContentsModal from "@/shared/ui/modal/ContentsModal";
 import like from "@img/icons/star.png";
 import like_fill from "@img/icons/star_fill.png";
-import comment from "@img/icons/comment_2.png";
-import MissingDetailCommentsItem from "./MissingDetailCommentsItem";
+
 import { onImgError } from "@/shared/lib/onError";
 import Button from "@/shared/ui/common/Button";
-
+import { useMissingDetailStore } from "@/app/store/missingDetailStore";
 import { useAuthStore } from "@/app/store/authStore";
 import { useAppStore } from "@/app/store/appStore";
 import { useMissingDetail } from "@/features/missing-detail/model/useMissingDetail";
 import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
+import CommentsSection from "@/features/comments/ui/CommentsSection";
 
-type MissingDetailModalProps = {
-  flag: boolean;
-  updateFlag: (value: boolean) => void;
-  boardId: string | number;
-};
-
-const MissingDetailModal = ({
-  flag,
-  updateFlag,
-  boardId,
-}: MissingDetailModalProps) => {
+const MissingDetailModal = () => {
   const { isOpen, updateIsOpen, updateIsAlertOpen, updateViewType } =
     useAppStore();
-  const { isLoading, data } = useMissingDetail({ boardId, enabled: flag });
+  const { detailBoardId, detailModalFlag, updateDetailModalFlag } =
+    useMissingDetailStore();
+  const { isLoading, data } = useMissingDetail({
+    boardId: detailBoardId,
+    enabled: detailModalFlag,
+  });
+  const [imgErr, setImgErr] = useState<boolean>(false);
   const [likeFlag, updateLikeFlag] = useState<boolean>(false);
-  const { isLogin } = useAuthStore();
+  const { isLogin, userId } = useAuthStore();
   const labelWrapperStyle =
     "w-[100px] bg-slate-100 flex items-center justify-center border-r border-gray-200 shrink-0";
   const labelTextStyle =
     "text-[12px] md:text-sm font-semibold text-gray-700 break-keep text-center";
   const close = () => {
-    updateFlag(false);
+    updateDetailModalFlag(false);
   };
 
   const goComment = () => {
     const target = document.getElementById("commentInput");
-    if (target) {
-      target.focus();
-    }
+    console.log(target);
+    if (isLogin && target) {
+      return target.focus();
+    } else
+      return updateIsAlertOpen({
+        flag: true,
+        message: "로그인 후 이용 가능합니다.",
+      });
   };
   const goChat = () => {
     if (!isLogin) {
@@ -54,18 +55,16 @@ const MissingDetailModal = ({
     }
     return updateViewType("CHAT");
   };
-
   useEffect(() => {
-    if (flag && isOpen) {
+    if (detailModalFlag && isOpen) {
       updateIsOpen(!isOpen);
-      console.log(boardId);
     }
-  }, [flag, isOpen]);
+  }, [detailModalFlag, isOpen]);
 
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <ContentsModal onClose={close} flag={flag}>
+    <ContentsModal onClose={close} flag={detailModalFlag}>
       {data ? (
         <div className="grid gap-5 px-3 justify-items-center">
           <div className="flex justify-between items-center mt-5 w-[90%]">
@@ -97,10 +96,20 @@ const MissingDetailModal = ({
           {/* contents */}
           <div className="w-[90%] my-5">
             {data.images?.length > 0 && (
-              <div className="flex justify-center items-center h-52 border rounded-md bg-gray-300 ">
-                {/* <p className="text-center text-white ">IMAGE</p> */}
+              <div
+                className={`flex justify-center items-center h-auto ${!imgErr} ? 'border rounded-md':'' w-full`}
+              >
                 {data.images?.map((item) => (
-                  <img src={`${item.imgPath}`} onError={(e) => onImgError(e)} />
+                  <img
+                    src={`https://unbribably-unhilly-danyell.ngrok-free.dev${item.imgPath}`}
+                    onError={(e) => {
+                      setImgErr(true);
+                      onImgError(e);
+                    }}
+                    className="border rounded-md"
+                    title={`${data.title} 대표이미지`}
+                    key={item.imgPath}
+                  />
                 ))}
               </div>
             )}
@@ -162,7 +171,7 @@ const MissingDetailModal = ({
               >
                 채팅 전송
               </Button>
-              {isLogin && (
+              {isLogin && userId === data.writerId && (
                 <Button
                   variant="cancel"
                   size={"md"}
@@ -171,7 +180,7 @@ const MissingDetailModal = ({
                   게시글 수정
                 </Button>
               )}
-              {isLogin && (
+              {isLogin && userId === data.writerId && (
                 <Button
                   variant="primary"
                   size={"md"}
@@ -185,40 +194,7 @@ const MissingDetailModal = ({
             </div>
           </div>
           {/* 댓글 영역 */}
-          <div className="border-b-2 w-[90%] ">
-            <div className="flex gap-2 items-center mb-4">
-              <img
-                src={comment}
-                alt="댓글 아이콘"
-                className="w-[20px] h-[20px]"
-              />
-              <p className="leading-none">
-                댓글
-                <span className="ml-1">12</span>
-              </p>
-            </div>
-
-            <MissingDetailCommentsItem />
-
-            {/* 댓글 총 3개까지만 보여주고 더 볼 사람만 눌러서 더 보여주는 식으로 진행! */}
-          </div>
-          <div className="flex w-[90%]">
-            <input
-              type="text"
-              className="border rounded-md pl-3 w-4/5
-            "
-              id="commentInput"
-              placeholder={`${isLogin ? "글자 수는 최대 100자까지 등록 가능합니다." : "로그인 후 등록 가능합니다."}`}
-              disabled={!isLogin ? true : false}
-            />
-            <Button
-              size="md"
-              className="ml-2 w-1/5"
-              disabled={!isLogin ? true : false}
-            >
-              등록
-            </Button>
-          </div>
+          <CommentsSection />
         </div>
       ) : null}
     </ContentsModal>

@@ -1,16 +1,10 @@
-import axios from "axios";
+import { api } from "@/shared/api";
 import type { MissingDetailResponse } from "../model/missing-detail";
 
 export const GET_MISSING_DETAIL = async (boardId: string) => {
   try {
     const URL = `/api/board/${boardId}`;
-    const { data } = await axios.get<MissingDetailResponse>(URL, {
-      headers: {
-        "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "69420",
-      },
-    });
-    console.log(data);
+    const { data } = await api.get<MissingDetailResponse>(URL);
     return data;
   } catch (error: any) {
     if (error) {

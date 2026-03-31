@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MissingCardItem from "@/entities/missing/ui/MissingCardItem";
 import Select from "@/shared/ui/common/Select";
 import Button from "@/shared/ui/common/Button";
@@ -12,6 +12,9 @@ import { SearchOptions } from "@/shared/types/data-types";
 import { useMissingList } from "../model/useMissingList";
 import { BoardItem } from "../model/missing-api-type";
 import NoData from "@/shared/ui/common/NoData";
+import { useMissingDetailStore } from "@/app/store/missingDetailStore";
+import CommentList from "@/features/comments/ui/CommentList";
+import CommentsItem from "@/features/comments/ui/CommentsItem";
 
 const MissingBoard = () => {
   const { isOpen } = useAppStore();
@@ -61,8 +64,10 @@ const MissingBoard = () => {
   });
 
   // 상세관련
-  const [detailFlag, updateDetailFlag] = useState<boolean>(false);
-  const [boardId, updateBoardId] = useState<string>("");
+
+  const { detailModalFlag, updateDetailBoardId, updateDetailModalFlag } =
+    useMissingDetailStore();
+
   // 로딩중
   if (isLoading) return <LoadingSpinner />;
 
@@ -107,7 +112,6 @@ const MissingBoard = () => {
           검색
         </Button>
       </div>
-
       {/* 리스트 시작 */}
       <div
         className={`grid mt-5 justify-items-center grid-cols-2 gap-2 md:grid-cols-3 ${isOpen ? "md:grid-cols-2 md:gap-3 lg:grid-cols-4" : "lg:grid-cols-5"} lg:gap-5`}
@@ -116,8 +120,8 @@ const MissingBoard = () => {
           <MissingCardItem
             data={item}
             updateFlag={() => {
-              updateBoardId(String(item.boardId));
-              updateDetailFlag(!detailFlag);
+              updateDetailBoardId(String(item.boardId));
+              updateDetailModalFlag(!detailModalFlag);
             }}
             key={item.boardId}
           />
@@ -148,11 +152,7 @@ const MissingBoard = () => {
       ) : null}
 
       {/* 상세 */}
-      <MissingDetailModal
-        flag={detailFlag}
-        updateFlag={updateDetailFlag}
-        boardId={boardId}
-      />
+      <MissingDetailModal />
     </>
   );
 };

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useAuthStore } from "@/app/store/authStore";
 
+// const isDev = import.meta.env.DEV;
+
 export const api = axios.create({
   baseURL: "",
   withCredentials: true,
@@ -13,6 +15,8 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  // ngrok
+  config.headers["ngrok-skip-browser-warning"] = "true";
   return config;
 });
 

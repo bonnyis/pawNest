@@ -1,16 +1,16 @@
-import { BoardItem } from "@/features/missing-list/model/missing-api-type";
 import { onImgError } from "@/shared/lib/onError";
+import { BoardItem } from "../model/missing-api-type";
 import noImg from "@img/Image.png";
 // 개별메뉴 실종동물 카드리스트 UI
 interface Props {
   data: BoardItem;
-  updateFlag: (val: boolean) => void;
+  onClick: () => void;
 }
-const MissingCardItem = ({ data, updateFlag }: Props) => {
+const MissingCardItem = ({ data, onClick }: Props) => {
   return (
     <div
       className="w-60 border border-gray-300 rounded-md p-5 h-80 cursor-pointer"
-      onClick={() => updateFlag(true)}
+      onClick={onClick}
     >
       <div className="mb-4">
         {data.images?.map((item) => (

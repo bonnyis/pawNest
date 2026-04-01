@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { GET_MISSING_DETAIL } from "../api/missing-detail";
-import { MissingDetailRequest } from "./missing-detail";
+import { MissingDetailRequest } from "./missing-detail-types";
 
 export const useMissingDetail = ({
   boardId,

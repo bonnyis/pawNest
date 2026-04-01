@@ -11,16 +11,20 @@ import { useAppStore } from "@/app/store/appStore";
 import { useMissingDetail } from "@/features/missing-detail/model/useMissingDetail";
 import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
 import CommentsSection from "@/features/comments/ui/CommentsSection";
+import { useSearchParams } from "react-router-dom";
 
 const MissingDetailModal = () => {
   const { isOpen, updateIsOpen, updateIsAlertOpen, updateViewType } =
     useAppStore();
   const { detailBoardId, detailModalFlag, updateDetailModalFlag } =
     useMissingDetailStore();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const detailId = searchParams.get("id"); // 메인에서 상세 바로올 때 쓰는 boardId
   const { isLoading, data } = useMissingDetail({
-    boardId: detailBoardId,
+    boardId: detailId ? detailId : detailBoardId,
     enabled: detailModalFlag,
   });
+
   const [imgErr, setImgErr] = useState<boolean>(false);
   const [likeFlag, updateLikeFlag] = useState<boolean>(false);
   const { isLogin, userId } = useAuthStore();
@@ -30,6 +34,9 @@ const MissingDetailModal = () => {
     "text-[12px] md:text-sm font-semibold text-gray-700 break-keep text-center";
   const close = () => {
     updateDetailModalFlag(false);
+    if (detailId) {
+      setSearchParams({});
+    }
   };
 
   const goComment = () => {
@@ -60,6 +67,12 @@ const MissingDetailModal = () => {
       updateIsOpen(!isOpen);
     }
   }, [detailModalFlag, isOpen]);
+
+  useEffect(() => {
+    if (detailId) {
+      updateDetailModalFlag(true);
+    }
+  }, [detailId]);
 
   if (isLoading) return <LoadingSpinner />;
 

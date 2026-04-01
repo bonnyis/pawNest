@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import MissingCardItem from "@/entities/missing/ui/MissingCardItem";
 import Select from "@/shared/ui/common/Select";
 import Button from "@/shared/ui/common/Button";
-import MissingDetailModal from "@/features/missing-detail/ui/MissingDetailModal";
 import Pagination from "@/shared/ui/common/Pagination";
 import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -10,11 +9,9 @@ import { ROUTES } from "@/shared/routes/routes";
 import { useAppStore } from "@/app/store/appStore";
 import { SearchOptions } from "@/shared/types/data-types";
 import { useMissingList } from "../model/useMissingList";
-import { BoardItem } from "../model/missing-api-type";
+import { BoardItem } from "@/entities/missing/model/missing-api-type";
 import NoData from "@/shared/ui/common/NoData";
 import { useMissingDetailStore } from "@/app/store/missingDetailStore";
-import CommentList from "@/features/comments/ui/CommentList";
-import CommentsItem from "@/features/comments/ui/CommentsItem";
 
 const MissingBoard = () => {
   const { isOpen } = useAppStore();
@@ -64,9 +61,13 @@ const MissingBoard = () => {
   });
 
   // 상세관련
-
   const { detailModalFlag, updateDetailBoardId, updateDetailModalFlag } =
     useMissingDetailStore();
+
+  const openDetail = (id: number) => {
+    updateDetailBoardId(String(id));
+    updateDetailModalFlag(!detailModalFlag);
+  };
 
   // 로딩중
   if (isLoading) return <LoadingSpinner />;
@@ -119,10 +120,7 @@ const MissingBoard = () => {
         {data?.content?.map((item: BoardItem) => (
           <MissingCardItem
             data={item}
-            updateFlag={() => {
-              updateDetailBoardId(String(item.boardId));
-              updateDetailModalFlag(!detailModalFlag);
-            }}
+            onClick={() => openDetail(item.boardId)}
             key={item.boardId}
           />
         ))}
@@ -150,9 +148,6 @@ const MissingBoard = () => {
           onPageChange={onPage}
         />
       ) : null}
-
-      {/* 상세 */}
-      <MissingDetailModal />
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { api } from "@/shared/api";
-import type { MissingDetailResponse } from "../model/missing-detail";
+import type { MissingDetailResponse } from "../model/missing-detail-types";
 
 export const GET_MISSING_DETAIL = async (boardId: string) => {
   try {

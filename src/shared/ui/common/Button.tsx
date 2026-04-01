@@ -33,7 +33,7 @@ const Button = ({
   return (
     <button
       type="button"
-      className={`border p-2 rounded-lg  ${typeStyle[variant]} ${sizeStyle[size]} ${className}`}
+      className={`cursor-pointer border p-2 rounded-lg  ${typeStyle[variant]} ${sizeStyle[size]} ${className}`}
       {...props}
     >
       {children}

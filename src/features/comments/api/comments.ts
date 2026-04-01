@@ -21,7 +21,7 @@ export const SEND_COMMENT = async (boardId: number, content: string) => {
     return response.data;
   } catch (error: any) {
     if (error) {
-      throw new Error("등록 불가");
+      throw new Error(error);
     }
   }
 };

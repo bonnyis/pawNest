@@ -11,8 +11,6 @@ const CommentInput = () => {
   const { detailBoardId } = useMissingDetailStore();
   const { mutate, isPending } = useSendComments();
   const handleComment = () => {
-    console.log(commentInput.current);
-
     const content = commentInput.current?.value ?? null;
     if (content) {
       mutate({
@@ -29,14 +27,15 @@ const CommentInput = () => {
         className="border rounded-md pl-3 w-4/5"
         id="commentInput"
         placeholder={`${isLogin ? "글자 수는 최대 100자까지 등록 가능합니다." : "로그인 후 등록 가능합니다."}`}
-        disabled={!isLogin ? true : false}
+        disabled={!isLogin || isPending}
         ref={commentInput}
+        autoComplete="off"
       />
       <Button
         type="button"
         size="md"
         className="ml-2 w-1/5"
-        disabled={!isLogin || !isPending ? true : false}
+        disabled={!isLogin || isPending}
         onClick={() => handleComment()}
       >
         {isPending ? "등록중" : "등록"}

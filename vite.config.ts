@@ -21,6 +21,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      "/app": {
+        target: "https://unbribably-unhilly-danyell.ngrok-free.dev",
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 });

@@ -41,7 +41,6 @@ const MissingDetailModal = () => {
 
   const goComment = () => {
     const target = document.getElementById("commentInput");
-    console.log(target);
     if (isLogin && target) {
       return target.focus();
     } else

@@ -9,7 +9,7 @@ export const createSocketClient = (token: string) => {
       Authorization: `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420",
     },
-    reconnectDelay: 5000,
+    reconnectDelay: 5000 * 10,
     debug: (str) => console.log("[STOMP]", str),
   });
 };

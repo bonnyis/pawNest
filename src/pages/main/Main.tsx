@@ -1,4 +1,4 @@
-import MainBanner from "@img/mainBanner_PC.png";
+import MainBanner from "@/widgets/home/contents/MainBanner";
 import ContentsSection from "@/widgets/home/contents/ContentsSection";
 import { useLogin, useLogout } from "@/features/auth/model/useLogin";
 
@@ -11,7 +11,7 @@ const Main = () => {
 
   return (
     <>
-      <img src={MainBanner} alt="" className={`main-banner`} />
+      <MainBanner />
       {/* contents */}
       <ContentsSection />
     </>

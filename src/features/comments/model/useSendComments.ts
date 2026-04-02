@@ -15,9 +15,9 @@ export const useSendComments = () => {
       content: string;
     }) => SEND_COMMENT(boardId, content),
 
-    onSuccess: (_, variables) => {
+    onSuccess: (_, boardId) => {
       queryClient.invalidateQueries({
-        queryKey: ["commentsList", String(variables.boardId)],
+        queryKey: ["commentsList", String(boardId)],
       });
       console.log("✅ 댓글 전송 시도 성공");
     },

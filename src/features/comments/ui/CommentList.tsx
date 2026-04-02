@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import comment from "@img/icons/comment_2.png";
-import CommentsItem from "../../../entities/comments/ui/CommentsItem";
+import CommentsItem from "./CommentsItem";
 import { useGetComments } from "../model/useGetComments";
 import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
 import { useMissingDetailStore } from "@/app/store/missingDetailStore";
 import { useSocketStore } from "@/app/store/socketStore";
+import NoData from "@/shared/ui/common/NoData";
 
 const CommentList = () => {
   const { detailBoardId, detailModalFlag } = useMissingDetailStore();
@@ -43,7 +44,11 @@ const CommentList = () => {
           <span className="ml-1">{data?.length ?? "0"}</span>
         </p>
       </div>
-      {data && data?.length > 0 ? <CommentsItem list={data} /> : null}
+      {data && data?.length > 0 ? (
+        data?.map((item) => <CommentsItem list={item} key={item.commentId} />)
+      ) : (
+        <NoData message="등록된 댓글이 없습니다." />
+      )}
       {}
     </>
   );

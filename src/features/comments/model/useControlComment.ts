@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   DELETE_COMMENT,
   MODIFY_COMMENT,
@@ -8,12 +8,19 @@ import { useAppStore } from "@/app/store/appStore";
 // 댓글 수정 및 삭제
 export const useControlComments = () => {
   const updateIsAlertOpen = useAppStore((state) => state.updateIsAlertOpen);
-
-  const useDeleteComment = (commentId: number) => {
+  const queryClient = useQueryClient();
+  const useDeleteComment = () => {
     return useMutation({
-      mutationFn: () => DELETE_COMMENT(commentId),
-      onSuccess: () => {
+      mutationFn: (commentId: number) => DELETE_COMMENT(commentId),
+      onSuccess: (_, boardId) => {
         console.log("댓글 삭제 성공");
+        updateIsAlertOpen({
+          flag: true,
+          message: "삭제완료!",
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["commentsList", String(boardId)],
+        });
       },
       onError: (error: Error) => {
         updateIsAlertOpen({
@@ -23,11 +30,21 @@ export const useControlComments = () => {
       },
     });
   };
-  const useModifyComment = (commentId: number, content: string) => {
+  const useModifyComment = () => {
+    const queryClient = useQueryClient();
     return useMutation({
-      mutationFn: () => MODIFY_COMMENT(commentId, content),
-      onSuccess: () => {
+      mutationFn: ({
+        commentId,
+        content,
+      }: {
+        commentId: number;
+        content: string;
+      }) => MODIFY_COMMENT(commentId, content),
+      onSuccess: (_, boardId) => {
         console.log("댓글 수정 성공");
+        queryClient.invalidateQueries({
+          queryKey: ["commentsList", String(boardId)],
+        });
       },
       onError: (error: Error) => {
         updateIsAlertOpen({

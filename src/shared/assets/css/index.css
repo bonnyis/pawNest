@@ -20,6 +20,8 @@
 }
 .main-banner {
   width: -webkit-fill-available;
+  aspect-ratio: 1200 / 400;
+  display: block;
 }
 
 .swiper-button-prev.swiper-button-disabled,

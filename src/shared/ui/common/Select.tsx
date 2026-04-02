@@ -12,7 +12,6 @@ const Select = ({ options, changeEvt }: SelectProps) => {
       name="searchOption"
       id="searchOption"
       onChange={(e) => {
-        console.log(e);
         changeEvt(e.target.value);
       }}
       className="border w-32 h-auto p-2 rounded-md"

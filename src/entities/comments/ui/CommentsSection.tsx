@@ -1,6 +1,6 @@
 import {} from "react";
-import CommentList from "./CommentList";
-import CommentInput from "./CommentInput";
+import CommentList from "../../../features/comments/ui/CommentList";
+import CommentInput from "../../../features/comments/ui/CommentInput";
 const CommentsSection = () => {
   return (
     <div className="w-[90%] ">

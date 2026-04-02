@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MissingCardItem from "@/entities/missing/ui/MissingCardItem";
+import MissingCardItem from "@/entities/missing-list/ui/MissingCardItem";
 import Select from "@/shared/ui/common/Select";
 import Button from "@/shared/ui/common/Button";
 import Pagination from "@/shared/ui/common/Pagination";
@@ -9,7 +9,7 @@ import { ROUTES } from "@/shared/routes/routes";
 import { useAppStore } from "@/app/store/appStore";
 import { SearchOptions } from "@/shared/types/data-types";
 import { useMissingList } from "../model/useMissingList";
-import { BoardItem } from "@/entities/missing/model/missing-api-type";
+import { BoardItem } from "@/entities/missing-list/model/missing-api-type";
 import NoData from "@/shared/ui/common/NoData";
 import { useMissingDetailStore } from "@/app/store/missingDetailStore";
 

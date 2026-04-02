@@ -1,4 +1,4 @@
-import { GET_MISSING_PREVIEW } from "@/entities/missing/api/missing-list";
+import { GET_MISSING_PREVIEW } from "@/entities/missing-list/api/missing-list";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 

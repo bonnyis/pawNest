@@ -1,6 +1,8 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { GET_COMMENT_LIST, SEND_COMMENT } from "../api/comments";
-import { useAppStore } from "@/app/store/appStore";
+// features/comments/model/useGetComments.ts (또는 해당 위치)
+import { useEffect } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { GET_COMMENT_LIST } from "@/entities/comments/api/comments";
+import { useSocketStore } from "@/app/store/socketStore";
 
 export const useGetComments = ({
   boardId,
@@ -9,34 +11,49 @@ export const useGetComments = ({
   boardId: string;
   enabled?: boolean;
 }) => {
-  return useQuery({
+  const queryClient = useQueryClient();
+  const { client } = useSocketStore();
+
+  // 1. 기존 HTTP 데이터 조회 (Tanstack Query)
+  const query = useQuery({
     queryKey: ["commentsList", boardId],
     queryFn: () => GET_COMMENT_LIST(Number(boardId)),
     enabled: enabled && !!boardId,
     placeholderData: (prev) => prev,
   });
-};
 
-export const useSendComments = () => {
-  const queryClient = useQueryClient();
-  const updateIsAlertOpen = useAppStore((state) => state.updateIsAlertOpen);
-  return useMutation({
-    mutationFn: ({ boardId, content }: { boardId: number; content: string }) =>
-      SEND_COMMENT(Number(boardId), content),
-    onSuccess(data, variables) {
-      console.log("data", data);
-      console.log("vivivia", variables);
-      queryClient.invalidateQueries({
-        queryKey: ["commentList", String(variables.boardId)],
-      });
-      console.log("등록 성공!", data);
-    },
-    onError(error, variables, onMutateResult, context) {
-      console.log(error, variables, onMutateResult, context);
-      updateIsAlertOpen({
-        flag: true,
-        message: error.message || "등록 중 오류가 발생했습니다.",
-      });
-    },
-  });
+  // 2. 실시간 소켓 구독 로직 결합
+  useEffect(() => {
+    // 훅이 비활성화되어 있거나 소켓 연결이 없으면 구독하지 않음
+    if (!enabled || !boardId || !client || !client.active) {
+      console.log("error");
+      return;
+    }
+
+    // 댓글 실시간 수신 구독 (/topic/board/{boardId})
+    const subscription = client.subscribe(
+      `/topic/board/${boardId}`,
+      (message) => {
+        const newComment = JSON.parse(message.body);
+        console.log("📥 실시간 댓글 수신:", newComment);
+
+        // Tanstack Query 캐시 업데이트 (조회 시 사용한 키와 동일하게 설정)
+        queryClient.setQueryData(["commentsList", boardId], (oldData: any) => {
+          return oldData ? [...oldData, newComment] : [newComment];
+        });
+      },
+    );
+
+    // 에러 수신 구독
+    const errorSub = client.subscribe("/user/queue/errors", (msg) => {
+      console.error("❌ 소켓 서버 에러:", msg.body);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+      errorSub.unsubscribe();
+    };
+  }, [enabled, boardId, client, queryClient]);
+
+  return query;
 };

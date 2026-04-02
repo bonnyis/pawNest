@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/shared/routes/routes";
-import MissingPreviewItem from "@/entities/missing/ui/MissingPreviewItem";
+import MissingPreviewItem from "@/entities/missing-list/ui/MissingPreviewItem";
 import { useGetMissingPreview } from "@/features/missing-preview/model/useGetMissingPreview";
 import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
+import NoData from "@/shared/ui/common/NoData";
 
 const MissingBoardSection = () => {
   const activeCss = `relative inline-block pb-1
@@ -69,8 +70,7 @@ const MissingBoardSection = () => {
           >
             {isLoading ? (
               <LoadingSpinner />
-            ) : (
-              list &&
+            ) : list?.length > 0 ? (
               list?.map((item) => (
                 <MissingPreviewItem
                   list={item}
@@ -78,6 +78,11 @@ const MissingBoardSection = () => {
                   onClick={() => goMissingDetail(item.boardId)}
                 />
               ))
+            ) : (
+              <NoData
+                message="조회되는 게시물이 없습니다."
+                className="text-base"
+              />
             )}
           </div>
         </div>

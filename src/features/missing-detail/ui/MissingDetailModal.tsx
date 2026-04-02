@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import ContentsModal from "@/shared/ui/modal/ContentsModal";
-import like from "@img/icons/star.png";
-import like_fill from "@img/icons/star_fill.png";
-
+import FavoriteBtn from "@/features/favorite-toggle/ui/FavoriteBtn";
 import { onImgError } from "@/shared/lib/onError";
 import Button from "@/shared/ui/common/Button";
 import { useMissingDetailStore } from "@/app/store/missingDetailStore";
@@ -10,7 +8,7 @@ import { useAuthStore } from "@/app/store/authStore";
 import { useAppStore } from "@/app/store/appStore";
 import { useMissingDetail } from "@/features/missing-detail/model/useMissingDetail";
 import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
-import CommentsSection from "@/features/comments/ui/CommentsSection";
+import CommentsSection from "@/entities/comments/ui/CommentsSection";
 import { useSearchParams } from "react-router-dom";
 
 const MissingDetailModal = () => {
@@ -26,7 +24,7 @@ const MissingDetailModal = () => {
   });
 
   const [imgErr, setImgErr] = useState<boolean>(false);
-  const [likeFlag, updateLikeFlag] = useState<boolean>(false);
+
   const { isLogin, userId } = useAuthStore();
   const labelWrapperStyle =
     "w-[100px] bg-slate-100 flex items-center justify-center border-r border-gray-200 shrink-0";
@@ -83,19 +81,7 @@ const MissingDetailModal = () => {
             <h2 className="text-left font-semibold text-xl max-w-[85%] line-clamp-2">
               {data?.title}
             </h2>
-            <button
-              type="button"
-              className=""
-              onClick={() => {
-                updateLikeFlag(!likeFlag);
-              }}
-            >
-              {likeFlag ? (
-                <img src={like} alt="관심글 저장하기" />
-              ) : (
-                <img src={like_fill} alt="관심글 저장 취소하기" />
-              )}
-            </button>
+            <FavoriteBtn liked={Boolean(data?.liked)} />
           </div>
           <div className="flex justify-between items-center w-[90%]">
             <p className="text-gray-600 text-base">{data.writerId}</p>

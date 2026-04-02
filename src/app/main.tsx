@@ -1,4 +1,5 @@
 import App from "@/app/App.tsx";
+(window as any).global = window;
 
 // 클라이언트 상태관리
 import { createRoot } from "react-dom/client";

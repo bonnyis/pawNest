@@ -12,13 +12,14 @@ const MissingCardItem = ({ data, onClick }: Props) => {
       className="w-60 border border-gray-300 rounded-md p-5 h-80 cursor-pointer"
       onClick={onClick}
     >
-      <div className="mb-4">
+      <div className="mb-4 h-44">
         {data.images?.map((item) => (
           <img
             key={item.imgPath}
-            src={`https://unbribably-unhilly-danyell.ngrok-free.dev${item.originalFileName}`}
+            src={`https://unbribably-unhilly-danyell.ngrok-free.dev${item.imgPath}`}
             onError={(e) => onImgError(e)}
             title={`${data.title} 대표이미지`}
+            className="object-fill"
           />
         ))}
         {data.images?.length === 0 && (

@@ -4,6 +4,7 @@ import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
+  define: { global: "window" },
   plugins: [react()],
   resolve: {
     alias: [
@@ -17,11 +18,6 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://unbribably-unhilly-danyell.ngrok-free.dev",
-        changeOrigin: true,
-        secure: false,
-      },
-      "/app": {
         target: "https://unbribably-unhilly-danyell.ngrok-free.dev",
         changeOrigin: true,
         secure: false,

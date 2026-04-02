@@ -16,7 +16,7 @@ export const ROUTE_PATHS = {
 export const ROUTES = {
   HOME: "/",
   MISSING: "/missing",
-  MISSINGINSERT: "/missing/insert",
+  MISSINGINSERT: "/missing-list/insert",
   SHELTER: "/shelter",
   MYPAGE: "/mypage",
   LOGOUT: "/logout",

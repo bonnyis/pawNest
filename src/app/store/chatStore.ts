@@ -1,4 +1,4 @@
-import type { ChatPannelType } from "@/features/chatting/model";
+import type { ChatPannelType } from "@/features/chatting/model/chatting.types";
 import { create } from "zustand";
 export type chatState = {
   chatPannelType: ChatPannelType;

@@ -1,7 +1,7 @@
 import {} from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/shared/routes/routes";
-import ShelterListBox from "@/entities/shelter/ui/ShelterListBox";
+import ShelterListBox from "@/features/shelter/ui/ShelterListBox";
 const NearShelterSection = () => {
   const navigation = useNavigate();
   return (

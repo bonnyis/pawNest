@@ -10,6 +10,7 @@ import { useMissingDetail } from "@/features/missing-detail/model/useMissingDeta
 import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
 import CommentsSection from "@/entities/comments/ui/CommentsSection";
 import { useSearchParams } from "react-router-dom";
+import { useAddChatRoom } from "@/features/chatting/model/useAddChatRoom";
 
 const MissingDetailModal = () => {
   const { isOpen, updateIsOpen, updateIsAlertOpen, updateViewType } =
@@ -22,14 +23,14 @@ const MissingDetailModal = () => {
     boardId: detailId ? detailId : detailBoardId,
     enabled: detailModalFlag,
   });
-
+  const { mutate } = useAddChatRoom();
   const [imgErr, setImgErr] = useState<boolean>(false);
 
   const { isLogin, userId } = useAuthStore();
   const labelWrapperStyle =
     "w-[100px] bg-slate-100 flex items-center justify-center border-r border-gray-200 shrink-0";
   const labelTextStyle =
-    "text-[12px] md:text-sm font-semibold text-gray-700 break-keep text-center";
+    "text-[12px] md:text-sm font-semibold text-gray-700 brpaeak-keep text-center";
   const close = () => {
     updateDetailModalFlag(false);
     if (detailId) {
@@ -48,6 +49,7 @@ const MissingDetailModal = () => {
       });
   };
   const goChat = () => {
+    const targetId = detailId || String(detailBoardId);
     if (!isLogin) {
       updateIsAlertOpen({
         flag: true,
@@ -57,7 +59,9 @@ const MissingDetailModal = () => {
     if (!isOpen) {
       updateIsOpen(true);
     }
-    return updateViewType("CHAT");
+
+    mutate(targetId);
+    updateViewType("CHAT");
   };
   useEffect(() => {
     if (detailModalFlag && isOpen) {

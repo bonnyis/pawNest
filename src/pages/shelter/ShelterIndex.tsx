@@ -1,15 +1,12 @@
 import { useState } from "react";
 import Select from "@/shared/ui/common/Select";
-import ShelterKakaoMap from "@/entities/shelter/ui/ShelterKakaoMap";
-import ShelterListBox from "@/entities/shelter/ui/ShelterListBox";
+import ShelterMap from "@/features/shelter/ui/ShelterMap";
+import ShelterListBox from "@/features/shelter/ui/ShelterListBox";
 
 const ShelterIndex = () => {
   const [, updateSearchOption] = useState<string>("");
-  const searchOptions = [
-    { label: "서울", value: "seoul" },
-    { label: "경기", value: "gyeonggi" },
-    { label: "인천", value: "incheon" },
-  ];
+  const searchOptions = [{ label: "경기도", value: "gyeonggi" }];
+  const searchCityOptions = [{}];
   const onChangeEvt = (val: string) => {
     updateSearchOption(val);
   };
@@ -24,7 +21,7 @@ const ShelterIndex = () => {
       <div className="flex justify-end md:max-w-[1460px] gap-2 min-h-min">
         {/* 카카오지도 */}
         <div className="w-2/4  border rounded-lg p-5">
-          <ShelterKakaoMap />
+          <ShelterMap />
         </div>
         {/* 보호소 리스트 */}
         <div className="w-2/4 border rounded-lg p-5">

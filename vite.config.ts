@@ -22,6 +22,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      "/OrganicAnimalProtectionFacilit": {
+        target: "https://openapi.gg.go.kr",
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 });

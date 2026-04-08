@@ -60,6 +60,8 @@ const MissingDetailModal = () => {
       updateIsOpen(true);
     }
 
+    updateDetailModalFlag(false);
+    updateIsOpen(true);
     mutate(targetId);
     updateViewType("CHAT");
   };

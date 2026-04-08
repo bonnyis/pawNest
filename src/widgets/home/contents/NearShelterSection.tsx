@@ -1,9 +1,22 @@
-import {} from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/shared/routes/routes";
 import ShelterListBox from "@/features/shelter/ui/ShelterListBox";
+import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
+import NoData from "@/shared/ui/common/NoData";
+import type { ShelterItem } from "@/entities/shelter/model/shelter.types";
+import { useShelterStore } from "@/app/store/shelterStore";
+import { useGetShelterList } from "@/features/shelter/model/useGetShelterList";
+import ShelterListItem from "@/entities/shelter/ui/ShelterListItem";
 const NearShelterSection = () => {
   const navigation = useNavigate();
+  const { data } = useGetShelterList({
+    key: import.meta.env.VITE_APP_OPEN_API_KEY,
+    pIndex: 1,
+    pSize: 3,
+    type: "json",
+  });
+
   return (
     <div className="lg:w-2/5 p-5 border rounded-2xl">
       <div className="flex justify-between mb-3">
@@ -16,8 +29,16 @@ const NearShelterSection = () => {
           +
         </button>
       </div>
-      {/* 메인은 세개까지만 나올 수 있도록 설정할 것  */}
-      <ShelterListBox />
+      <div className="flex flex-col gap-3">
+        {/* 메인은 세개까지만 나올 수 있도록 설정할 것  */}
+        {data?.row && data?.row?.length > 0 ? (
+          data?.row?.map((item) => (
+            <ShelterListItem key={item.ENTRPS_TELNO} list={item} />
+          ))
+        ) : (
+          <NoData />
+        )}
+      </div>
     </div>
   );
 };

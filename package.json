@@ -17,6 +17,7 @@
     "axios": "^1.13.6",
     "clsx": "^2.1.1",
     "react": "^19.0.0",
+    "react-daum-postcode": "^4.0.0",
     "react-dom": "^19.0.0",
     "react-kakao-maps-sdk": "^1.2.1",
     "react-minimal-pie-chart": "^9.1.2",

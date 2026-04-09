@@ -1,12 +1,17 @@
-import {} from "react";
+import { useRef, useState } from "react";
 import Button from "@/shared/ui/common/Button";
 import help_icon from "@img/icons/help.png";
 import help_fill_icon from "@img/icons/help_fill.png";
 // import attach from "@img/icons/attachFile.png";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
+import type { MissingBoardInputRequest } from "@/entities/missing-insert/model/missingInsert.type";
+import { CAT_BREEDS, DOG_BREEDS, BREED_COLORS } from "@/shared/constant/breed";
+import { useAppStore } from "@/app/store/appStore";
+import { useNavigate } from "react-router-dom";
 const MissingInsertForm = () => {
-  const { modalFlag, updateModalFlag } = useBreedFinderStore();
-
+  const navigate = useNavigate();
+  const { updateModalFlag } = useBreedFinderStore();
+  const { updateIsConfirmOpen } = useAppStore();
   const labelWrapperStyle =
     "w-[100px] md:w-[180px] bg-slate-100 flex items-center justify-center border-r border-gray-200 shrink-0";
   const labelTextStyle =
@@ -14,6 +19,28 @@ const MissingInsertForm = () => {
   const settingModal = (val: boolean) => {
     updateModalFlag(val);
   };
+  const [colorEtc, setColorEtc] = useState<string>("");
+  const [formData, setFormData] = useState<MissingBoardInputRequest>({
+    breed1: "선택",
+    breed2: "",
+    gender: "",
+    age: "",
+    color: "",
+    title: "",
+    features: "",
+    missingDate: new Date(),
+    missingLocation: "",
+  });
+  const changeFormData = (type: string, val: string | Date) => {
+    setFormData((prev: MissingBoardInputRequest) => {
+      return { ...prev, [type]: val };
+    });
+  };
+  const formatDateTime = (dateTime: Date) => {
+    const offset = dateTime.getTimezoneOffset() * 60000;
+    return new Date(dateTime.getTime() - offset).toISOString().slice(0, 16);
+  };
+  const handleSubmit = (value: MissingBoardInputRequest) => {};
   return (
     <form className="max-w-[1480px] mx-auto border-t-2 border-slate-400">
       {/* 1. 실종일자 & 실종장소 (데스크톱에서만 2열, 모바일은 각각 한 줄씩) */}
@@ -28,6 +55,10 @@ const MissingInsertForm = () => {
             <input
               type="datetime-local"
               className="w-full border rounded-md p-2 text-sm md:text-base outline-none focus:border-primary"
+              value={formatDateTime(new Date(formData.missingDate))}
+              onChange={(e) =>
+                changeFormData("missingDate", new Date(e.target.value))
+              }
             />
           </div>
         </div>
@@ -41,6 +72,10 @@ const MissingInsertForm = () => {
             <textarea
               className="w-full border rounded-md p-2 text-sm md:text-base min-h-[60px] md:min-h-[80px] resize-none outline-none focus:border-primary"
               placeholder="텍스트를 입력해 주세요."
+              value={formData.missingLocation}
+              onChange={(e) => {
+                changeFormData("missingLocation", e.target.value);
+              }}
             />
           </div>
         </div>
@@ -54,18 +89,45 @@ const MissingInsertForm = () => {
           </label>
         </div>
         <div className="flex-1 p-2 md:p-4 flex flex-wrap items-center gap-2">
-          <select className="border rounded-md p-1 md:p-2 w-[48%] md:w-[150px] h-[36px] md:h-[40px] text-sm">
-            <option>개</option>
+          <select
+            className="border rounded-md p-1 md:p-2 w-[48%] md:w-[150px] h-[36px] md:h-[40px] text-sm"
+            onChange={(e) => {
+              changeFormData("breed1", e.target.value);
+            }}
+            value={formData.breed1}
+          >
+            <option value={"선택"}>선택</option>
+            <option value={"개"}>개</option>
+            <option value={"고양이"}>고양이</option>
+            <option value={"기타"}>기타</option>
           </select>
-          <select className="border rounded-md p-1 md:p-2 w-[48%] md:w-[150px] h-[36px] md:h-[40px] text-sm">
-            <option>골든리트리버</option>
-          </select>
-          <input
-            type="text"
-            className="w-full md:flex-1 border rounded-md p-2 bg-gray-100 h-[36px] md:h-[40px] text-sm"
-            placeholder="기타 시 입력"
-          />
-          {/*  */}
+          {formData.breed1 !== "기타" ? (
+            <select
+              className="border rounded-md p-1 md:p-2 w-[48%] md:w-[150px] h-[36px] md:h-[40px] text-sm"
+              value={formData.breed2}
+              onChange={(e) => changeFormData("breed2", e.target.value)}
+            >
+              {formData.breed1 === "개" &&
+                DOG_BREEDS.map((dog: string) => (
+                  <option value={dog} key={dog}>
+                    {dog}
+                  </option>
+                ))}
+              {formData.breed1 === "고양이" &&
+                CAT_BREEDS.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+            </select>
+          ) : (
+            <input
+              type="text"
+              className="w-full md:flex-1 border rounded-md p-2 bg-gray-100 h-[36px] md:h-[40px] text-sm"
+              placeholder="기타 시 입력"
+            />
+          )}
+
           {/* 툴팁을 포함한 아이콘 영역 */}
 
           <button
@@ -109,13 +171,26 @@ const MissingInsertForm = () => {
           </label>
         </div>
         <div className="flex-1 p-2 md:p-4 flex flex-col md:flex-row items-start md:items-center gap-2">
-          <select className="border rounded-md p-1 md:p-2 w-full md:w-[200px] h-[36px] md:h-[40px] text-sm">
-            <option>검은색</option>
+          <select
+            className="border rounded-md p-1 md:p-2 w-full md:w-[200px] h-[36px] md:h-[40px] text-sm"
+            onChange={(e) => {
+              changeFormData("color", e.target.value);
+              // if (e.target.value !== "기타") {
+              //   setColorEtc("");
+              // }
+            }}
+          >
+            {BREED_COLORS.map((color: string) => (
+              <option key={color}>{color}</option>
+            ))}
           </select>
           <input
             type="text"
             className="w-full md:max-w-[400px] border rounded-md p-2 bg-gray-100 h-[36px] md:h-[40px] text-sm"
             placeholder="기타 색상 입력"
+            disabled={formData.color !== "기타"}
+            value={colorEtc}
+            onChange={(e) => setColorEtc(e.target.value)}
           />
         </div>
       </div>
@@ -130,10 +205,24 @@ const MissingInsertForm = () => {
           </div>
           <div className="flex-1 p-2 md:p-4 flex items-center gap-4 md:gap-6 min-h-[50px] text-sm md:text-base">
             <label className="flex items-center gap-1 cursor-pointer">
-              <input type="checkbox" className="w-4 h-4" defaultChecked /> 남자
+              <input
+                type="radio"
+                name="gender"
+                className="w-4 h-4"
+                checked={formData.gender === "남자"}
+                onChange={() => changeFormData("gender", "남자")}
+              />
+              남자
             </label>
             <label className="flex items-center gap-1 cursor-pointer">
-              <input type="checkbox" className="w-4 h-4" /> 여자
+              <input
+                type="radio"
+                name="gender"
+                className="w-4 h-4"
+                checked={formData.gender === "여자"}
+                onChange={() => changeFormData("gender", "여자")}
+              />
+              여자
             </label>
           </div>
         </div>
@@ -148,6 +237,10 @@ const MissingInsertForm = () => {
               type="text"
               className="w-full border rounded-md p-2 outline-none h-[36px] md:h-[40px] text-sm"
               placeholder="나이 입력"
+              value={formData.age}
+              onChange={(e) => {
+                changeFormData("age", e.target.value);
+              }}
             />
           </div>
         </div>
@@ -162,6 +255,10 @@ const MissingInsertForm = () => {
           <textarea
             className="w-full h-[120px] md:h-[150px] border rounded-md p-2 text-sm md:text-base resize-none outline-none"
             placeholder="내용을 입력해 주세요."
+            value={formData.features}
+            onChange={(e) => {
+              changeFormData("features", e.target.value);
+            }}
           />
         </div>
       </div>
@@ -207,6 +304,14 @@ const MissingInsertForm = () => {
           variant="cancel"
           size="md"
           className="flex-1 md:flex-none md:w-[120px]"
+          onClick={() => {
+            updateIsConfirmOpen;
+            ({
+              flag: true,
+              message: "게시글 등록을 취소하시겠습니까?",
+              callback: () => navigate(-1),
+            });
+          }}
         >
           취소
         </Button>

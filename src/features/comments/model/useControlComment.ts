@@ -13,13 +13,13 @@ export const useControlComments = () => {
     return useMutation({
       mutationFn: (commentId: number) => DELETE_COMMENT(commentId),
       onSuccess: (_, boardId) => {
+        queryClient.invalidateQueries({
+          queryKey: ["commentsList", String(boardId)],
+        });
         console.log("댓글 삭제 성공");
         updateIsAlertOpen({
           flag: true,
           message: "삭제완료!",
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["commentsList", String(boardId)],
         });
       },
       onError: (error: Error) => {
@@ -40,11 +40,12 @@ export const useControlComments = () => {
         commentId: number;
         content: string;
       }) => MODIFY_COMMENT(commentId, content),
-      onSuccess: (_, boardId) => {
-        console.log("댓글 수정 성공");
+      onSuccess: (data) => {
+        console.log(data, data.boardId);
         queryClient.invalidateQueries({
-          queryKey: ["commentsList", String(boardId)],
+          queryKey: ["commentsList", String(data.boardId)],
         });
+        console.log("댓글 수정 성공");
       },
       onError: (error: Error) => {
         updateIsAlertOpen({

@@ -5,7 +5,7 @@ export interface MissingBoardInputRequest {
   gender: string;
   age: string;
   color: string;
-  title: string;
+  title?: string;
   features: string;
   missingDate: Date;
   missingLocation: string;

@@ -4,27 +4,73 @@ import type { ApiResponse } from "@/shared/types/api";
 
 export const CREATE_MISSING_BOARD = async (
   params: MissingBoardInputRequest,
+  files: File[],
 ) => {
   try {
-    const { data } = await api.post<ApiResponse<unknown>>("/api/board", params);
+    const formData = new FormData();
+
+    // 1. JSON → Blob
+    formData.append(
+      "request",
+      new Blob([JSON.stringify(params)], {
+        type: "application/json",
+      }),
+    );
+
+    // 2. 파일 추가
+    files.forEach((file) => {
+      formData.append("file", file);
+    });
+
+    // 3. 요청
+    const { data } = await api.post<ApiResponse<unknown>>(
+      "/api/board",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    throw error.response?.data ?? error;
   }
 };
 
-export const UPDTAE_MISSING_BOARD = async (
+export const UPDATE_MISSING_BOARD = async (
   boardId: string,
   params: MissingBoardInputRequest,
+  files: File[],
 ) => {
   try {
+    const formData = new FormData();
+
+    formData.append(
+      "request",
+      new Blob([JSON.stringify(params)], {
+        type: "application/json",
+      }),
+    );
+
+    files.forEach((file) => {
+      formData.append("file", file);
+    });
+
     const { data } = await api.put<ApiResponse<unknown>>(
       `/api/board/${boardId}`,
-      { params },
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
     );
+
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    throw error.response?.data ?? error;
   }
 };
 
@@ -33,6 +79,6 @@ export const DELETE_MISSING_BOARD = async (boardId: string) => {
     const { data } = await api.delete(`/api/baord/${boardId}`);
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    throw error.response?.data ?? error;
   }
 };

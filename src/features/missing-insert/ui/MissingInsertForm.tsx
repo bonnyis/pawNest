@@ -2,16 +2,19 @@ import { useRef, useState } from "react";
 import Button from "@/shared/ui/common/Button";
 import help_icon from "@img/icons/help.png";
 import help_fill_icon from "@img/icons/help_fill.png";
-// import attach from "@img/icons/attachFile.png";
+import attach from "@img/icons/attachFile.png";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
 import type { MissingBoardInputRequest } from "@/entities/missing-insert/model/missingInsert.type";
 import { CAT_BREEDS, DOG_BREEDS, BREED_COLORS } from "@/shared/constant/breed";
 import { useAppStore } from "@/app/store/appStore";
 import { useNavigate } from "react-router-dom";
+import { SearchOptions } from "@/shared/types/data-types";
+import { useAddMissingBoard } from "../model/useMissingBoardInput";
 const MissingInsertForm = () => {
   const navigate = useNavigate();
   const { updateModalFlag } = useBreedFinderStore();
-  const { updateIsConfirmOpen } = useAppStore();
+  const { updateIsConfirmOpen, updateIsAlertOpen } = useAppStore();
+  const [files, setFiles] = useState<File[]>([]);
   const labelWrapperStyle =
     "w-[100px] md:w-[180px] bg-slate-100 flex items-center justify-center border-r border-gray-200 shrink-0";
   const labelTextStyle =
@@ -19,14 +22,14 @@ const MissingInsertForm = () => {
   const settingModal = (val: boolean) => {
     updateModalFlag(val);
   };
+  const { mutate } = useAddMissingBoard();
   const [colorEtc, setColorEtc] = useState<string>("");
   const [formData, setFormData] = useState<MissingBoardInputRequest>({
     breed1: "선택",
     breed2: "",
-    gender: "",
+    gender: "남자",
     age: "",
     color: "",
-    title: "",
     features: "",
     missingDate: new Date(),
     missingLocation: "",
@@ -40,10 +43,48 @@ const MissingInsertForm = () => {
     const offset = dateTime.getTimezoneOffset() * 60000;
     return new Date(dateTime.getTime() - offset).toISOString().slice(0, 16);
   };
-  const handleSubmit = (value: MissingBoardInputRequest) => {};
+  const invalidData = () => {
+    if (formData.missingLocation === "") {
+      updateIsAlertOpen({ flag: true, message: "실종장소를 작성해주세요." });
+      return;
+    }
+    if (formData.breed1 === "선택") {
+      updateIsAlertOpen({ flag: true, message: "품종을 선택해주세요." });
+      return;
+    }
+    if (formData.breed2 === "") {
+      updateIsAlertOpen({ flag: true, message: "품종을 선택해주세요." });
+      return;
+    }
+    if (formData.color === "기타" && colorEtc === "") {
+      updateIsAlertOpen({ flag: true, message: "색상에 대해 작성해주세요." });
+      return;
+    }
+    if (formData.age) {
+      updateIsAlertOpen({ flag: true, message: "나이를 작성해주세요." });
+      return;
+    }
+    return true;
+  };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (invalidData()) {
+      mutate(
+        { params: formData, files },
+        {
+          onSuccess: () => {
+            navigate("/");
+          },
+        },
+      );
+    }
+  };
   return (
-    <form className="max-w-[1480px] mx-auto border-t-2 border-slate-400">
-      {/* 1. 실종일자 & 실종장소 (데스크톱에서만 2열, 모바일은 각각 한 줄씩) */}
+    <form
+      className="max-w-[1480px] mx-auto border-t-2 border-slate-400"
+      onSubmit={handleSubmit}
+    >
       <div className="flex flex-col lg:flex-row border-b border-gray-200">
         <div className="flex flex-1 border-b lg:border-b-0 lg:border-r border-gray-200 items-stretch">
           <div className={labelWrapperStyle}>
@@ -68,15 +109,19 @@ const MissingInsertForm = () => {
               <span className="text-red-500 mr-1">*</span>실종장소
             </label>
           </div>
-          <div className="flex-1 p-2 md:p-4">
-            <textarea
-              className="w-full border rounded-md p-2 text-sm md:text-base min-h-[60px] md:min-h-[80px] resize-none outline-none focus:border-primary"
-              placeholder="텍스트를 입력해 주세요."
-              value={formData.missingLocation}
-              onChange={(e) => {
-                changeFormData("missingLocation", e.target.value);
-              }}
-            />
+          <div className="flex justify-between items-center p-2 md:p-4">
+            <div className="mr-2">
+              <input
+                type="text"
+                className="w-full border rounded-md p-2 text-sm md:text-base min-h-[60px]"
+                placeholder="주소를 검색해 주세요."
+                value={formData.missingLocation}
+                readOnly
+              />
+            </div>
+            <Button size="md" variant="primary">
+              주소검색
+            </Button>
           </div>
         </div>
       </div>
@@ -108,15 +153,15 @@ const MissingInsertForm = () => {
               onChange={(e) => changeFormData("breed2", e.target.value)}
             >
               {formData.breed1 === "개" &&
-                DOG_BREEDS.map((dog: string) => (
-                  <option value={dog} key={dog}>
-                    {dog}
+                DOG_BREEDS.map((dog: SearchOptions) => (
+                  <option value={dog.value} key={dog.label}>
+                    {dog.label}
                   </option>
                 ))}
               {formData.breed1 === "고양이" &&
-                CAT_BREEDS.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
+                CAT_BREEDS.map((cat: SearchOptions) => (
+                  <option key={cat.value} value={cat.value}>
+                    {cat.label}
                   </option>
                 ))}
             </select>
@@ -180,8 +225,10 @@ const MissingInsertForm = () => {
               // }
             }}
           >
-            {BREED_COLORS.map((color: string) => (
-              <option key={color}>{color}</option>
+            {BREED_COLORS.map((color: SearchOptions) => (
+              <option key={color.label} value={color.value}>
+                {color.label}
+              </option>
             ))}
           </select>
           <input
@@ -272,8 +319,9 @@ const MissingInsertForm = () => {
           <div className="flex flex-wrap items-center gap-2">
             <input
               type="file"
-              onChange={(f) => {
-                console.log(f);
+              onChange={(e) => {
+                if (!e.target.files) return;
+                setFiles(Array.from(e.target.files));
               }}
             />
             {/* <div className="flex items-center gap-2 text-[12px] md:text-sm text-gray-600 bg-gray-50 px-2 py-1 border rounded">

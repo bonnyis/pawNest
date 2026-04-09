@@ -20,11 +20,12 @@ const MissingDetailModal = () => {
   const { detailBoardId, detailModalFlag, updateDetailModalFlag } =
     useMissingDetailStore();
   const [searchParams, setSearchParams] = useSearchParams();
-  const detailId = searchParams.get("id"); // 메인에서 상세 바로올 때 쓰는 boardId
+  const detailId = searchParams.get("id"); // 메인에서 상세 바로 올 때 쓰는 boardId
   const { isLoading, data } = useMissingDetail({
     boardId: detailId ? detailId : detailBoardId,
     enabled: detailModalFlag,
   });
+
   const { mutate } = useAddChatRoom();
   const [imgErr, setImgErr] = useState<boolean>(false);
 
@@ -33,13 +34,13 @@ const MissingDetailModal = () => {
     "w-[100px] bg-slate-100 flex items-center justify-center border-r border-gray-200 shrink-0";
   const labelTextStyle =
     "text-[12px] md:text-sm font-semibold text-gray-700 brpaeak-keep text-center";
+  // 모달 닫기
   const close = () => {
     updateDetailModalFlag(false);
     if (detailId) {
       setSearchParams({});
     }
   };
-
   const goComment = () => {
     const target = document.getElementById("commentInput");
     if (isLogin && target) {
@@ -52,16 +53,14 @@ const MissingDetailModal = () => {
   };
   // 채팅영역 오픈을 위한 로직
   const handleChatRoom = () => {
-    console.log("안녕안녕");
     const targetId = Number(detailId) || Number(detailBoardId);
+    mutate(targetId);
     updateDetailModalFlag(false);
     updateIsOpen(true);
-    mutate(targetId);
     updateViewType("CHAT");
     updateChatPannelType("chat");
   };
   const goChat = () => {
-    console.log("호출하냐고?");
     if (!isLogin) {
       updateIsAlertOpen({
         flag: true,

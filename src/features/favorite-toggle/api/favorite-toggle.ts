@@ -5,6 +5,6 @@ export const FAVORITE_TOGGLE = async (boardId: number) => {
     const { data } = await api.post(`/api/board/like/${boardId}`);
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    throw error.response?.data ?? error;
   }
 };

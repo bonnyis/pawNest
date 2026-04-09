@@ -14,6 +14,6 @@ export const GET_SHELTER_LIST = async (params: ShelfterListRequest) => {
     const { OrganicAnimalProtectionFacilit } = data;
     return OrganicAnimalProtectionFacilit[1];
   } catch (error: any) {
-    throw new Error(error);
+    throw error.response?.data ?? error;
   }
 };

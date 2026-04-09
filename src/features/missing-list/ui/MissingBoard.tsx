@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MissingCardItem from "@/entities/missing-list/ui/MissingCardItem";
 import Select from "@/shared/ui/common/Select";
 import Button from "@/shared/ui/common/Button";
@@ -12,7 +12,7 @@ import { useMissingList } from "../model/useMissingList";
 import { BoardItem } from "@/entities/missing-list/model/missing-api-type";
 import NoData from "@/shared/ui/common/NoData";
 import { useMissingDetailStore } from "@/app/store/missingDetailStore";
-
+import { BREED_COLORS } from "@/shared/constant/breed";
 const MissingBoard = () => {
   const { isOpen } = useAppStore();
   const navigation = useNavigate();
@@ -22,12 +22,6 @@ const MissingBoard = () => {
     { label: "개", value: "강아지" },
     { label: "고양이", value: "고양이" },
     { label: "기타", value: "기타" },
-  ];
-  const colorOptions: SearchOptions[] = [
-    { label: "검정색", value: "검정색" },
-    { label: "갈색", value: "갈색" },
-    { label: "흰색", value: "흰색" },
-    { label: "회색", value: "회색" },
   ];
   const breed = searchParmas.get("breed") ?? "";
   const color = searchParmas.get("color") ?? "";
@@ -83,7 +77,7 @@ const MissingBoard = () => {
           }}
         />
         <Select
-          options={colorOptions}
+          options={BREED_COLORS}
           changeEvt={(e) => {
             updateParams("color", e);
           }}

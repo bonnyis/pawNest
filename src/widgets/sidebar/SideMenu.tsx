@@ -46,7 +46,7 @@ const SideMenu = () => {
   useEffect(() => {
     if (pathname === ROUTES.MISSINGINSERT) {
       if (!hasClosedOnEntry.current && isOpen) {
-        updateIsOpen(false);
+        updateIsOpen((prev: boolean) => !prev);
         hasClosedOnEntry.current = true; // 처리 완료 기록
       }
     } else {

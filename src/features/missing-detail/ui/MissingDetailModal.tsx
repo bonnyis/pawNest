@@ -52,6 +52,7 @@ const MissingDetailModal = () => {
   };
   // 채팅영역 오픈을 위한 로직
   const handleChatRoom = () => {
+    console.log("안녕안녕");
     const targetId = Number(detailId) || Number(detailBoardId);
     updateDetailModalFlag(false);
     updateIsOpen(true);
@@ -60,6 +61,7 @@ const MissingDetailModal = () => {
     updateChatPannelType("chat");
   };
   const goChat = () => {
+    console.log("호출하냐고?");
     if (!isLogin) {
       updateIsAlertOpen({
         flag: true,
@@ -186,13 +188,7 @@ const MissingDetailModal = () => {
                 </Button>
               )}
               {isLogin && userId === data.writerId && (
-                <Button
-                  variant="primary"
-                  size={"md"}
-                  onClick={() => {
-                    goChat();
-                  }}
-                >
+                <Button variant="primary" size={"md"}>
                   게시글 삭제
                 </Button>
               )}

@@ -6,7 +6,7 @@ export const GET_CHAT_LIST = async () => {
     const { data } = await api.get<ChatListResponse>(`/api/chat/rooms`);
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    throw error.response?.data ?? error;
   }
 };
 
@@ -15,16 +15,15 @@ export const MAKE_CHAT_ROOM = async (boardId: number) => {
     const { data } = await api.post("/api/chat/room", { boardId });
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    throw error.response?.data ?? error;
   }
 };
 
 export const GET_CHAT_HISTORY = async (roomId: number) => {
   try {
     const { data } = await api.get(`/api/chat/room/${roomId}/messages`);
-    console.log("datadata hiostory", data);
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    throw error.response?.data ?? error;
   }
 };

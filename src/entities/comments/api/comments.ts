@@ -39,7 +39,7 @@ export const SEND_COMMENT = (boardId: number, content: string) => {
     console.log("🚀 댓글 전송 시도 완료:", content);
   } catch (error: any) {
     console.error("STOMP 전송 에러:", error);
-    throw new Error(error);
+    throw error.response?.data ?? error;
   }
 };
 
@@ -48,7 +48,7 @@ export const DELETE_COMMENT = async (commentId: number) => {
     const { data } = await api.delete(`/api/comment/${commentId}`);
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    throw error.response?.data ?? error;
   }
 };
 
@@ -57,6 +57,6 @@ export const MODIFY_COMMENT = async (commentId: number, content: string) => {
     const { data } = await api.patch(`/api/comment/${commentId}`, { content });
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    throw error.response?.data ?? error;
   }
 };

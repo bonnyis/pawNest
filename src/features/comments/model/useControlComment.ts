@@ -12,7 +12,9 @@ export const useControlComments = () => {
   const useDeleteComment = () => {
     return useMutation({
       mutationFn: (commentId: number) => DELETE_COMMENT(commentId),
-      onSuccess: (_, boardId) => {
+      onSuccess: (data) => {
+        const boardId = data.boardId;
+        console.log("teotrmftnwjd!!!!", boardId);
         queryClient.invalidateQueries({
           queryKey: ["commentsList", String(boardId)],
         });

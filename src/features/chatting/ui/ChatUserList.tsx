@@ -22,6 +22,7 @@ const ChatUserList = () => {
         ) : data && data?.length > 0 ? (
           data?.map((chat: any) => (
             <li
+              key={chat.boardId}
               className="bg-gray-100 p-4 rounded-lg cursor-pointer"
               onClick={() => updateChatPannelType("chat")}
             >
@@ -31,11 +32,13 @@ const ChatUserList = () => {
                 ></div>
 
                 <div className="w-3/4">
-                  <h5 className="text-lg font-semibold">{chat?.userName}</h5>
-                  <p className="text-sm text-gray-500">감사합니다!!</p>
+                  <h5 className="text-lg font-semibold">{chat?.receiverId}</h5>
+                  <p className="text-sm text-gray-500">{chat.lastMessage}</p>
                 </div>
                 <div className="">
-                  <p className="text-xs font-light text-gray-400">1분전</p>
+                  <p className="text-xs font-light text-gray-400">
+                    {chat.createdAt}
+                  </p>
                 </div>
               </div>
             </li>

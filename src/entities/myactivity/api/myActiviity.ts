@@ -7,7 +7,7 @@ export const GET_MY_POSTS = async (params: MyListRequest) => {
     });
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    throw error.response?.data ?? error;
   }
 };
 
@@ -18,6 +18,6 @@ export const GET_MY_LIKES = async (params: MyListRequest) => {
     });
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    throw error.response?.data ?? error;
   }
 };

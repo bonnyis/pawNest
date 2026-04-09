@@ -18,10 +18,23 @@ const CommentsItem = ({ list }: CommentListItem | any) => {
   };
   const handleModify = (id: number) => {
     const content = modifyCommentRef.current?.value ?? list.content;
-    mutate({ commentId: id, content });
+    mutate(
+      { commentId: id, content },
+      {
+        onSuccess: () => {
+          updateModify(false);
+          updateMoreFlag(false);
+        },
+      },
+    );
   };
   const handleDelete = (id: number) => {
-    deleteComment.mutate(id);
+    deleteComment.mutate(id, {
+      onSuccess: () => {
+        updateModify(false);
+        updateMoreFlag(false);
+      },
+    });
   };
   return (
     <div className="border-t-2">
@@ -82,7 +95,7 @@ const CommentsItem = ({ list }: CommentListItem | any) => {
                         updateMoreFlag(false);
                       }}
                     >
-                      수정{" "}
+                      수정
                     </button>
                   </div>
                   <div

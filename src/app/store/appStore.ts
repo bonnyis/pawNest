@@ -4,6 +4,7 @@ import { create } from "zustand";
 
 export type appState = {
   isOpen: boolean; // sidebar open value
+
   viewType: "MENU" | "CHAT";
   isMobile: boolean;
   isModalOpen: boolean; // 품종찾기 모달
@@ -19,7 +20,7 @@ export type appState = {
 };
 
 export type appAction = {
-  updateIsOpen: (isOpen: appState["isOpen"]) => void;
+  updateIsOpen: (isOpen: boolean | ((prev: boolean) => boolean)) => void;
   updateViewType: (viewType: appState["viewType"]) => void;
   updatedIsMobile: (deviceType: appState["isMobile"]) => void;
   updateIsModalOpen: (isOpen: appState["isModalOpen"]) => void;
@@ -41,7 +42,10 @@ export const useAppStore = create<appState & appAction>((set) => ({
     message: null,
     callback: null,
   },
-  updateIsOpen: (isOpen) => set(() => ({ isOpen })),
+  updateIsOpen: (valOrFn) =>
+    set((state) => ({
+      isOpen: typeof valOrFn === "function" ? valOrFn(state.isOpen) : valOrFn,
+    })),
   updateViewType: (viewType) => set(() => ({ viewType })),
   updatedIsMobile: () => set({ isMobile: getIsMobile() }),
   updateIsModalOpen: (isModalOpen) => set(() => ({ isModalOpen })),

@@ -1,18 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ROUTE_PATHS, ROUTES } from "@/shared/routes/routes";
+import { ROUTES } from "@/shared/routes/routes";
 import { useAppStore } from "@/app/store/appStore";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
 import { useAuthStore } from "@/app/store/authStore";
 import chatImg from "@img/icons/chat.png";
+import { useMissingDetailStore } from "@/app/store/missingDetailStore";
 
 const SideMenu = () => {
   const { isOpen, updateIsOpen, updateViewType, updateIsAlertOpen } =
     useAppStore();
+  const { detailModalFlag } = useMissingDetailStore();
   const { modalFlag, updateModalFlag } = useBreedFinderStore();
   const { isLogin } = useAuthStore();
   const { pathname } = useLocation();
   const [activeMenu, updateActiveMenu] = useState<string>(pathname);
+  const hasClosedOnEntry = useRef<boolean>(true);
+
   const goChat = () => {
     if (!isLogin) {
       updateIsAlertOpen({
@@ -26,13 +30,29 @@ const SideMenu = () => {
     // activeMenu
     updateActiveMenu(pathname);
   }, [pathname]);
-
+  // AI풍종찾기 메뉴 진입 시에 메뉴 active
   useEffect(() => {
     if (!modalFlag && activeMenu === "ai") {
       updateActiveMenu(pathname);
     }
   }, [modalFlag]);
-
+  //상세게시글 모달 오픈 시 사이드메뉴바 닫기
+  useEffect(() => {
+    if (detailModalFlag) {
+      updateIsOpen((prev: boolean) => !prev);
+    }
+  }, [detailModalFlag]);
+  // 실종게시판 진입 시 사이드메뉴바 닫기
+  useEffect(() => {
+    if (pathname === ROUTES.MISSINGINSERT) {
+      if (!hasClosedOnEntry.current && isOpen) {
+        updateIsOpen(false);
+        hasClosedOnEntry.current = true; // 처리 완료 기록
+      }
+    } else {
+      hasClosedOnEntry.current = false;
+    }
+  }, [pathname, isOpen]);
   return (
     <>
       <div className="flex-1 overflow-y-auto p-4">
@@ -40,7 +60,7 @@ const SideMenu = () => {
           <li>
             <Link
               to={ROUTES.MISSING}
-              className={`hover:text-orange-500 ${activeMenu === ROUTES.MISSING ? "text-orange-500" : ""}`}
+              className={`hover:text-orange-500 ${activeMenu === ROUTES.MISSING || (activeMenu === ROUTES.MISSINGINSERT && !modalFlag) ? "text-orange-500" : ""}`}
             >
               실종동물 게시판
             </Link>

@@ -11,10 +11,12 @@ import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
 import CommentsSection from "@/entities/comments/ui/CommentsSection";
 import { useSearchParams } from "react-router-dom";
 import { useAddChatRoom } from "@/features/chatting/model/useAddChatRoom";
+import { useChatStore } from "@/app/store/chatStore";
 
 const MissingDetailModal = () => {
   const { isOpen, updateIsOpen, updateIsAlertOpen, updateViewType } =
     useAppStore();
+  const { updateChatPannelType } = useChatStore();
   const { detailBoardId, detailModalFlag, updateDetailModalFlag } =
     useMissingDetailStore();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -48,8 +50,16 @@ const MissingDetailModal = () => {
         message: "로그인 후 이용 가능합니다.",
       });
   };
+  // 채팅영역 오픈을 위한 로직
+  const handleChatRoom = () => {
+    const targetId = Number(detailId) || Number(detailBoardId);
+    updateDetailModalFlag(false);
+    updateIsOpen(true);
+    mutate(targetId);
+    updateViewType("CHAT");
+    updateChatPannelType("chat");
+  };
   const goChat = () => {
-    const targetId = detailId || String(detailBoardId);
     if (!isLogin) {
       updateIsAlertOpen({
         flag: true,
@@ -59,17 +69,8 @@ const MissingDetailModal = () => {
     if (!isOpen) {
       updateIsOpen(true);
     }
-
-    updateDetailModalFlag(false);
-    updateIsOpen(true);
-    mutate(targetId);
-    updateViewType("CHAT");
+    handleChatRoom();
   };
-  useEffect(() => {
-    if (detailModalFlag && isOpen) {
-      updateIsOpen(!isOpen);
-    }
-  }, [detailModalFlag, isOpen]);
 
   useEffect(() => {
     if (detailId) {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppStore } from "@/app/store/appStore";
 import closeImg from "@img/icons/close_big.png";
 import arrow_back from "@img/icons/arrow_back.png";
@@ -20,6 +20,7 @@ const SideBar = () => {
       } else updateViewType("MENU");
     }
   };
+  useEffect;
   return (
     <aside
       className={`transition-all duration-300 overflow-hidden ${

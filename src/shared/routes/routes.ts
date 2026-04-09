@@ -7,7 +7,7 @@ export interface RouteMeta {
 export const ROUTE_PATHS = {
   ROOT: "/",
   MISSING: "missing",
-  MISSINGINSERT: "missing/insert",
+  MISSINGINSERT: "missing-list/insert",
   SHELTER: "shelter",
   MYPAGE: "mypage",
   LOGOUT: "logout",

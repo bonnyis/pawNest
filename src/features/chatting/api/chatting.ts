@@ -10,9 +10,19 @@ export const GET_CHAT_LIST = async () => {
   }
 };
 
-export const MAKE_CHAT_ROOM = async (boardId: string) => {
+export const MAKE_CHAT_ROOM = async (boardId: number) => {
   try {
     const { data } = await api.post("/api/chat/room", { boardId });
+    return data;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+export const GET_CHAT_HISTORY = async (roomId: number) => {
+  try {
+    const { data } = await api.get(`/api/chat/room/${roomId}/messages`);
+    console.log("datadata hiostory", data);
     return data;
   } catch (error: any) {
     throw new Error(error);

@@ -4,7 +4,7 @@ import ChatUserList from "@/features/chatting/ui/ChatUserList";
 import ChatHistory from "@/features/chatting/ui/ChatHistory";
 import { useChatStore } from "@/app/store/chatStore";
 const ChatPannel = () => {
-  const { chatPannelType, updateChatPannelType } = useChatStore();
+  const { chatPannelType } = useChatStore();
   return (
     <>
       {chatPannelType === "list" ? (

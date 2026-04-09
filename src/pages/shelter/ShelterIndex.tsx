@@ -1,8 +1,8 @@
 // import Select from "@/shared/ui/common/Select";
-import ShelterMap from "@/features/shelter/ui/ShelterMap";
-import ShelterListBox from "@/features/shelter/ui/ShelterListBox";
 import { useShelterStore } from "@/app/store/shelterStore";
-// import type { ShelterCity } from "@/app/store/shelterStore";
+import ShelterListBox from "@/features/shelter/ui/ShelterListBox";
+import ShelterMap from "@/features/shelter/ui/ShelterMap";
+
 const ShelterIndex = () => {
   const { cities, shelterRequestParams, setShelterRequestParams } =
     useShelterStore();

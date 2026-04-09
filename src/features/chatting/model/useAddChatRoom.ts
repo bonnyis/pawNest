@@ -6,12 +6,13 @@ export const useAddChatRoom = () => {
   const queryClient = useQueryClient();
   const updateIsAlertOpen = useAppStore((state) => state.updateIsAlertOpen);
   return useMutation({
-    mutationFn: (boardId: string) => MAKE_CHAT_ROOM(boardId),
-    onSuccess: (_, boardId) => {
-      console.log("success");
+    mutationFn: (boardId: number) => MAKE_CHAT_ROOM(boardId),
+    onSuccess: (data) => {
+      const newRoomId = data.roomId;
       queryClient.invalidateQueries({
-        queryKey: ["chatList", boardId],
+        queryKey: ["chatHistory", newRoomId],
       });
+      console.log(`채팅방 ${newRoomId} 생성 성공`);
     },
     onError: (error: any) => {
       updateIsAlertOpen({

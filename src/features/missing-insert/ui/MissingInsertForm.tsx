@@ -1,8 +1,7 @@
-import { useRef, useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@/shared/ui/common/Button";
 import help_icon from "@img/icons/help.png";
 import help_fill_icon from "@img/icons/help_fill.png";
-import attach from "@img/icons/attachFile.png";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
 import type { MissingBoardInputRequest } from "@/entities/missing-insert/model/missingInsert.type";
 import { CAT_BREEDS, DOG_BREEDS, BREED_COLORS } from "@/shared/constant/breed";
@@ -10,11 +9,15 @@ import { useAppStore } from "@/app/store/appStore";
 import { useNavigate } from "react-router-dom";
 import { SearchOptions } from "@/shared/types/data-types";
 import { useAddMissingBoard } from "../model/useMissingBoardInput";
+import DaumPostCode from "@/features/daum-postcode/ui/DaumPostCode";
+import ImageInput from "@/shared/ui/common/ImageInput";
+import attach from "@img/icons/attachFile.png";
 const MissingInsertForm = () => {
   const navigate = useNavigate();
   const { updateModalFlag } = useBreedFinderStore();
   const { updateIsConfirmOpen, updateIsAlertOpen } = useAppStore();
   const [files, setFiles] = useState<File[]>([]);
+
   const labelWrapperStyle =
     "w-[100px] md:w-[180px] bg-slate-100 flex items-center justify-center border-r border-gray-200 shrink-0";
   const labelTextStyle =
@@ -60,7 +63,7 @@ const MissingInsertForm = () => {
       updateIsAlertOpen({ flag: true, message: "색상에 대해 작성해주세요." });
       return;
     }
-    if (formData.age) {
+    if (formData.age === "") {
       updateIsAlertOpen({ flag: true, message: "나이를 작성해주세요." });
       return;
     }
@@ -80,6 +83,16 @@ const MissingInsertForm = () => {
       );
     }
   };
+  // 이미지파일 관련
+  const onFileChange = (file: File | File[] | null) => {
+    if (!file) return;
+    const fileList = Array.isArray(file) ? file : [file];
+    setFiles((prev) => [...prev, ...fileList]);
+  };
+  useEffect(() => {
+    console.log(files);
+  }, [files]);
+
   return (
     <form
       className="max-w-[1480px] mx-auto border-t-2 border-slate-400"
@@ -119,9 +132,11 @@ const MissingInsertForm = () => {
                 readOnly
               />
             </div>
-            <Button size="md" variant="primary">
-              주소검색
-            </Button>
+            <DaumPostCode
+              onCompleted={(address: string) => {
+                changeFormData("missingLocation", address);
+              }}
+            />
           </div>
         </div>
       </div>
@@ -317,28 +332,41 @@ const MissingInsertForm = () => {
         </div>
         <div className="flex-1 p-2 md:p-4">
           <div className="flex flex-wrap items-center gap-2">
-            <input
-              type="file"
-              onChange={(e) => {
-                if (!e.target.files) return;
-                setFiles(Array.from(e.target.files));
-              }}
+            {files.length > 0 &&
+              files.map((item, idx) => (
+                <div
+                  className="flex items-center gap-2 text-[12px] md:text-sm text-gray-600 bg-gray-50 px-2 py-1 border rounded"
+                  key={`${item.name}-${idx}`}
+                >
+                  <span>
+                    <span className="none md:block">
+                      <img
+                        src={attach}
+                        alt="첨부파일 아이콘"
+                        className="w-[15px]"
+                      />
+                    </span>
+                    {item.name}
+                  </span>
+                  <button
+                    type="button"
+                    className="text-gray-400"
+                    onClick={() =>
+                      setFiles((prev) =>
+                        prev.filter((_, index) => index !== idx),
+                      )
+                    }
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            <ImageInput
+              id="inputImages"
+              compress={true}
+              multiple={true}
+              onFileChange={onFileChange}
             />
-            {/* <div className="flex items-center gap-2 text-[12px] md:text-sm text-gray-600 bg-gray-50 px-2 py-1 border rounded">
-              <span>
-                <span className="none md:block">
-                  <img
-                    src={attach}
-                    alt="첨부파일 아이콘"
-                    className="w-[15px]"
-                  />
-                </span>
-                test.png
-              </span>
-              <button type="button" className="text-gray-400">
-                ✕
-              </button>
-            </div> */}
           </div>
           <p className="text-[10px] md:text-sm text-blue-500 mt-2">
             * 게시글의 대표사진으로 등록됩니다.

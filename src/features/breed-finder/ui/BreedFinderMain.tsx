@@ -1,24 +1,37 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import type { BreedFinderMainProps } from "../model/breed-finder.type";
 import Button from "@/shared/ui/common/Button";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
+import ImageInput from "@/shared/ui/common/ImageInput";
 
 const BreedFinderMain = ({
   contentsType,
   updateContentsType,
 }: BreedFinderMainProps) => {
   const { updateBreedFinderImg } = useBreedFinderStore();
-  const [selectImage, setSelectImage] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string>("");
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectImage(file);
-      const url = URL.createObjectURL(file);
-      setPreviewUrl(url);
-      updateBreedFinderImg(url);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  const onFileChange = (file: File | File[] | null) => {
+    // AI 품종찾기는 한 장의 사진만 업로드 가능!
+    if (!file) return;
+    // 👉 기존 URL 정리
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
     }
+    const singleFile = Array.isArray(file) ? file[0] : file;
+
+    const url = URL.createObjectURL(singleFile);
+    setPreviewUrl(url);
+    updateBreedFinderImg(url);
   };
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
   return (
     <div className={`${contentsType} p-6 md:p-8 flex flex-col gap-8`}>
       {/* 제목 섹션 */}
@@ -60,9 +73,9 @@ const BreedFinderMain = ({
 
         {/* 우측: 업로드 박스 */}
         <div className="w-full md:w-1/2 h-[280px] border-4 rounded-2xl border-dotted border-gray-300 flex flex-col items-center justify-center gap-6 bg-white hover:bg-gray-50 transition-colors cursor-pointer">
-          {selectImage !== null ? (
+          {previewUrl !== null ? (
             <img
-              src={previewUrl ?? previewUrl}
+              src={previewUrl}
               alt="미리보기"
               className="w-full h-full object-contain mb-2 rounded-lg"
             />
@@ -72,31 +85,7 @@ const BreedFinderMain = ({
             </p>
           )}
 
-          <input
-            type="file"
-            id="breedFinderImage"
-            className="hidden"
-            accept="image/*"
-            onChange={(e) => {
-              onFileChange(e);
-            }}
-          />
-
-          {/* input을 트리거하는 라벨 (버튼처럼 디자인) */}
-
-          <label
-            htmlFor="breedFinderImage"
-            tabIndex={0}
-            onKeyDown={(e: React.KeyboardEvent) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                document.getElementById("breedFinderImage")?.click();
-              }
-            }}
-            className="px-8 py-3 bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold rounded-full transition-all cursor-pointer"
-          >
-            파일 선택
-          </label>
+          <ImageInput onFileChange={onFileChange} id="breedFinderImage" />
         </div>
       </div>
       <Button

@@ -7,16 +7,22 @@
     <title>Paw Nest</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- 공통 폰트 -->
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
       rel="stylesheet"
     />
+    <!-- 카카오 지도 -->
     <script
       strategy="beforeInteractive"
       type="text/javascript"
       src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=%VITE_APP_KAKAO_KEY%&libraries=services,clusterer"
     ></script>
+
+    <!-- 다음 우편코드 -->
+    <script src="//t1.kakaocdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/app/main.tsx"></script>

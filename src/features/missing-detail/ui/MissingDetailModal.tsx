@@ -20,7 +20,7 @@ const MissingDetailModal = () => {
   const { detailBoardId, detailModalFlag, updateDetailModalFlag } =
     useMissingDetailStore();
   const [searchParams, setSearchParams] = useSearchParams();
-  const detailId = searchParams.get("id"); // 메인에서 상세 바로 올 때 쓰는 boardId
+  const detailId = searchParams.get("id"); // 메인&수정에서 상세 바로 올 때 쓰는 boardId
   const { isLoading, data } = useMissingDetail({
     boardId: detailId ? detailId : detailBoardId,
     enabled: detailModalFlag,

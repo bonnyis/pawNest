@@ -1,5 +1,5 @@
 import { api } from "@/shared/api";
-import type { MissingBoardInputRequest } from "../model/missingInsert.type";
+import type { MissingBoardInputRequest } from "../model/missingform.type";
 import type { ApiResponse } from "@/shared/types/api";
 
 export const CREATE_MISSING_BOARD = async (

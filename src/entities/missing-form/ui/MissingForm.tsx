@@ -3,64 +3,64 @@ import Button from "@/shared/ui/common/Button";
 import help_icon from "@img/icons/help.png";
 import help_fill_icon from "@img/icons/help_fill.png";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
-import type { MissingBoardInputRequest } from "@/entities/missing-insert/model/missingInsert.type";
 import { CAT_BREEDS, DOG_BREEDS, BREED_COLORS } from "@/shared/constant/breed";
 import { useAppStore } from "@/app/store/appStore";
 import { useNavigate } from "react-router-dom";
 import { SearchOptions } from "@/shared/types/data-types";
-import { useAddMissingBoard } from "../model/useMissingBoardInput";
 import DaumPostCode from "@/features/daum-postcode/ui/DaumPostCode";
 import ImageInput from "@/shared/ui/common/ImageInput";
 import attach from "@img/icons/attachFile.png";
-const MissingInsertForm = () => {
+import type { MissingBoardInputRequest } from "@/entities/missing-form/model/missingform.type";
+
+interface Props {
+  onSubmit: (data: MissingBoardInputRequest, files: File[]) => void;
+  initialData?: MissingBoardInputRequest | null;
+  isEdit?: boolean;
+}
+
+const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
   const navigate = useNavigate();
   const { updateModalFlag } = useBreedFinderStore();
   const { updateIsConfirmOpen, updateIsAlertOpen } = useAppStore();
-  const [files, setFiles] = useState<File[]>([]);
-
-  const labelWrapperStyle =
-    "w-[100px] md:w-[180px] bg-slate-100 flex items-center justify-center border-r border-gray-200 shrink-0";
-  const labelTextStyle =
-    "text-[12px] md:text-sm font-semibold text-gray-700 break-keep text-center";
   const settingModal = (val: boolean) => {
     updateModalFlag(val);
   };
-  const { mutate } = useAddMissingBoard();
+  const [files, setFiles] = useState<File[]>([]);
   const [colorEtc, setColorEtc] = useState<string>("");
-  const [formData, setFormData] = useState<MissingBoardInputRequest>({
-    breed1: "선택",
-    breed2: "",
-    gender: "남자",
-    age: "",
-    color: "",
-    features: "",
-    missingDate: new Date(),
-    missingLocation: "",
-  });
+
+  const [formData, setFormData] = useState<MissingBoardInputRequest>(
+    initialData || {
+      breed1: "선택",
+      breed2: "",
+      gender: "남자",
+      age: "",
+      color: "",
+      features: "",
+      missingDate: new Date(),
+      missingLocation: "",
+    },
+  );
+
   const changeFormData = (type: string, val: string | Date) => {
-    setFormData((prev: MissingBoardInputRequest) => {
-      return { ...prev, [type]: val };
-    });
+    setFormData((prev) => ({ ...prev, [type]: val }));
   };
+
   const formatDateTime = (dateTime: Date) => {
     const offset = dateTime.getTimezoneOffset() * 60000;
     return new Date(dateTime.getTime() - offset).toISOString().slice(0, 16);
   };
+
   const invalidData = () => {
     if (formData.missingLocation === "") {
       updateIsAlertOpen({ flag: true, message: "실종장소를 작성해주세요." });
       return;
     }
-    if (formData.breed1 === "선택") {
-      updateIsAlertOpen({ flag: true, message: "품종을 선택해주세요." });
-      return;
-    }
-    if (formData.breed2 === "") {
+    if (formData.breed1 === "선택" || formData.breed2 === "") {
       updateIsAlertOpen({ flag: true, message: "품종을 선택해주세요." });
       return;
     }
     if (formData.color === "기타" && colorEtc === "") {
-      updateIsAlertOpen({ flag: true, message: "색상에 대해 작성해주세요." });
+      updateIsAlertOpen({ flag: true, message: "색상 작성해주세요." });
       return;
     }
     if (formData.age === "") {
@@ -69,29 +69,33 @@ const MissingInsertForm = () => {
     }
     return true;
   };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!invalidData()) return;
 
-    if (invalidData()) {
-      mutate(
-        { params: formData, files },
-        {
-          onSuccess: () => {
-            navigate("/");
-          },
-        },
-      );
-    }
+    const finalData = {
+      ...formData,
+      color: formData.color === "기타" ? colorEtc : formData.color,
+    };
+
+    onSubmit(finalData, files);
   };
-  // 이미지파일 관련
+
   const onFileChange = (file: File | File[] | null) => {
     if (!file) return;
     const fileList = Array.isArray(file) ? file : [file];
     setFiles((prev) => [...prev, ...fileList]);
   };
+
   useEffect(() => {
     console.log(files);
   }, [files]);
+
+  const labelWrapperStyle =
+    "w-[100px] md:w-[180px] bg-slate-100 flex items-center justify-center border-r border-gray-200 shrink-0";
+  const labelTextStyle =
+    "text-[12px] md:text-sm font-semibold text-gray-700 text-center";
 
   return (
     <form
@@ -404,4 +408,4 @@ const MissingInsertForm = () => {
   );
 };
 
-export default MissingInsertForm;
+export default MissingForm;

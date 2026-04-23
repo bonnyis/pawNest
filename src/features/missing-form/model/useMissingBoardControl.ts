@@ -64,6 +64,24 @@ export const useMissingBoardControl = () => {
       },
     });
   };
+  const useDeleteMissingBoard = () => {
+    const updateIsAlertOpen = useAppStore((state) => state.updateIsAlertOpen);
+    const navigate = useNavigate();
+    return useMutation({
+      mutationFn: (boardId: string) => DELETE_MISSING_BOARD(boardId),
+      onSuccess: () => {
+        updateIsAlertOpen({ flag: true, message: "게시글 삭제 성공" });
+        navigate(-1);
+      },
+      onError: (error: any) => {
+        if (error?.response?.status === 401) return;
 
-  return { useAddMissingBoard, useEditMissingBoard };
+        updateIsAlertOpen({
+          flag: true,
+          message: error?.message || "게시글 삭제 중 오류가 발생했습니다.",
+        });
+      },
+    });
+  };
+  return { useAddMissingBoard, useEditMissingBoard, useDeleteMissingBoard };
 };

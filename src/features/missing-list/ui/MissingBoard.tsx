@@ -13,8 +13,10 @@ import { BoardItem } from "@/entities/missing-list/model/missing-api-type";
 import NoData from "@/shared/ui/common/NoData";
 import { useMissingDetailStore } from "@/app/store/missingDetailStore";
 import { BREED_COLORS } from "@/shared/constant/breed";
+import { useAuthStore } from "@/app/store/authStore";
 const MissingBoard = () => {
-  const { isOpen } = useAppStore();
+  const { isOpen, updateIsAlertOpen } = useAppStore();
+  const { isLogin } = useAuthStore();
   const navigation = useNavigate();
   // 검색조건관련
   const [searchParmas, setSearchParams] = useSearchParams();
@@ -126,7 +128,13 @@ const MissingBoard = () => {
           size={"lg"}
           variant="primary"
           onClick={() => {
-            navigation(ROUTES.MISSINGINSERT);
+            if (isLogin) {
+              return navigation(ROUTES.MISSINGINSERT);
+            } else
+              return updateIsAlertOpen({
+                flag: true,
+                message: "로그인 후 이용 가능합니다.",
+              });
           }}
         >
           글쓰기

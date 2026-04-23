@@ -129,6 +129,7 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
           <div className="flex justify-between items-center p-2 md:p-4">
             <div className="mr-2">
               <input
+                id="searchLocation"
                 type="text"
                 className="w-full border rounded-md p-2 text-sm md:text-base min-h-[60px]"
                 placeholder="주소를 검색해 주세요."
@@ -136,6 +137,7 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
                 readOnly
               />
             </div>
+
             <DaumPostCode
               onCompleted={(address: string) => {
                 changeFormData("missingLocation", address);
@@ -186,6 +188,7 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
             </select>
           ) : (
             <input
+              id="breedEtc"
               type="text"
               className="w-full md:flex-1 border rounded-md p-2 bg-gray-100 h-[36px] md:h-[40px] text-sm"
               placeholder="기타 시 입력"
@@ -251,6 +254,7 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
             ))}
           </select>
           <input
+            id="colorEtc"
             type="text"
             className="w-full md:max-w-[400px] border rounded-md p-2 bg-gray-100 h-[36px] md:h-[40px] text-sm"
             placeholder="기타 색상 입력"

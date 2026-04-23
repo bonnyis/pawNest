@@ -1,11 +1,8 @@
 import { api } from "@/shared/api";
 import type { MissingBoardInputRequest } from "../model/missingform.type";
 import type { ApiResponse } from "@/shared/types/api";
-
-export const CREATE_MISSING_BOARD = async (
-  params: MissingBoardInputRequest,
-  files: File[],
-) => {
+// 게시글 등록
+export default async (params: MissingBoardInputRequest, files: File[]) => {
   try {
     const formData = new FormData();
 
@@ -38,7 +35,7 @@ export const CREATE_MISSING_BOARD = async (
     throw error.response?.data ?? error;
   }
 };
-
+// 게시글 수정
 export const UPDATE_MISSING_BOARD = async (
   boardId: string,
   params: MissingBoardInputRequest,
@@ -73,7 +70,7 @@ export const UPDATE_MISSING_BOARD = async (
     throw error.response?.data ?? error;
   }
 };
-
+// 게시글 삭제
 export const DELETE_MISSING_BOARD = async (boardId: string) => {
   try {
     const { data } = await api.delete(`/api/baord/${boardId}`);

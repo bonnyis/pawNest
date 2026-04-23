@@ -18,7 +18,6 @@ export const useControlComments = () => {
         queryClient.invalidateQueries({
           queryKey: ["commentsList", String(boardId)],
         });
-        console.log("댓글 삭제 성공");
         updateIsAlertOpen({
           flag: true,
           message: "삭제완료!",

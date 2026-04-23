@@ -1,9 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import {
-  CREATE_MISSING_BOARD,
+import CREATE_MISSING_BOARD, {
   UPDATE_MISSING_BOARD,
   DELETE_MISSING_BOARD,
-} from "@/entities/missing-form/api/missingForm";
+} from "@/entities/missing-form/api/missing-board";
 import { useAppStore } from "@/app/store/appStore";
 import type { MissingBoardInputRequest } from "@/entities/missing-form/model/missingform.type";
 import { useNavigate } from "react-router-dom";

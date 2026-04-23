@@ -1,5 +1,5 @@
 import {} from "react";
-import MissingInsertForm from "@/features/missing-insert/ui/MissingInsertForm";
+import MissingInsertForm from "@/features/missing-form/ui/MissingInsertForm";
 const MissingInsertPage = () => {
   return (
     <section className="max-w-[1480px] mx-auto">

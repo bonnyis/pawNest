@@ -29,14 +29,13 @@ export const useGetComments = ({
       return;
     }
 
-    // 댓글 실시간 수신 구독 (/topic/board/{boardId})
+    // 댓글 실시간 수신 구독
     const subscription = client.subscribe(
       `/topic/board/${boardId}`,
       (message) => {
         const newComment = JSON.parse(message.body);
         console.log("📥 실시간 댓글 수신:", newComment);
 
-        // Tanstack Query 캐시 업데이트 (조회 시 사용한 키와 동일하게 설정)
         queryClient.setQueryData(["commentsList", boardId], (oldData: any) => {
           return oldData ? [...oldData, newComment] : [newComment];
         });

@@ -23,8 +23,7 @@ export const MAKE_CHAT_ROOM = async (boardId: number) => {
 export const GET_CHAT_HISTORY = async (roomId: number) => {
   try {
     const { data } = await api.get(`/api/chat/room/${roomId}/messages`);
-    if (data) {
-    }
+
     return data;
   } catch (error: any) {
     throw error.response?.data ?? error;

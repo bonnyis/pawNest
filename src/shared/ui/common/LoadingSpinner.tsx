@@ -8,7 +8,7 @@ const LoadingSpinner = ({ size = 48, className = "" }: SpinnerProps) => {
   const { isOpen } = useAppStore();
   return (
     <div
-      className={`fixed top-1/2 inset-0 flex item-center justify-center ${isOpen ? "right-1/4" : "left-0"}`}
+      className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center ${isOpen ? "" : ""}`}
     >
       <div
         className={`animate-spin rounded-full border-4 border-gray-200 border-t-gray-900 ${className}`}

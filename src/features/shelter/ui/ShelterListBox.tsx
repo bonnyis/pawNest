@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ShelterListItem from "../../../entities/shelter/ui/ShelterListItem";
 import { useGetShelterList } from "../model/useGetShelterList";
 import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
@@ -6,17 +6,15 @@ import NoData from "@/shared/ui/common/NoData";
 import type { ShelterItem } from "@/entities/shelter/model/shelter.types";
 import { useShelterStore } from "@/app/store/shelterStore";
 
+// TODO: 다섯개씩 끊어서 보여주기! 더보기 버튼 만들기 (페이지네이션)
 const ShelterListBox = () => {
-  const [pageIndex, updatePageIndex] = useState<number>(1);
   const { setCities, setPositionList, shelterRequestParams } =
     useShelterStore();
   const { data, isLoading } = useGetShelterList({
     ...shelterRequestParams,
-    pIndex: pageIndex,
+    pIndex: 1,
   });
-  const chnagePageIndex = () => {
-    updatePageIndex(pageIndex + 1);
-  };
+
   useEffect(() => {
     if (data?.row) {
       const cityMap = new Map();
@@ -50,7 +48,7 @@ const ShelterListBox = () => {
     }
   }, [data, setCities, setPositionList, shelterRequestParams]);
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 ">
       {isLoading ? (
         <LoadingSpinner />
       ) : data?.row && data?.row.length > 0 ? (
@@ -60,12 +58,6 @@ const ShelterListBox = () => {
       ) : (
         <NoData message="조회되는 결과가 없습니다." />
       )}
-      <div
-        className="flex items-center justify-center"
-        onClick={() => {
-          chnagePageIndex();
-        }}
-      ></div>
     </div>
   );
 };

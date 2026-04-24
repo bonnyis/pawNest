@@ -20,9 +20,14 @@ export const useMissingBoardControl = () => {
         files: File[];
       }) => CREATE_MISSING_BOARD(params, files),
 
-      onSuccess: () => {
-        updateIsAlertOpen({ flag: true, message: "게시글 등록 성공" });
-        navigate(-1);
+      onSuccess: (data) => {
+        updateIsAlertOpen({
+          flag: true,
+          message: data.message ?? String(data.success),
+        });
+        if (data.success) {
+          navigate(-1);
+        }
       },
 
       onError: (error: any) => {

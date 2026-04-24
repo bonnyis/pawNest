@@ -9,14 +9,22 @@ import { useAppStore } from "@/app/store/appStore";
 import { useMissingDetail } from "@/features/missing-detail/model/useMissingDetail";
 import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
 import CommentsSection from "@/entities/comments/ui/CommentsSection";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAddChatRoom } from "@/features/chatting/model/useAddChatRoom";
 import { useChatStore } from "@/app/store/chatStore";
+import { useMissingBoardControl } from "@/features/missing-form/model/useMissingBoardControl";
 
 const MissingDetailModal = () => {
-  const { isOpen, updateIsOpen, updateIsAlertOpen, updateViewType } =
-    useAppStore();
+  const {
+    isOpen,
+    updateIsOpen,
+    updateIsAlertOpen,
+    updateViewType,
+    updateIsConfirmOpen,
+  } = useAppStore();
   const { updateChatPannelType } = useChatStore();
+  const { useDeleteMissingBoard } = useMissingBoardControl();
+  const navigate = useNavigate();
   const { detailBoardId, detailModalFlag, updateDetailModalFlag } =
     useMissingDetailStore();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,6 +67,16 @@ const MissingDetailModal = () => {
     updateIsOpen(true);
     updateViewType("CHAT");
     updateChatPannelType("chat");
+  };
+  // 게시글 삭제 로직
+  const handleDelete = (id: string | number) => {
+    const { mutate } = useDeleteMissingBoard();
+    mutate(String(id));
+  };
+  // 게시글 수정
+  const handleModify = (id: string | number) => {
+    updateDetailModalFlag(false);
+    navigate(`/missing-form?boardId=${id}`);
   };
   const goChat = () => {
     if (!isLogin) {
@@ -187,7 +205,17 @@ const MissingDetailModal = () => {
                 </Button>
               )}
               {isLogin && userId === data.writerId && (
-                <Button variant="primary" size={"md"}>
+                <Button
+                  variant="primary"
+                  size={"md"}
+                  onClick={() =>
+                    updateIsConfirmOpen({
+                      flag: true,
+                      message: "정말 삭제하시겠습니까?",
+                      callback: () => handleDelete(data.boardId),
+                    })
+                  }
+                >
                   게시글 삭제
                 </Button>
               )}

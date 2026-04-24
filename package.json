@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "serve": "vite",
-    "build": "vite build",
+    "build": "dotenv -e .prd.env vite build",
     "test-build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -34,6 +34,7 @@
     "@types/sockjs-client": "^1.5.4",
     "@vitejs/plugin-react-swc": "^3.8.0",
     "autoprefixer": "^10.4.21",
+    "dotenv-cli": "^11.0.0",
     "esbuild": "^0.28.0",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",

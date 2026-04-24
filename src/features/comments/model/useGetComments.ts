@@ -1,4 +1,3 @@
-// features/comments/model/useGetComments.ts (또는 해당 위치)
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { GET_COMMENT_LIST } from "@/entities/comments/api/comments";

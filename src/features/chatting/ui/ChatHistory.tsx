@@ -6,7 +6,7 @@ import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
 const ChatHistory = () => {
   const { chatRoomId } = useChatStore();
   const { data, isLoading } = useChatHistory(Number(chatRoomId));
-  if (data) console.log(data);
+  console.log("2133453", data, chatRoomId);
   return (
     <div className="flex-1 overflow-y-auto p-4">
       <div className="space-y-4">

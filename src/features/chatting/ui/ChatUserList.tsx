@@ -6,7 +6,8 @@ import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
 import NoData from "@/shared/ui/common/NoData";
 
 const ChatUserList = () => {
-  const { updateChatPannelType, chatPannelType } = useChatStore();
+  const { updateChatPannelType, chatPannelType, updateChatRoomId } =
+    useChatStore();
   const { token } = useAuthStore();
   const ColorList = ["bg-gray-200", "bg-blue-200", "bg-red-50"];
   const chooseColor = ColorList[1];
@@ -24,7 +25,10 @@ const ChatUserList = () => {
             <li
               key={chat.boardId}
               className="bg-gray-100 p-4 rounded-lg cursor-pointer"
-              onClick={() => updateChatPannelType("chat")}
+              onClick={() => {
+                updateChatPannelType("chat");
+                updateChatRoomId(chat.boardId);
+              }}
             >
               <div className="flex items-center gap-">
                 <div

@@ -8,7 +8,7 @@ import SubHeader from "@/widgets/headers/SubHeader";
 import SideBar from "@/widgets/sidebar/SideBar";
 import Alert from "@/shared/ui/common/Alert";
 import Confirm from "@/shared/ui/common/Confirm";
-import BreedFinderModal from "@/features/breed-finder/ui/BreedFinderModal";
+import BreedFinderModal from "@/entities/breed-finder/ui/BreedFinderModal";
 
 // import { useLogin } from "@/features/auth/hooks/useLogin";
 

@@ -8,10 +8,10 @@ const ChatHistory = () => {
   const { data, isLoading } = useChatHistory(Number(chatRoomId));
   console.log("2133453", data, chatRoomId);
   return (
-    <div className="flex-1 overflow-y-auto p-4">
+    <div className="flex-1 overflow-y-auto p-4 relative">
       <div className="space-y-4">
-        <div className="bg-gray-100 p-3 rounded-lg">
-          {isLoading ? <LoadingSpinner /> : data}
+        <div className="bg-gray-100 p-3 rounded-lg w-full">
+          {isLoading ? <LoadingSpinner /> : data && data.message}
         </div>
       </div>
     </div>

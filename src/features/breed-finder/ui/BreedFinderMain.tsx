@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
-import type { BreedFinderMainProps } from "../model/breed-finder.type";
+import type { BreedFinderMainProps } from "../../../entities/breed-finder/model/breed-finder.type";
 import Button from "@/shared/ui/common/Button";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
 import ImageInput from "@/shared/ui/common/ImageInput";
+import { useBreedFinder } from "../model/useBreedFinder";
+
+// TODO: AI 품종찾기 API 연동작업!!, 결과 페이지로 이동하는 형태로 변경 필요
 
 const BreedFinderMain = ({
   contentsType,
   updateContentsType,
 }: BreedFinderMainProps) => {
-  const { updateBreedFinderImg } = useBreedFinderStore();
+  const { updateBreedFinderImg, breedFinderImg } = useBreedFinderStore();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const { mutate } = useBreedFinder();
   const onFileChange = (file: File | File[] | null) => {
     // AI 품종찾기는 한 장의 사진만 업로드 가능!
     if (!file) return;
@@ -19,12 +23,18 @@ const BreedFinderMain = ({
       URL.revokeObjectURL(previewUrl);
     }
     const singleFile = Array.isArray(file) ? file[0] : file;
-
+    setImageFile(singleFile);
     const url = URL.createObjectURL(singleFile);
     setPreviewUrl(url);
     updateBreedFinderImg(url);
   };
 
+  const handleBreedFinder = () => {
+    if (!imageFile) return;
+    mutate(imageFile);
+    console.log(imageFile);
+    // updateContentsType("result");
+  };
   useEffect(() => {
     return () => {
       if (previewUrl) {
@@ -92,7 +102,7 @@ const BreedFinderMain = ({
         size="lg"
         className="bg-blue-200 font-semibold"
         onClick={() => {
-          updateContentsType("result");
+          handleBreedFinder();
         }}
       >
         AI 품종 찾기

@@ -36,6 +36,12 @@ const ChatPannel = () => {
                 placeholder="메시지를 입력하세요."
                 className="flex-1 border rounded-lg px-3 py-2 outline-none focus:border-orange-500"
                 ref={chatInputRef}
+                autoComplete="off"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSendMessage();
+                  }
+                }}
               />
               <Button
                 size="md"

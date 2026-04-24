@@ -27,7 +27,7 @@ const ChatUserList = () => {
               className="bg-gray-100 p-4 rounded-lg cursor-pointer"
               onClick={() => {
                 updateChatPannelType("chat");
-                updateChatRoomId(chat.boardId);
+                updateChatRoomId(chat.roomId);
               }}
             >
               <div className="flex items-center gap-">

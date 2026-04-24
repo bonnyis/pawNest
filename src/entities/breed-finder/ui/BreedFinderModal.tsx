@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ContentsModal from "@/shared/ui/modal/ContentsModal";
-import BreedFinderMain from "./BreedFinderMain";
-import BreedFinderResult from "./BreedFinderResult";
+import BreedFinderMain from "../../../features/breed-finder/ui/BreedFinderMain";
+import BreedFinderResult from "../../../features/breed-finder/ui/BreedFinderResult";
 import type { BreedFinderMainProps } from "../model/breed-finder.type";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
 const BreedFinderModal = () => {

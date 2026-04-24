@@ -1,7 +1,7 @@
 import {} from "react";
-import type { BreedFinderMainProps } from "../model/breed-finder.type";
+import type { BreedFinderMainProps } from "../../../entities/breed-finder/model/breed-finder.type";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
-import BreedFinderGraph from "./BreedFinderGraph";
+import BreedFinderGraph from "../../../entities/breed-finder/ui/BreedFinderGraph";
 import Button from "@/shared/ui/common/Button";
 // BreedFinderResult.tsx
 const BreedFinderResult = ({}: BreedFinderMainProps) => {

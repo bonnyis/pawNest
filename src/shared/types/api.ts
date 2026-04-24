@@ -1,7 +1,7 @@
 export interface ApiResponse<T> {
   data?: T;
   message?: string;
-  status: string | number;
+  success: string | number;
 }
 export interface PageResponse<T> {
   content: T[];

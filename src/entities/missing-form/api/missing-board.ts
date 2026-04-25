@@ -1,7 +1,7 @@
 import { api } from "@/shared/api";
 import type { MissingBoardInputRequest } from "../model/missingform.type";
 import type { ApiResponse } from "@/shared/types/api";
-import Header from "@/widgets/headers/Header";
+
 // 게시글 등록
 export const CREATE_MISSING_BOARD = async (
   params: MissingBoardInputRequest,
@@ -10,10 +10,13 @@ export const CREATE_MISSING_BOARD = async (
   try {
     const formData = new FormData();
 
-    // JSON
-    formData.append("request", JSON.stringify(params));
+    formData.append(
+      "request",
+      new Blob([JSON.stringify(params)], {
+        type: "application/json",
+      }),
+    );
 
-    // 파일 (파일명 명시)
     files.forEach((file) => {
       formData.append("file", file, file.name);
     });
@@ -21,7 +24,6 @@ export const CREATE_MISSING_BOARD = async (
     const { data } = await api.post<ApiResponse<unknown>>(
       "/api/board",
       formData,
-      { headers: { "Content-Type": "application/json" } },
     );
 
     return data;
@@ -38,7 +40,12 @@ export const UPDATE_MISSING_BOARD = async (
   try {
     const formData = new FormData();
 
-    formData.append("request", JSON.stringify(params));
+    formData.append(
+      "request",
+      new Blob([JSON.stringify(params)], {
+        type: "application/json",
+      }),
+    );
 
     files.forEach((file) => {
       formData.append("file", file, file.name);
@@ -47,7 +54,6 @@ export const UPDATE_MISSING_BOARD = async (
     const { data } = await api.put<ApiResponse<unknown>>(
       `/api/board/${boardId}`,
       formData,
-      { headers: { "Content-Type": "application/json" } },
     );
 
     return data;

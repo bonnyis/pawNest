@@ -11,6 +11,7 @@ import DaumPostCode from "@/features/daum-postcode/ui/DaumPostCode";
 import ImageInput from "@/shared/ui/common/ImageInput";
 import attach from "@img/icons/attachFile.png";
 import type { MissingBoardInputRequest } from "@/entities/missing-form/model/missingform.type";
+import { CommonImage } from "@/shared/types/api";
 
 interface Props {
   onSubmit: (data: MissingBoardInputRequest, files: File[]) => void;
@@ -26,6 +27,7 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
     updateModalFlag(val);
   };
   const [files, setFiles] = useState<File[]>([]);
+  const [existingImages, setExistingImages] = useState<CommonImage[]>([]);
   const [colorEtc, setColorEtc] = useState<string>("");
 
   const [formData, setFormData] = useState<MissingBoardInputRequest>(
@@ -109,7 +111,11 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
         }));
       }
     }
+    if (isEdit && initialData?.images) {
+      setExistingImages(initialData.images);
+    }
   }, [isEdit, initialData]);
+
   const labelWrapperStyle =
     "w-[100px] md:w-[180px] bg-slate-100 flex items-center justify-center border-r border-gray-200 shrink-0";
   const labelTextStyle =
@@ -367,22 +373,50 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
         </div>
         <div className="flex-1 p-2 md:p-4">
           <div className="flex flex-wrap items-center gap-2">
+            {isEdit &&
+              initialData?.images &&
+              existingImages.map((img, idx) => (
+                <div
+                  key={img.savedFileName}
+                  className="flex items-center gap-2 text-[12px] md:text-sm text-gray-600 bg-gray-50 px-2 py-1 border rounded"
+                >
+                  <span className="none md:block">
+                    <img
+                      src={attach}
+                      alt="첨부파일 아이콘"
+                      className="w-[15px]"
+                    />
+                  </span>
+                  <span>{img.originalFileName}</span>
+
+                  <button
+                    type="button"
+                    className="text-gray-400"
+                    onClick={() =>
+                      setExistingImages((prev) =>
+                        prev.filter((_, index) => index !== idx),
+                      )
+                    }
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
             {files.length > 0 &&
               files.map((item, idx) => (
                 <div
                   className="flex items-center gap-2 text-[12px] md:text-sm text-gray-600 bg-gray-50 px-2 py-1 border rounded"
                   key={`${item.name}-${idx}`}
                 >
-                  <span>
-                    <span className="none md:block">
-                      <img
-                        src={attach}
-                        alt="첨부파일 아이콘"
-                        className="w-[15px]"
-                      />
-                    </span>
-                    {item.name}
+                  <span className="none md:block">
+                    <img
+                      src={attach}
+                      alt="첨부파일 아이콘"
+                      className="w-[15px]"
+                    />
                   </span>
+                  {item.name}
+
                   <button
                     type="button"
                     className="text-gray-400"

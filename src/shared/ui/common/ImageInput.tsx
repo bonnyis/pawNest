@@ -50,7 +50,7 @@ const ImageInput = ({
         type="file"
         id={id}
         className="hidden"
-        accept="image/*"
+        accept="image/*" /* 이미지 파일만 허용 */
         onChange={handleFile}
         multiple={multiple}
       />

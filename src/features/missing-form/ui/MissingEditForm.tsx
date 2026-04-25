@@ -24,6 +24,7 @@ const MissingEditForm = () => {
         features: data.features,
         missingDate: new Date(data.missingDate),
         missingLocation: data.missingLocation,
+        images: data.images ?? [],
       }
     : null;
   const onSubmit = (request: MissingBoardInputRequest, file: File[]) => {

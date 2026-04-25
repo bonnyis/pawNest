@@ -8,6 +8,10 @@ export const useBreedFinder = () => {
     mutationFn: (file: File) => GET_BREED_FINDER(file),
     onSuccess: (data) => {
       console.log("✅ 품종 찾기 성공", data);
+      updateIsAlertOpen({
+        flag: true,
+        message: data,
+      });
     },
     onError: (error: Error) => {
       console.error("❌ 품종 찾기 실패", error);

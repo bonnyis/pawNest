@@ -1,6 +1,7 @@
 import { api } from "@/shared/api";
 import type { MissingBoardInputRequest } from "../model/missingform.type";
 import type { ApiResponse } from "@/shared/types/api";
+import Header from "@/widgets/headers/Header";
 // 게시글 등록
 export const CREATE_MISSING_BOARD = async (
   params: MissingBoardInputRequest,
@@ -20,7 +21,7 @@ export const CREATE_MISSING_BOARD = async (
     const { data } = await api.post<ApiResponse<unknown>>(
       "/api/board",
       formData,
-      { headers: { "Content-Type": undefined } },
+      { headers: { "Content-Type": "application/json" } },
     );
 
     return data;
@@ -46,7 +47,7 @@ export const UPDATE_MISSING_BOARD = async (
     const { data } = await api.put<ApiResponse<unknown>>(
       `/api/board/${boardId}`,
       formData,
-      { headers: { "Content-Type": undefined } },
+      { headers: { "Content-Type": "application/json" } },
     );
 
     return data;

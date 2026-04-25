@@ -89,9 +89,27 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
   };
 
   useEffect(() => {
-    console.log(files);
-  }, [files]);
+    if (isEdit && initialData) {
+      const isPresetColor = BREED_COLORS.some(
+        (c) => c.value === initialData.color,
+      );
 
+      if (!isPresetColor && initialData.color) {
+        // 기타 색상인 경우
+        setColorEtc(initialData.color);
+        setFormData((prev) => ({
+          ...prev,
+          color: "기타",
+        }));
+      } else {
+        // initial data 색상인 경우
+        setFormData((prev) => ({
+          ...prev,
+          color: initialData.color,
+        }));
+      }
+    }
+  }, [isEdit, initialData]);
   const labelWrapperStyle =
     "w-[100px] md:w-[180px] bg-slate-100 flex items-center justify-center border-r border-gray-200 shrink-0";
   const labelTextStyle =
@@ -158,7 +176,16 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
           <select
             className="border rounded-md p-1 md:p-2 w-[48%] md:w-[150px] h-[36px] md:h-[40px] text-sm"
             onChange={(e) => {
-              changeFormData("breed1", e.target.value);
+              const value = e.target.value;
+              let breed2Default = "";
+              if (value === "개" && DOG_BREEDS.length > 0) {
+                breed2Default = String(DOG_BREEDS[0].value);
+              } else if (value === "고양이" && CAT_BREEDS.length > 0) {
+                breed2Default = String(CAT_BREEDS[0].value);
+              }
+
+              changeFormData("breed1", value);
+              changeFormData("breed2", breed2Default);
             }}
             value={formData.breed1}
           >
@@ -242,10 +269,8 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
             className="border rounded-md p-1 md:p-2 w-full md:w-[200px] h-[36px] md:h-[40px] text-sm"
             onChange={(e) => {
               changeFormData("color", e.target.value);
-              // if (e.target.value !== "기타") {
-              //   setColorEtc("");
-              // }
             }}
+            value={formData.color}
           >
             {BREED_COLORS.map((color: SearchOptions) => (
               <option key={color.label} value={color.value}>
@@ -305,12 +330,14 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
           <div className="flex-1 p-2 md:p-4 flex items-center">
             <input
               type="text"
+              min={0}
               className="w-full border rounded-md p-2 outline-none h-[36px] md:h-[40px] text-sm"
-              placeholder="나이 입력"
               value={formData.age}
               onChange={(e) => {
                 changeFormData("age", e.target.value);
               }}
+              placeholder="단위까지 넣어주셔야합니다. (예: 3개월, 1살)"
+              aria-placeholder="단위까지 넣어주셔야합니다. (예: 3개월, 1살)"
             />
           </div>
         </div>
@@ -389,10 +416,9 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
           size="md"
           className="flex-1 md:flex-none md:w-[120px]"
           onClick={() => {
-            updateIsConfirmOpen;
-            ({
+            updateIsConfirmOpen({
               flag: true,
-              message: "게시글 등록을 취소하시겠습니까?",
+              message: `게시글 ${isEdit ? "수정" : "등록"}을 취소하시겠습니까?`,
               callback: () => navigate(-1),
             });
           }}
@@ -405,7 +431,7 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
           type="submit"
           className="flex-1 md:flex-none md:w-[120px]"
         >
-          등록하기
+          {isEdit ? "수정하기" : "등록하기"}
         </Button>
       </div>
     </form>

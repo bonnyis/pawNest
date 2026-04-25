@@ -6,17 +6,19 @@ export interface RouteMeta {
 
 export const ROUTE_PATHS = {
   ROOT: "/",
-  MISSING: "missing",
-  MISSINGINSERT: "missing-list/insert",
-  SHELTER: "shelter",
-  MYPAGE: "mypage",
-  LOGOUT: "logout",
+  MISSING: "/missing",
+  MISSINGINSERT: "/missing-list/insert",
+  MISSINGEDIT: "/missing-list/edit",
+  SHELTER: "/shelter",
+  MYPAGE: "/mypage",
+  LOGOUT: "/logout",
 } as const;
 
 export const ROUTES = {
   HOME: "/",
   MISSING: "/missing",
   MISSINGINSERT: "/missing-list/insert",
+  MISSINGEDIT: "/missing-list/edit/:boardId",
   SHELTER: "/shelter",
   MYPAGE: "/mypage",
   LOGOUT: "/logout",
@@ -30,6 +32,11 @@ export const ROUTES_INFO: RouteMeta[] = [
   },
   {
     path: ROUTES.MISSINGINSERT,
+    title: "실종동물 게시판",
+    desc: "사라진 아이들을 함께 찾아주세요.",
+  },
+  {
+    path: ROUTES.MISSINGEDIT,
     title: "실종동물 게시판",
     desc: "사라진 아이들을 함께 찾아주세요.",
   },

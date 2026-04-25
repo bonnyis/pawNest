@@ -13,6 +13,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAddChatRoom } from "@/features/chatting/model/useAddChatRoom";
 import { useChatStore } from "@/app/store/chatStore";
 import { useMissingBoardControl } from "@/features/missing-form/model/useMissingBoardControl";
+import { ROUTE_PATHS } from "@/shared/routes/routes";
 
 const MissingDetailModal = () => {
   const {
@@ -24,6 +25,7 @@ const MissingDetailModal = () => {
   } = useAppStore();
   const { updateChatPannelType } = useChatStore();
   const { useDeleteMissingBoard } = useMissingBoardControl();
+  const deleteMissingBoard = useDeleteMissingBoard();
   const navigate = useNavigate();
   const { detailBoardId, detailModalFlag, updateDetailModalFlag } =
     useMissingDetailStore();
@@ -70,13 +72,27 @@ const MissingDetailModal = () => {
   };
   // 게시글 삭제 로직
   const handleDelete = (id: string | number) => {
-    const { mutate } = useDeleteMissingBoard();
-    mutate(String(id));
+    deleteMissingBoard.mutate(String(id), {
+      onSuccess: () => {
+        console.log("성공");
+        updateIsAlertOpen({
+          flag: true,
+          message: "게시글이 삭제되었습니다.",
+        });
+        updateDetailModalFlag(false);
+      },
+      onError: () => {
+        updateIsAlertOpen({
+          flag: true,
+          message: "게시글 삭제에 실패했습니다. 다시 시도해주세요.",
+        });
+      },
+    });
   };
   // 게시글 수정
   const handleModify = (id: string | number) => {
     updateDetailModalFlag(false);
-    navigate(`/missing-form?boardId=${id}`);
+    navigate(`${ROUTE_PATHS.MISSINGEDIT}/${id}`);
   };
   const goChat = () => {
     if (!isLogin) {
@@ -199,7 +215,7 @@ const MissingDetailModal = () => {
                 <Button
                   variant="cancel"
                   size={"md"}
-                  onClick={() => goComment()}
+                  onClick={() => handleModify(data.boardId)}
                 >
                   게시글 수정
                 </Button>

@@ -15,13 +15,19 @@ const ImageInput = ({
   compress = false,
   multiple = false,
 }: Props) => {
-  const compressImage = async (file: File) => {
+  const compressImage = async (file: File): Promise<File> => {
     const options = {
       maxSizeMB: 0.7,
       maxWidthOrHeight: 1024,
     };
 
-    return await imageCompression(file, options);
+    const compressedBlob = await imageCompression(file, options);
+
+    // 압축된 Blob을 File 객체로 변환하여 반환
+    return new File([compressedBlob], file.name, {
+      type: compressedBlob.type || file.type,
+      lastModified: Date.now(),
+    });
   };
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;

@@ -6,7 +6,7 @@ export const GET_BREED_FINDER = async (file: File) => {
     formData.append("file", file);
     const { data } = await api.post("/api/ai/detect-breed", formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": undefined,
       },
     });
     return data;

@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import CREATE_MISSING_BOARD, {
+import {
+  CREATE_MISSING_BOARD,
   UPDATE_MISSING_BOARD,
   DELETE_MISSING_BOARD,
 } from "@/entities/missing-form/api/missing-board";
@@ -64,7 +65,7 @@ export const useMissingBoardControl = () => {
 
         updateIsAlertOpen({
           flag: true,
-          message: error?.message || "게시글 등록 중 오류가 발생했습니다.",
+          message: error?.message || "게시글 수정 중 오류가 발생했습니다.",
         });
       },
     });

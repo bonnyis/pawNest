@@ -25,7 +25,7 @@ export const useShelterStore = create<CityState>((set) => ({
   cities: [],
   positionList: [],
   shelterRequestParams: {
-    pSize: 100,
+    pSize: 5,
     pIndex: 1,
     type: "json",
     key: import.meta.env.VITE_APP_OPEN_API_KEY,

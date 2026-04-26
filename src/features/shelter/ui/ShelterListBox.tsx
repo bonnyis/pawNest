@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import ShelterListItem from "../../../entities/shelter/ui/ShelterListItem";
 import { useGetShelterList } from "../model/useGetShelterList";
 import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
@@ -6,15 +6,46 @@ import NoData from "@/shared/ui/common/NoData";
 import type { ShelterItem } from "@/entities/shelter/model/shelter.types";
 import { useShelterStore } from "@/app/store/shelterStore";
 
-// TODO: 다섯개씩 끊어서 보여주기! 더보기 버튼 만들기 (페이지네이션)
-const ShelterListBox = () => {
+interface ShelterListBoxProps {
+  scrollRef: HTMLDivElement | null;
+}
+const ShelterListBox = ({ scrollRef }: ShelterListBoxProps) => {
+  const [pIndex, setPIndex] = useState(1);
+  const [shelterList, setShelterList] = useState<ShelterItem[]>([]);
+  const observerRef = useRef<HTMLDivElement>(null);
   const { setCities, setPositionList, shelterRequestParams } =
     useShelterStore();
   const { data, isLoading } = useGetShelterList({
     ...shelterRequestParams,
-    pIndex: 1,
+    pIndex,
   });
+  useEffect(() => {
+    if (!scrollRef || !observerRef.current) return;
 
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        // observer
+        if (entry.isIntersecting && !isLoading) {
+          setPIndex((prev) => prev + 1);
+        }
+      },
+      {
+        root: scrollRef,
+        threshold: 0.5,
+      },
+    );
+
+    observer.observe(observerRef.current);
+
+    return () => observer.disconnect();
+  }, [scrollRef, isLoading]);
+
+  useEffect(() => {
+    if (data?.row) {
+      setShelterList((prev) => [...prev, ...data.row]);
+    }
+  }, [data]);
   useEffect(() => {
     if (data?.row) {
       const cityMap = new Map();
@@ -47,17 +78,19 @@ const ShelterListBox = () => {
       setPositionList(uniquePositions);
     }
   }, [data, setCities, setPositionList, shelterRequestParams]);
+
   return (
-    <div className="flex flex-col gap-3 ">
+    <div className="flex flex-col gap-3">
       {isLoading ? (
         <LoadingSpinner />
-      ) : data?.row && data?.row.length > 0 ? (
-        data?.row?.map((item: ShelterItem) => (
+      ) : shelterList && shelterList.length > 0 ? (
+        shelterList.map((item: ShelterItem) => (
           <ShelterListItem key={item.REFINE_LOTNO_ADDR} list={item} />
         ))
       ) : (
         <NoData message="조회되는 결과가 없습니다." />
       )}
+      <div ref={observerRef} className="h-10" />
     </div>
   );
 };

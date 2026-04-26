@@ -1,11 +1,6 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/shared/routes/routes";
-import ShelterListBox from "@/features/shelter/ui/ShelterListBox";
-import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
 import NoData from "@/shared/ui/common/NoData";
-import type { ShelterItem } from "@/entities/shelter/model/shelter.types";
-import { useShelterStore } from "@/app/store/shelterStore";
 import { useGetShelterList } from "@/features/shelter/model/useGetShelterList";
 import ShelterListItem from "@/entities/shelter/ui/ShelterListItem";
 const NearShelterSection = () => {

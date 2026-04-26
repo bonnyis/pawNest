@@ -2,7 +2,7 @@
 import { useShelterStore } from "@/app/store/shelterStore";
 import ShelterListBox from "@/features/shelter/ui/ShelterListBox";
 import ShelterMap from "@/features/shelter/ui/ShelterMap";
-
+import { useRef } from "react";
 const ShelterIndex = () => {
   const { cities, shelterRequestParams, setShelterRequestParams } =
     useShelterStore();
@@ -13,6 +13,7 @@ const ShelterIndex = () => {
       SIGUN_CD: val,
     });
   };
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   return (
     <section className="max-w-[1480px] mx-auto">
       {/* 검색조건 영역 */}
@@ -26,9 +27,12 @@ const ShelterIndex = () => {
           <ShelterMap />
         </div>
         {/* 보호소 리스트 */}
-        <div className="md:w-2/4 border rounded-lg p-5 h-[300px] md:h-[590px] overflow-y-auto">
+        <div
+          className="md:w-2/4 border rounded-lg p-5 h-[300px] md:h-[590px] overflow-y-auto"
+          ref={scrollRef}
+        >
           <h2 className="text-center text-xl font-bold mb-3">보호소 리스트</h2>
-          <ShelterListBox />
+          <ShelterListBox scrollRef={scrollRef.current} />
         </div>
       </div>
     </section>

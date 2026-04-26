@@ -88,6 +88,7 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
     if (!file) return;
     const fileList = Array.isArray(file) ? file : [file];
     setFiles((prev) => [...prev, ...fileList]);
+    setExistingImages([]); // 수정 시 기존 이미지 유지하지 않고 새로 업로드한 이미지로 대체
   };
 
   useEffect(() => {
@@ -380,13 +381,6 @@ const MissingForm = ({ onSubmit, initialData, isEdit }: Props) => {
                   key={img.savedFileName}
                   className="flex items-center gap-2 text-[12px] md:text-sm text-gray-600 bg-gray-50 px-2 py-1 border rounded"
                 >
-                  <span className="none md:block">
-                    <img
-                      src={attach}
-                      alt="첨부파일 아이콘"
-                      className="w-[15px]"
-                    />
-                  </span>
                   <span>{img.originalFileName}</span>
 
                   <button

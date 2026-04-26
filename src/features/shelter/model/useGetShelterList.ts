@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useGetShelterList = (params: ShelfterListRequest) => {
   const query = useQuery({
-    queryKey: ["shelterList"],
+    queryKey: ["shelterList", params],
     queryFn: () => GET_SHELTER_LIST(params),
     placeholderData: (prev) => prev,
   });

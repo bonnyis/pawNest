@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyActivity from "@/features/mypage/ui/MyActivity";
 import LeaveMembership from "@/features/mypage/ui/LeaveMembership";
 import { useSearchParams } from "react-router-dom";
 const MypageIndex = () => {
   const [searchParams, setSarchParams] = useSearchParams();
 
-  const tab = searchParams.get("tab") ?? "activity";
-  const [activeTab, setActiveTab] = useState(tab);
+  const tab = searchParams.get("tab");
+  const [activeTab, setActiveTab] = useState(tab || "activity");
 
   const tabs = [
     { id: "activity", label: "내 활동" },
@@ -16,6 +16,11 @@ const MypageIndex = () => {
     setSarchParams(`tab=${val}`);
     setActiveTab(val);
   };
+  useEffect(() => {
+    if (!tab) {
+      setSarchParams(`tab=${activeTab}`);
+    }
+  }, [tab]);
 
   return (
     <section className="max-w-[1200px] mx-auto pt-10 px-4 md:px-6">

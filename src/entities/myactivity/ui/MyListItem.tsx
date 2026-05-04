@@ -66,15 +66,6 @@ const MyListItem = ({ subTab, list }: MyListItemProps) => {
                       <button
                         type="button"
                         onClick={() => {
-                          goDetail(list.boardId);
-                        }}
-                      >
-                        더보기
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => {
                           updateIsConfirmOpen({
                             flag: true,
                             message: "댓글을 삭제하시겠습니까?",
@@ -83,6 +74,15 @@ const MyListItem = ({ subTab, list }: MyListItemProps) => {
                         }}
                       >
                         삭제
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          goDetail(list.boardId);
+                        }}
+                      >
+                        더보기
                       </button>
                     )}
                   </div>

@@ -1,11 +1,12 @@
 import Pagination from "@/shared/ui/common/Pagination";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "@/shared/ui/common/Select";
 import MyListItem from "@/entities/myactivity/ui/MyListItem";
 import { useGetMyList } from "../model/useGetMyList";
 import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
 import type { MyListType } from "@/entities/myactivity/model/myActivity.type";
 import NoData from "@/shared/ui/common/NoData";
+
 const MyActivity = () => {
   const [subTab, setSubTab] = useState<MyListType>("post");
   const [page, setPage] = useState<number>(1);
@@ -33,7 +34,9 @@ const MyActivity = () => {
     },
     type: subTab, // 하나의 객체 안에 담아서 전달
   });
-
+  useEffect(() => {
+    console.log(subTab);
+  }, [subTab]);
   if (isLoading) return <LoadingSpinner />;
   return (
     <>

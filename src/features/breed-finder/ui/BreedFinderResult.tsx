@@ -121,6 +121,7 @@ const BreedFinderResult = ({
           variant="cancel"
           size="md"
           onClick={() => {
+            updateBreedFinderResult([]);
             setPreviewUrl(null);
             updateContentsType("main");
           }}

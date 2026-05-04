@@ -1,18 +1,45 @@
-import {} from "react";
+import { useEffect, useState } from "react";
 import type { BreedFinderMainProps } from "../../../entities/breed-finder/model/breed-finder.type";
 import { useBreedFinderStore } from "@/app/store/breedFinderStore";
 import BreedFinderGraph from "../../../entities/breed-finder/ui/BreedFinderGraph";
 import Button from "@/shared/ui/common/Button";
 // BreedFinderResult.tsx
-const BreedFinderResult = ({}: BreedFinderMainProps) => {
-  const { breedFinderImg } = useBreedFinderStore();
+const BreedFinderResult = ({
+  contentsType,
+  updateContentsType,
+}: BreedFinderMainProps) => {
+  const {
+    breedFinderImg,
+    modalFlag,
+    breedFinderResult,
+    updateBreedFinderResult,
+  } = useBreedFinderStore();
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  // 가공된 데이터 (실제로는 스토어나 서버에서 오겠죠?)
   const chartData = [
     { title: "진돗개", value: 72 },
     { title: "말티즈", value: 18 },
     { title: "푸들", value: 10 },
   ];
+  useEffect(() => {
+    if (breedFinderImg) {
+      const url = URL.createObjectURL(breedFinderImg);
+      setPreviewUrl(url);
+      return () => {
+        URL.revokeObjectURL(url);
+      };
+    }
+  }, [breedFinderImg]);
+
+  useEffect(() => {
+    console.log("품종 찾기 결과 업데이트", breedFinderResult);
+    console.log(breedFinderImg);
+    // return () => {
+    //   if (modalFlag === false) {
+    //     updateBreedFinderResult([]);
+    //   }
+    // };
+  }, []);
 
   return (
     <div className="p-6 md:p-10 flex flex-col gap-8 bg-white rounded-3xl">
@@ -32,7 +59,7 @@ const BreedFinderResult = ({}: BreedFinderMainProps) => {
         <div className="w-full lg:w-1/2 flex flex-col gap-3">
           <div className="aspect-square rounded-2xl overflow-hidden bg-gray-100 shadow-inner">
             <img
-              src={breedFinderImg || "/default-dog.jpg"}
+              src={previewUrl || "/default-dog.jpg"}
               alt="분석 대상"
               className="w-full h-full object-cover"
             />
@@ -46,51 +73,58 @@ const BreedFinderResult = ({}: BreedFinderMainProps) => {
         </div>
 
         {/* 우측: 결과 분석 */}
-        <div className="w-full lg:w-1/2 space-y-8">
-          <section>
-            <h4 className="text-xl font-bold mb-4 border-b pb-2 text-gray-800">
-              가장 유력한 품종
-            </h4>
-            <div className="flex items-center gap-6">
-              <BreedFinderGraph
-                chartData={chartData}
-                width={200}
-                height={200}
-              />
-              {/* <div>
-                <h2 className="text-2xl font-bold text-gray-900">
-                  {mainBreed.title}
-                </h2>
-                <span className="inline-block mt-2 px-3 py-1 bg-gray-500 text-white text-xs rounded-md">
-                  신뢰도: 높음
-                </span>
-              </div> */}
-            </div>
-          </section>
+        {breedFinderResult?.length > 0 ? (
+          <div className="w-full lg:w-1/2 space-y-8">
+            <section>
+              <h4 className="text-xl font-bold mb-4 border-b pb-2 text-gray-800">
+                가장 유력한 품종
+              </h4>
 
-          {/* 다른 가능성 섹션 */}
-          <section className="space-y-3">
-            <h4 className="text-md font-bold text-gray-700">다른 가능성</h4>
-            <ul className="divide-y border-t border-b">
-              {chartData.slice(1).map((item) => (
-                <li
-                  key={item.title}
-                  className="py-2 flex justify-between text-gray-600"
-                >
-                  <span>• {item.title}</span>
-                  <span className="font-semibold">{item.value}%</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </div>
+              <div className="flex items-center gap-6">
+                <BreedFinderGraph
+                  chartData={breedFinderResult}
+                  width={200}
+                  height={200}
+                />
+              </div>
+              <ul className="divide-y border-t border-b mt-2">
+                {breedFinderResult?.length > 0 &&
+                  breedFinderResult.map((item) => (
+                    <li
+                      key={item.title}
+                      className="py-2 flex justify-between text-gray-600"
+                    >
+                      <span>• {item.title}</span>
+                      <span className="font-semibold">{item.value}%</span>
+                    </li>
+                  ))}
+              </ul>
+            </section>
+          </div>
+        ) : (
+          <div className="w-full lg:w-1/2 flex justify-center items-center min-h-[280px]">
+            <p className="text-gray-500 text-center font-semibold">
+              분석 결과가 없습니다.
+            </p>
+          </div>
+        )}
       </div>
       {/* 버튼 영역 */}
       <div className="flex flex-col justify-center sm:flex-row gap-3 pt-4">
-        <Button variant="confirm" size="md">
-          이 정보로 실종동물 등록하기
-        </Button>
-        <Button variant="cancel" size="md">
+        {
+          // <Button variant="confirm" size="md">
+          //   이 정보로 실종동물 등록하기
+          // </Button>
+        }
+
+        <Button
+          variant="cancel"
+          size="md"
+          onClick={() => {
+            setPreviewUrl(null);
+            updateContentsType("main");
+          }}
+        >
           재검색하기
         </Button>
       </div>

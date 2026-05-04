@@ -14,7 +14,7 @@ const BreedFinderMain = ({
   const { updateBreedFinderImg, breedFinderImg } = useBreedFinderStore();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const { mutate } = useBreedFinder();
+  const { mutate, isPending, isSuccess } = useBreedFinder();
   const onFileChange = (file: File | File[] | null) => {
     // AI 품종찾기는 한 장의 사진만 업로드 가능!
     if (!file) return;
@@ -24,16 +24,18 @@ const BreedFinderMain = ({
     }
     const singleFile = Array.isArray(file) ? file[0] : file;
     setImageFile(singleFile);
+    updateBreedFinderImg(singleFile);
     const url = URL.createObjectURL(singleFile);
-    setPreviewUrl(url);
-    updateBreedFinderImg(url);
+    setPreviewUrl(url); 
   };
 
   const handleBreedFinder = () => {
     if (!imageFile) return;
     mutate(imageFile);
-    console.log(imageFile);
-    // updateContentsType("result");
+    updateContentsType("result");
+    if (isSuccess) {
+      updateContentsType("result");
+    }
   };
   useEffect(() => {
     return () => {
@@ -104,6 +106,7 @@ const BreedFinderMain = ({
         onClick={() => {
           handleBreedFinder();
         }}
+        disabled={isPending}
       >
         AI 품종 찾기
       </Button>

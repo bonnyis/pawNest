@@ -19,7 +19,7 @@ const BreedFinderModal = () => {
   };
   const backSpace = () => {
     setContentsType("main");
-    updateBreedFinderImg("");
+    updateBreedFinderImg(null);
   };
   useEffect(() => {
     //  모달창 닫힐 경우 데이터 초기화

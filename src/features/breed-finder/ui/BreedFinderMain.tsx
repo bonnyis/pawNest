@@ -33,6 +33,7 @@ const BreedFinderMain = ({
     if (!imageFile) return;
     mutate(imageFile, {
       onSuccess: () => {
+        console.log("성공?!");
         updateContentsType("result");
       },
     });

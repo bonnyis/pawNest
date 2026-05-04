@@ -18,6 +18,7 @@ const MissingPreviewItem = ({ list, onClick }: Props) => {
               <img
                 key={image.originalFileName}
                 src={`https://unbribably-unhilly-danyell.ngrok-free.dev${image.imgPath}`}
+                loading="lazy"
                 alt={`${list.title} 대표이미지`}
                 onError={(e) => {
                   e.currentTarget.src = noImg;

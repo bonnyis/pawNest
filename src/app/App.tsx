@@ -7,11 +7,13 @@ import { useSocketStore } from "@/app/store/socketStore";
 const App = () => {
   const { token } = useAuthStore();
   const { connect } = useSocketStore();
+
   useEffect(() => {
     if (token) {
       connect(token);
     }
   }, [token]);
+
   return <RouterProvider router={router} />;
 };
 

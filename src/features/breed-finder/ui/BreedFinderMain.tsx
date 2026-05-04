@@ -87,7 +87,7 @@ const BreedFinderMain = ({
             <img
               src={previewUrl}
               alt="미리보기"
-              className="w-full h-full object-contain mb-2 rounded-lg"
+              className="w-full overflow-hidden object-cover mb-2 rounded-lg"
             />
           ) : (
             <p className="text-xl font-bold text-gray-400">

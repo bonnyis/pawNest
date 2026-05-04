@@ -1,4 +1,4 @@
-// import { useEffect } from "react";
+import { useEffect } from "react";
 import { useAppStore } from "@/app/store/appStore";
 import { Outlet, useLocation } from "react-router-dom";
 
@@ -10,15 +10,16 @@ import Alert from "@/shared/ui/common/Alert";
 import Confirm from "@/shared/ui/common/Confirm";
 import BreedFinderModal from "@/entities/breed-finder/ui/BreedFinderModal";
 
-// import { useLogin } from "@/features/auth/hooks/useLogin";
-
 const DefaultLayout = () => {
   const { pathname } = useLocation();
-  const { isOpen } = useAppStore();
+  const { isOpen, prevPath, updatePrevPath } = useAppStore();
   const isHome = pathname === "/";
 
-  // login여부
-
+  useEffect(() => {
+    if (pathname !== prevPath) {
+      updatePrevPath(pathname);
+    }
+  }, [pathname]);
   return (
     <article className="min-h-screen bg-white">
       <div className="sm:flex min-h-screen">

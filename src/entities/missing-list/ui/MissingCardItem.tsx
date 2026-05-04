@@ -1,12 +1,24 @@
 import { onImgError } from "@/shared/lib/onError";
 import { BoardItem } from "../model/missing-api-type";
 import noImg from "@img/Image.png";
+import { useEffect } from "react";
 // 개별메뉴 실종동물 카드리스트 UI
 interface Props {
   data: BoardItem;
   onClick: () => void;
 }
 const MissingCardItem = ({ data, onClick }: Props) => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const img = entry.target as HTMLImageElement;
+      console.log("img", img);
+    });
+  });
+  useEffect(() => {
+    const images = document.querySelectorAll("img");
+    images.forEach((img) => observer.observe(img));
+  }, []);
+
   return (
     <div
       className="w-60 border border-gray-300 rounded-md p-5 h-80 cursor-pointer"
@@ -23,7 +35,12 @@ const MissingCardItem = ({ data, onClick }: Props) => {
           />
         ))}
         {data.images?.length === 0 && (
-          <img src={noImg} title={`${data.title} 대표이미지`} />
+          <img
+            src={noImg}
+            id="img"
+            title={`${data.title} 대표이미지`}
+            loading="lazy"
+          />
         )}
       </div>
       <div className="flex flex-col gap-3">

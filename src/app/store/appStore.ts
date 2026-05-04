@@ -17,6 +17,7 @@ export type appState = {
     message?: string | null;
     callback?: (() => void) | null;
   };
+  prevPath: string;
 };
 
 export type appAction = {
@@ -26,9 +27,11 @@ export type appAction = {
   updateIsModalOpen: (isOpen: appState["isModalOpen"]) => void;
   updateIsAlertOpen: (isOpen: appState["isAlert"]) => void;
   updateIsConfirmOpen: (isOpen: appState["isConfirm"]) => void;
+  updatePrevPath: (prevPath: string) => void;
 };
 
 export const useAppStore = create<appState & appAction>((set) => ({
+  // state
   isOpen: getIsMobile() ? false : true,
   viewType: "MENU",
   isMobile: getIsMobile(),
@@ -42,6 +45,9 @@ export const useAppStore = create<appState & appAction>((set) => ({
     message: null,
     callback: null,
   },
+  prevPath: "",
+
+  // actions
   updateIsOpen: (valOrFn) =>
     set((state) => ({
       isOpen: typeof valOrFn === "function" ? valOrFn(state.isOpen) : valOrFn,
@@ -64,4 +70,5 @@ export const useAppStore = create<appState & appAction>((set) => ({
         callback: callback ?? null,
       },
     })),
+  updatePrevPath: (prevPath) => set(() => ({ prevPath })),
 }));

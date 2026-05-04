@@ -19,20 +19,7 @@ export const useBreedFinderStore = create<breedFinderState & breedFinderAction>(
     // state
     modalFlag: false,
     breedFinderImg: null,
-    breedFinderResult: [
-      {
-        title: "리트리버",
-        value: 88,
-      },
-      {
-        title: "칼라",
-        value: 79,
-      },
-      {
-        title: "개 목걸이",
-        value: 79,
-      },
-    ],
+    breedFinderResult: [],
     // actions
     updateModalFlag: (modalFlag) => set(() => ({ modalFlag })),
     updateBreedFinderImg: (breedFinderImg) => set(() => ({ breedFinderImg })),

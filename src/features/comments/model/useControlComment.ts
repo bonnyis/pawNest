@@ -14,7 +14,6 @@ export const useControlComments = () => {
       mutationFn: (commentId: number) => DELETE_COMMENT(commentId),
       onSuccess: (data) => {
         const boardId = String(data.boardId);
-        console.log("teotrmftnwjd!!!!", boardId);
         queryClient.refetchQueries({
           queryKey: ["commentsList", boardId],
         });

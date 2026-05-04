@@ -1,4 +1,4 @@
-import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { SEND_COMMENT } from "@/entities/comments/api/comments";
 import { useAppStore } from "@/app/store/appStore";
 

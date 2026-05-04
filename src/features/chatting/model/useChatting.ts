@@ -14,7 +14,8 @@ export const useChatting = () => {
       return SEND_MESSAGE(roomId, content);
     },
     onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: ["chatHistory"] });
+      console.log("✅ 메시지 전송 성공");
+      // queryClient.refetchQueries({ queryKey: ["chatHistory"] });
     },
     onError: (error) => {
       updateIsAlertOpen({

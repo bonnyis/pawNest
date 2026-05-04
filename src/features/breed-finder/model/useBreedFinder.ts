@@ -12,8 +12,7 @@ export const useBreedFinder = () => {
     mutationFn: (file: File) => GET_BREED_FINDER(file),
     onSuccess: (data) => {
       console.log("✅ 품종 찾기 성공", data);
-      const breedResult = data.join(", ");
-      updateBreedFinderResult(breedResult);
+      updateBreedFinderResult(data.results || []);
     },
     onError: (error: Error) => {
       console.error("❌ 품종 찾기 실패", error);

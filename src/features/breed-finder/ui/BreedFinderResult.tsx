@@ -4,23 +4,15 @@ import { useBreedFinderStore } from "@/app/store/breedFinderStore";
 import BreedFinderGraph from "../../../entities/breed-finder/ui/BreedFinderGraph";
 import Button from "@/shared/ui/common/Button";
 // BreedFinderResult.tsx
-const BreedFinderResult = ({
-  contentsType,
-  updateContentsType,
-}: BreedFinderMainProps) => {
+const BreedFinderResult = ({ updateContentsType }: BreedFinderMainProps) => {
   const {
     breedFinderImg,
-    modalFlag,
+
     breedFinderResult,
     updateBreedFinderResult,
   } = useBreedFinderStore();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  const chartData = [
-    { title: "진돗개", value: 72 },
-    { title: "말티즈", value: 18 },
-    { title: "푸들", value: 10 },
-  ];
   useEffect(() => {
     if (breedFinderImg) {
       const url = URL.createObjectURL(breedFinderImg);
@@ -30,16 +22,6 @@ const BreedFinderResult = ({
       };
     }
   }, [breedFinderImg]);
-
-  useEffect(() => {
-    console.log("품종 찾기 결과 업데이트", breedFinderResult);
-    console.log(breedFinderImg);
-    // return () => {
-    //   if (modalFlag === false) {
-    //     updateBreedFinderResult([]);
-    //   }
-    // };
-  }, []);
 
   return (
     <div className="p-6 md:p-10 flex flex-col gap-8 bg-white rounded-3xl">

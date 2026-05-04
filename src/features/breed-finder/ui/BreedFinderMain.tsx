@@ -26,13 +26,13 @@ const BreedFinderMain = ({
     setImageFile(singleFile);
     updateBreedFinderImg(singleFile);
     const url = URL.createObjectURL(singleFile);
-    setPreviewUrl(url); 
+    setPreviewUrl(url);
   };
 
   const handleBreedFinder = () => {
     if (!imageFile) return;
     mutate(imageFile);
-    updateContentsType("result");
+
     if (isSuccess) {
       updateContentsType("result");
     }

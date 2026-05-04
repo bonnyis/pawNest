@@ -13,6 +13,7 @@ export const useBreedFinder = () => {
     onSuccess: (data) => {
       console.log("✅ 품종 찾기 성공", data);
       updateBreedFinderResult(data);
+      return true;
     },
     onError: (error: Error) => {
       console.error("❌ 품종 찾기 실패", error);

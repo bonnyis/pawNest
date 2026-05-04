@@ -11,10 +11,10 @@ const BreedFinderMain = ({
   contentsType,
   updateContentsType,
 }: BreedFinderMainProps) => {
-  const { updateBreedFinderImg, breedFinderImg } = useBreedFinderStore();
+  const { updateBreedFinderImg } = useBreedFinderStore();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const { mutate, isPending, isSuccess } = useBreedFinder();
+  const { mutate, isPending } = useBreedFinder();
   const onFileChange = (file: File | File[] | null) => {
     // AI 품종찾기는 한 장의 사진만 업로드 가능!
     if (!file) return;
@@ -31,11 +31,11 @@ const BreedFinderMain = ({
 
   const handleBreedFinder = () => {
     if (!imageFile) return;
-    mutate(imageFile);
-
-    if (isSuccess) {
-      updateContentsType("result");
-    }
+    mutate(imageFile, {
+      onSuccess: () => {
+        updateContentsType("result");
+      },
+    });
   };
   useEffect(() => {
     return () => {

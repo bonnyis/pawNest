@@ -19,7 +19,7 @@ export const SEND_COMMENT = (boardId: number, content: string) => {
   const { client } = useSocketStore.getState();
 
   // 1. 소켓 연결 상태를 먼저 체크합니다.
-  if (!client || !client.active) {
+  if (!client || !client.connected) {
     console.error("❌ 소켓이 활성화되지 않았습니다.");
     // 에러를 던져서 useMutation의 onError가 잡게 합니다.
     throw new Error("서버와 연결이 끊어졌습니다. 잠시 후 다시 시도해주세요.");

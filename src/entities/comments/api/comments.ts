@@ -29,7 +29,6 @@ export const SEND_COMMENT = (boardId: number, content: string) => {
   try {
     client.publish({
       destination: `/app/comment/${boardId}`,
-      // 서버에서 기대하는 JSON 형식을 맞춰주세요 (예: content, userId 등)
       body: JSON.stringify({
         content: content,
         // 필요하다면 추가 정보 전송

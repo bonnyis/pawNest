@@ -34,7 +34,7 @@ export const GET_CHAT_HISTORY = async (roomId: number) => {
 export const SEND_MESSAGE = (roomId: number, content: string) => {
   const { client } = useSocketStore.getState();
 
-  if (!client || !client.active) {
+  if (!client || !client.connected) {
     console.error("❌ 소켓이 활성화되지 않았습니다.");
     throw new Error("서버와 연결이 끊어졌습니다. 잠시 후 다시 시도해주세요.");
   }

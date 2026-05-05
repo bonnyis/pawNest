@@ -19,10 +19,6 @@ export const useSocketStore = create<SocketState>((set, get) => ({
     }
 
     const client = createSocketClient(token);
-    if (!client || !client.connected) {
-      console.warn("STOMP 연결 안됨");
-      return;
-    }
 
     client.onConnect = (frame) => {
       console.log("✅ WebSocket 연결됨", frame);

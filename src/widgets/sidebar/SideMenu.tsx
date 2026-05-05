@@ -8,8 +8,15 @@ import chatImg from "@img/icons/chat.png";
 import { useMissingDetailStore } from "@/app/store/missingDetailStore";
 
 const SideMenu = () => {
-  const { isOpen, updateIsOpen, updateViewType, updateIsAlertOpen } =
-    useAppStore();
+  const {
+    isOpen,
+    updateIsOpen,
+    updateViewType,
+    updateIsAlertOpen,
+    isMobile,
+    prevPath,
+  } = useAppStore();
+
   const { detailModalFlag } = useMissingDetailStore();
   const { modalFlag, updateModalFlag } = useBreedFinderStore();
   const { isLogin } = useAuthStore();
@@ -42,8 +49,15 @@ const SideMenu = () => {
       updateIsOpen((prev: boolean) => !prev);
     }
   }, [detailModalFlag]);
-  // 실종게시판 진입 시 사이드메뉴바 닫기
+
   useEffect(() => {
+    // 모바일인 경우 화면 이전 시 사이드 바 닫기
+    if (isMobile) {
+      if (prevPath !== pathname && isOpen) {
+        updateIsOpen(false);
+      }
+    }
+    // 실종게시판 진입 시 사이드메뉴바 닫기
     if (pathname === ROUTES.MISSINGINSERT) {
       if (!hasClosedOnEntry.current && isOpen) {
         updateIsOpen((prev: boolean) => !prev);

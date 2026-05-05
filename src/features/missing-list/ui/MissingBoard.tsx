@@ -15,7 +15,7 @@ import { useMissingDetailStore } from "@/app/store/missingDetailStore";
 import { BREED_COLORS } from "@/shared/constant/breed";
 import { useAuthStore } from "@/app/store/authStore";
 const MissingBoard = () => {
-  const { isOpen, updateIsAlertOpen } = useAppStore();
+  const { isOpen, updateIsAlertOpen, isMobile } = useAppStore();
   const { isLogin } = useAuthStore();
   const navigation = useNavigate();
   // 검색조건관련
@@ -71,43 +71,49 @@ const MissingBoard = () => {
   return (
     <>
       {/* search options */}
-      <div className="mt-5 flex justify-end md:max-w-[1460px] gap-2">
-        <Select
-          options={breedOptions}
-          changeEvt={(e) => {
-            updateParams("breed", e);
-          }}
-        />
-        <Select
-          options={BREED_COLORS}
-          changeEvt={(e) => {
-            updateParams("color", e);
-          }}
-        />
-        <input
-          type="text"
-          name="missingListInput"
-          id="missingListInput"
-          className="border rounded-md pl-3"
-          placeholder="검색어를 입력해주세요."
-          value={inputText}
-          onChange={(e) => updateInpuText(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
+      <div className="w-[95%] mx-auto mt-5 flex flex-col gap-2 md:flex-row md:items-center md:justify-end">
+        <div className="flex items-center gap-2 overflow-x-auto">
+          <Select
+            options={breedOptions}
+            changeEvt={(e) => {
+              updateParams("breed", e);
+            }}
+            // className="flex-none w-[45%] sm:w-32"
+          />
+          <Select
+            options={BREED_COLORS}
+            changeEvt={(e) => {
+              updateParams("color", e);
+            }}
+            // className="flex-none w-[45%] sm:w-32"
+          />
+        </div>
+        <div className="flex items-center gap-2 w-full md:w-auto">
+          <input
+            type="text"
+            name="missingListInput"
+            id="missingListInput"
+            className="flex-1 min-w-0 border rounded-md pl-3 py-2"
+            placeholder="검색어를 입력해주세요."
+            autoComplete="off"
+            value={inputText}
+            onChange={(e) => updateInpuText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                updateParams("searchText", inputText);
+              }
+            }}
+          />
+          <Button
+            variant="primary"
+            size={isMobile ? "sm" : "md"}
+            onClick={() => {
               updateParams("searchText", inputText);
-            }
-          }}
-        />
-
-        <Button
-          variant="primary"
-          size="md"
-          onClick={() => {
-            updateParams("searchText", inputText);
-          }}
-        >
-          검색
-        </Button>
+            }}
+          >
+            검색
+          </Button>
+        </div>
       </div>
       {/* 리스트 시작 */}
       <div

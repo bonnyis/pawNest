@@ -21,7 +21,7 @@ const MissingCardItem = ({ data, onClick }: Props) => {
 
   return (
     <div
-      className="w-60 border border-gray-300 rounded-md p-5 h-80 cursor-pointer"
+      className="w-[95%] md:w-60 border border-gray-300 rounded-md p-5 h-80 cursor-pointer"
       onClick={onClick}
     >
       <div className="mb-4 h-44 overflow-hidden">

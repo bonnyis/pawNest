@@ -4,9 +4,10 @@ import type { SearchOptions } from "@/shared/types/data-types";
 type SelectProps = {
   options: SearchOptions[];
   changeEvt: (val: string) => void;
+  className?: string;
 };
 
-const Select = ({ options, changeEvt }: SelectProps) => {
+const Select = ({ options, changeEvt, className }: SelectProps) => {
   return (
     <select
       name="searchOption"
@@ -14,7 +15,7 @@ const Select = ({ options, changeEvt }: SelectProps) => {
       onChange={(e) => {
         changeEvt(e.target.value);
       }}
-      className="border w-32 h-auto p-2 rounded-md"
+      className={`border h-auto p-2 rounded-md ${className ?? "w-full sm:w-32"}`}
     >
       <option value="">선택</option>
       {options &&

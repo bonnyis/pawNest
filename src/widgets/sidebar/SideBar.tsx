@@ -9,7 +9,8 @@ import UserInfo from "@/features/auth/ui/UserInfo";
 import { useChatStore } from "@/app/store/chatStore";
 
 const SideBar = () => {
-  const { isOpen, viewType, updateIsOpen, updateViewType } = useAppStore();
+  const { isOpen, viewType, updateIsOpen, updateViewType, isMobile } =
+    useAppStore();
   const { updateChatPannelType, chatPannelType } = useChatStore();
   const [isLoginModal, setIsLoginModal] = useState<boolean>(false);
 
@@ -24,10 +25,10 @@ const SideBar = () => {
   return (
     <aside
       className={`transition-all duration-300 overflow-hidden ${
-        isOpen ? "w-[400px]" : "w-0"
+        isMobile && isOpen ? "w-full" : isOpen ? "w-[400px]" : "w-0"
       }`}
     >
-      <div className="fixed right-0 top-0 h-full w-[320px] sm:w-[400px] bg-white z-50 shadow-2xl">
+      <div className="fixed right-0 top-0 h-full w-full sm:w-[400px] bg-white z-50 shadow-2xl">
         <div className="h-full bg-white shadow-2xl flex flex-col">
           <div className="flex items-center justify-between p-4 border-b">
             {viewType === "MENU" ? (

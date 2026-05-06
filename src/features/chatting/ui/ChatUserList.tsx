@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useChatStore } from "@/app/store/chatStore";
 import { useChatList } from "../model/useChatList";
 import { useAuthStore } from "@/app/store/authStore";

@@ -10,6 +10,7 @@ export interface ChatListItem {
   senderId: string;
   receiverId: string;
   createdAt: string;
+  displayId: string;
 }
 
 export type ChatListResponse = ChatListItem[];

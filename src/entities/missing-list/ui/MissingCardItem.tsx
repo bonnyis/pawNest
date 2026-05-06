@@ -11,7 +11,7 @@ const MissingCardItem = ({ data, onClick }: Props) => {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       const img = entry.target as HTMLImageElement;
-      console.log("img", img);
+      // console.log("img", img);
     });
   });
   useEffect(() => {

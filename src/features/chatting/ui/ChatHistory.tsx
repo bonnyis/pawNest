@@ -35,22 +35,21 @@ const ChatHistory = () => {
       ) : messages.length > 0 ? (
         <div className="space-y-4">
           {messages.map((item, idx) => {
-            const isMine = item.mine ?? item.senderId === userId;
             return (
               <div
                 key={`${item.messageId} + ${idx + 1}`}
-                className={`flex ${isMine ? "justify-end" : "justify-start"}`}
+                className={`flex ${item.mine ? "justify-end" : "justify-start"}`}
               >
                 <div
                   className={`rounded-3xl p-3 max-w-[80%] break-words shadow-sm ${
-                    isMine
+                    item.mine
                       ? "bg-orgColor text-white rounded-br-none"
                       : "bg-gray-100 text-gray-900 rounded-bl-none"
                   }`}
                 >
                   <p>{item.message}</p>
                   <p
-                    className={`mt-2 text-xs text-right ${isMine ? "text-gray-100" : "text-gray-300"}`}
+                    className={`mt-2 text-xs text-right ${item.mine ? "text-gray-100" : "text-gray-300"}`}
                   >
                     {item.createdAt}
                   </p>

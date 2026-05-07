@@ -14,6 +14,7 @@ export const useChatHistory = (roomId: number) => {
     queryFn: () => GET_CHAT_HISTORY(roomId),
     enabled: roomId ? true : false,
   });
+
   useEffect(() => {
     if (!roomId || !client || !client.connected) {
       return;
@@ -27,14 +28,19 @@ export const useChatHistory = (roomId: number) => {
         queryClient.setQueryData(["chatHistory", roomId], (old: any[] = []) => {
           // 내가 보낸 메시지는 무시
           if (String(newChat.senderId) === String(userId)) {
+            console.log("여기타니?");
             return old;
           }
 
           // message 없으면 무시 (빈 말풍선 방지)
-          if (!newChat.message) return old;
+          if (!newChat.content) {
+            console.log("아님여기?");
+            return old;
+          }
 
           // 중복 방지
           if (old.some((m) => m.messageId === newChat.messageId)) {
+            console.log("또 아니면 ?");
             return old;
           }
 

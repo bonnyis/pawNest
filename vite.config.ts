@@ -1,11 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-
+import removeConsole from "vite-plugin-remove-console";
 // https://vite.dev/config/
 export default defineConfig({
   define: { global: "window" },
-  plugins: [react()],
+  plugins: [react(), removeConsole()],
   resolve: {
     alias: [
       { find: "@", replacement: path.join(__dirname, "src") },

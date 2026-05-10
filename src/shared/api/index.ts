@@ -2,8 +2,6 @@ import axios from "axios";
 import { useAuthStore } from "@/app/store/authStore";
 import { useAppStore } from "@/app/store/appStore";
 
-// const isDev = import.meta.env.DEV;
-
 export const api = axios.create({
   baseURL: "",
   withCredentials: true,

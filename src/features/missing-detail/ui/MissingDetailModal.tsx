@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import ContentsModal from "@/shared/ui/modal/ContentsModal";
 import FavoriteBtn from "@/features/favorite-toggle/ui/FavoriteBtn";
-import { onImgError } from "@/shared/lib/onError";
+import SharePostBtn from "@/features/share-post/ui/SharePostBtn";
+import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
+import CommentsSection from "@/entities/comments/ui/CommentsSection";
 import Button from "@/shared/ui/common/Button";
+import { onImgError } from "@/shared/lib/onError";
 import { useMissingDetailStore } from "@/app/store/missingDetailStore";
 import { useAuthStore } from "@/app/store/authStore";
 import { useAppStore } from "@/app/store/appStore";
 import { useMissingDetail } from "@/features/missing-detail/model/useMissingDetail";
-import LoadingSpinner from "@/shared/ui/common/LoadingSpinner";
-import CommentsSection from "@/entities/comments/ui/CommentsSection";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAddChatRoom } from "@/features/chatting/model/useAddChatRoom";
 import { useChatStore } from "@/app/store/chatStore";
@@ -113,7 +114,10 @@ const MissingDetailModal = () => {
       updateDetailModalFlag(true);
     }
   }, [detailId]);
-
+  const shareInfo = {
+    title: "",
+    text: "",
+  };
   if (isLoading) return <LoadingSpinner />;
 
   return (
@@ -124,7 +128,15 @@ const MissingDetailModal = () => {
             <h2 className="text-left font-semibold text-xl max-w-[85%] line-clamp-2">
               {data?.title}
             </h2>
-            <FavoriteBtn liked={Boolean(data?.liked)} />
+            <div className="btns">
+              <FavoriteBtn liked={Boolean(data?.liked)} />
+
+              <SharePostBtn
+                title={data.title}
+                text={`${data.writerId} 의 실종게시글입니다.`}
+                url={`${window.location.href}?id=${detailBoardId}`}
+              />
+            </div>
           </div>
           <div className="flex justify-between items-center w-[90%]">
             <p className="text-gray-600 text-base">{data.writerId}</p>

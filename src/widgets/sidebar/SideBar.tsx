@@ -21,7 +21,12 @@ const SideBar = () => {
       } else updateViewType("MENU");
     }
   };
-
+  const closeSideBar = () => {
+    if (viewType === "CHAT") {
+      updateViewType("MENU");
+    }
+    return updateIsOpen(false);
+  };
   return (
     <aside
       className={`transition-all duration-300 overflow-hidden ${
@@ -36,7 +41,7 @@ const SideBar = () => {
                 <h2 className="text-lg font-bold">전체메뉴</h2>
                 <button
                   className="p-2 hover:bg-gray-100 rounded-full"
-                  onClick={() => updateIsOpen(false)}
+                  onClick={() => closeSideBar()}
                 >
                   <img src={closeImg} alt="전체 메뉴 닫기" />
                 </button>
@@ -50,7 +55,7 @@ const SideBar = () => {
                 <span className="text-lg font-bold">실시간 채팅</span>
 
                 <button
-                  onClick={() => updateIsOpen(false)}
+                  onClick={() => closeSideBar()}
                   className="p-2 hover:bg-gray-100 rounded-full"
                 >
                   <img src={closeImg} alt="전체 메뉴 닫기" />

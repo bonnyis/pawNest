@@ -31,7 +31,7 @@ const ChatUserList = () => {
         ) : data && data?.length > 0 ? (
           data?.map((chat: any, idx: number) => (
             <li
-              key={chat.boardId}
+              key={chat.roomId}
               className="bg-gray-100 p-4 rounded-lg cursor-pointer"
               onClick={() => {
                 updateChatPannelType("chat");

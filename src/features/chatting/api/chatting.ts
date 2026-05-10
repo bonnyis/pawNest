@@ -4,6 +4,7 @@ import type {
   ChatSendMessageParams,
 } from "../model/chatting.types";
 import { useSocketStore } from "@/app/store/socketStore";
+import { useAuthStore } from "@/app/store/authStore";
 
 export const GET_CHAT_LIST = async () => {
   try {
@@ -36,12 +37,13 @@ export const GET_CHAT_HISTORY = async (roomId: number) => {
 // 채팅전송
 export const SEND_MESSAGE = (roomId: number, content: string) => {
   const { client } = useSocketStore.getState();
+  const { userId } = useAuthStore.getState();
   const payload: ChatSendMessageParams = {
     roomId,
     content,
-    messageId: null,
+    commentId: null,
     createdAt: null,
-    senderId: null,
+    senderId: userId,
   };
   if (!client || !client.connected) {
     console.error("❌ 소켓이 활성화되지 않았습니다.");

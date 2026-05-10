@@ -26,9 +26,9 @@ export const useChatting = () => {
       const prev = queryClient.getQueryData(["chatHistory", roomId]);
 
       const optimisticMessage = {
-        messageId: Date.now(),
+        commentId: Date.now(),
         message: content,
-        createdAt: formatDate(new Date()),
+        createdAt: formatDate(),
         senderId: userId,
         mine: true,
       };

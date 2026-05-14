@@ -70,7 +70,7 @@ const MissingBoardSection = () => {
           >
             {isLoading ? (
               <LoadingSpinner />
-            ) : list?.length > 0 ? (
+            ) : list && list.length > 0 ? (
               list?.map((item) => (
                 <MissingPreviewItem
                   list={item}
@@ -86,22 +86,24 @@ const MissingBoardSection = () => {
             )}
           </div>
         </div>
-        <div className="absolute top-1/2 left-0 right-0 flex justify-between px-2 -translate-y-1/2 ">
-          <button
-            type="button"
-            className={`font-bold text-2xl text-gray-400 ${curSlide === 0 ? "opacity-0" : "opacity-100"}`}
-            onClick={() => onSlide("prev")}
-          >
-            {"<"}
-          </button>
-          <button
-            type="button"
-            className=" font-bold text-2xl text-gray-400"
-            onClick={() => onSlide("next")}
-          >
-            {">"}
-          </button>
-        </div>
+        {list && list?.length > 0 && (
+          <div className="absolute top-1/2 left-0 right-0 flex justify-between px-2 -translate-y-1/2 ">
+            <button
+              type="button"
+              className={`font-bold text-2xl text-gray-400 ${curSlide === 0 ? "opacity-0" : "opacity-100"}`}
+              onClick={() => onSlide("prev")}
+            >
+              {"<"}
+            </button>
+            <button
+              type="button"
+              className={`font-bold text-2xl text-gray-400`}
+              onClick={() => onSlide("next")}
+            >
+              {">"}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
